@@ -1,6 +1,5 @@
-# Nuxt Minimal Starter
-
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+# Nuxt4(spa mode) + Telegram web apps 
+## simple catalog with items for sell with twa
 
 ## Setup
 

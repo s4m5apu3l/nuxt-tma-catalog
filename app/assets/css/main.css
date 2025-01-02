@@ -31,10 +31,44 @@
 	--color-zinc-950: oklch(0.141 0.005 285.823);
 }
 
-:root {
-	--ui-primary: var(--ui-color-primary-400) !important;
+@layer base {
+	:root {
+		--ui-primary: var(--ui-color-primary-400);
+		--ui-bg: oklch(0.967 0.001 286.375);
+		--ui-bg-elevated: var(--ui-color-neutral-300);
+	}
+
+	.dark {
+		--ui-primary: var(--ui-color-primary-500);
+		--ui-bg: var(--ui-color-neutral-900);
+		--ui-bg-elevated: var(--ui-color-neutral-700);
+	}
 }
 
-.dark {
-	--ui-primary: var(--ui-color-primary-500) !important;
+@layer utilities {
+	.pointer-events-none {
+		pointer-events: none;
+	}
+	.visibility-hidden {
+		visibility: hidden;
+	}
+
+	.focus\:outline:focus {
+		outline-width: 1px;
+	}
+
+	.l-wrapper {
+		max-width: 1440px;
+		margin: 0 auto;
+		width: 100%;
+		padding: 0 16px;
+	}
+
+	@media (width >= 40rem) {
+		@media (hover: hover) {
+			.sm\:hover\:opacity-100:hover {
+				opacity: 100%;
+			}
+		}
+	}
 }

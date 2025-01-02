@@ -14,7 +14,7 @@ const modal = useModal();
 const resolveModalContent = defineAsyncComponent(() => import('@/components/ModalContent.vue'));
 
 const openModal = () => {
-	modal.open(resolveModalContent, { title: 'Welcome dsdasd' , description: 'And you can even provide a description!' });
+	modal.open(resolveModalContent, { title: 'Welcome dsdasd', description: 'And you can even provide a description!' });
 };
 
 const closeModal = async () => {
@@ -33,6 +33,21 @@ const updateModalTitle = () => {
 		<UButton class="bg-amber-200" @click="openModal">Open Modal</UButton>
 		<UButton @click="closeModal">Close Modal</UButton>
 		<UButton @click="updateModalTitle">Update Title</UButton>
+		<section class="container mx-auto">
+			<div class="mt-4">
+				<UCard>
+					<template #header>
+						<Placeholder class="h-8" />
+					</template>
+
+					<Placeholder class="h-32" />
+
+					<template #footer>
+						<Placeholder class="h-8" />
+					</template>
+				</UCard>
+			</div>
+		</section>
 	</div>
 </template>
 

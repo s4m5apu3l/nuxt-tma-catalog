@@ -21,4 +21,10 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		apiUrl: '',
 	},
+
+	ui: {
+		theme: {
+			colors: ['primary', 'secondary', 'tertiary', 'info', 'success', 'warning', 'error'],
+		},
+	},
 });

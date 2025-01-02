@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// import { LazyModalContent } from '#components';
 const colorMode = useColorMode();
 
 const isDark = computed({
@@ -12,10 +11,10 @@ const isDark = computed({
 });
 
 const modal = useModal();
-const resolveModalContent = defineAsyncComponent(() => import('~/components/ModalContent.vue'));
+const resolveModalContent = defineAsyncComponent(() => import('@/components/ModalContent.vue'));
 
 const openModal = () => {
-	modal.open(resolveModalContent, { title: 'Welcome', description: 'And you can even provide a description!' });
+	modal.open(resolveModalContent, { title: 'Welcome dsdasd' , description: 'And you can even provide a description!' });
 };
 
 const closeModal = async () => {
@@ -31,7 +30,7 @@ const updateModalTitle = () => {
 	<div>
 		<UButton :icon="isDark ? 'i-lucide-moon' : 'i-lucide-sun'" color="neutral" variant="ghost" @click="isDark = !isDark" />
 
-		<UButton @click="openModal" class="test">Open Modal</UButton>
+		<UButton class="bg-amber-200" @click="openModal">Open Modal</UButton>
 		<UButton @click="closeModal">Close Modal</UButton>
 		<UButton @click="updateModalTitle">Update Title</UButton>
 	</div>

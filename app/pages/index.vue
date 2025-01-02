@@ -1,7 +1,9 @@
 <script setup lang="ts"></script>
 
 <template>
-	<div>
-		main page
-	</div>
+	<section class="l-wrapper">
+		<div class="py-6">
+			main page
+		</div>
+	</section>
 </template>

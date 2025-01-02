@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LazyModalContent } from '#components'
+import { LazyModalContent } from '#components';
 const colorMode = useColorMode();
 
 const isDark = computed({
@@ -31,7 +31,7 @@ const updateModalTitle = () => {
 	<div>
 		<UButton :icon="isDark ? 'i-lucide-moon' : 'i-lucide-sun'" color="neutral" variant="ghost" @click="isDark = !isDark" />
 
-		<UButton @click="openModal">Open Modal</UButton>
+		<UButton @click="openModal" class="test">Open Modal</UButton>
 		<UButton @click="closeModal">Close Modal</UButton>
 		<UButton @click="updateModalTitle">Update Title</UButton>
 	</div>

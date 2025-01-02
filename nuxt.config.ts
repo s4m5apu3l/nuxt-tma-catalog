@@ -1,4 +1,5 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import Tailwind from '@tailwindcss/vite';
+
 export default defineNuxtConfig({
 	ssr: false,
 	compatibilityDate: '2024-11-01',
@@ -11,4 +12,13 @@ export default defineNuxtConfig({
 		},
 	},
 	spaLoadingTemplate: 'spa-loading-template.html',
+	future: {
+		compatibilityVersion: 4,
+	},
+	vite: {
+		plugins: [Tailwind()],
+	},
+	runtimeConfig: {
+		apiUrl: '',
+	},
 });

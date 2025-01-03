@@ -4,7 +4,7 @@ export default defineNuxtConfig({
 	ssr: false,
 	compatibilityDate: '2024-11-01',
 	devtools: { enabled: true },
-	modules: ['@nuxt/ui', '@nuxt/eslint'],
+	modules: ['@nuxt/ui', '@nuxt/eslint', '@nuxt/image'],
 	css: ['~/assets/css/main.css'],
 	hooks: {
 		'prerender:routes'({ routes }) {
@@ -29,6 +29,6 @@ export default defineNuxtConfig({
 	},
 
 	app: {
-		rootTag: 'main'
-	}
+		rootTag: 'main',
+	},
 });

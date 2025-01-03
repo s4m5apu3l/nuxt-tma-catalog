@@ -71,4 +71,9 @@
 			}
 		}
 	}
+	@media screen and (width < 560px) {
+		.l-wrapper {
+			padding: 0 8px;
+		}
+	}
 }

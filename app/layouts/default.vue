@@ -2,7 +2,8 @@
 
 <template>
 	<section class="layout">
-		<header>header</header>
+		<main-header />
+
 		<main class="content">
 			<slot />
 		</main>

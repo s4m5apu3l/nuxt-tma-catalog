@@ -21,12 +21,12 @@ function openSlideover() {
 <template>
 	<header class="border-b border-zinc-300 dark:border-zinc-700">
 		<div class="l-wrapper">
-			<div class="flex items-center justify-between gap-2 py-4">
+			<div class="flex items-center justify-between gap-4 py-4">
 				<nuxt-link to="/" class="flex">
 					<UIcon name="i-logos:nuxt-icon" class="size-10" />
 				</nuxt-link>
 
-				<div class="flex items-center gap-2">
+				<div class="flex items-center gap-1">
 					<UInput icon="i-lucide-search" size="md" variant="outline" placeholder="Поиск..." />
 					<UButton :icon="isDark ? 'i-lucide-moon' : 'i-lucide-sun'" color="neutral" variant="ghost" @click="isDark = !isDark" />
 					<button class="flex" @click="openSlideover">

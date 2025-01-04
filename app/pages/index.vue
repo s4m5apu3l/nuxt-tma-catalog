@@ -1,9 +1,5 @@
-<script setup lang="ts"></script>
-
-<template>
-	<section class="l-wrapper">
-		<div class="py-6">
-			main page
-		</div>
-	</section>
-</template>
+<script setup lang="ts">
+definePageMeta({
+	redirect: '/category/all',
+});
+</script>

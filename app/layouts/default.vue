@@ -7,7 +7,7 @@
 		<main class="content">
 			<slot />
 		</main>
-		<footer>footer</footer>
+		<!-- <footer>footer</footer> -->
 	</section>
 </template>
 

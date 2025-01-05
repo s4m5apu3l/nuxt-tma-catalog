@@ -1,5 +1,16 @@
-<script setup lang="ts"></script>
+<script lang="ts">
+import type { IProduct } from '@/types/product';
+interface IProps {
+	data: IProduct;
+}
+</script>
+
+<script setup lang="ts">
+const props = defineProps<IProps>();
+</script>
 
 <template>
-	<div class="bg-amber-300 aspect-video">base card</div>
+	<article class="">
+		<pre>{{ props }}</pre>
+	</article>
 </template>

@@ -16,8 +16,9 @@ const { data: products, status } = useAsyncData(`${route.params.slug}`, async ()
 		<main-categories />
 		<section class="l-wrapper !mt-4">
 			<product-list :status="status">
-				<pre>{{ products }}</pre>
-				<!-- <product-card /> -->
+				<template v-for="product in products" :key="product.id">
+					<product-card :data="product" />
+				</template>
 			</product-list>
 		</section>
 	</section>

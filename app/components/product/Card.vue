@@ -7,12 +7,33 @@ interface IProps {
 
 <script setup lang="ts">
 const props = defineProps<IProps>();
+
+const cartItems = useCart();
+
+const addItemToCart = (item: IProduct) => {
+	cartItems.value.push(item);
+};
+
+const alreadyInCart = (id: number) => {
+	const x = cartItems.value?.find((el) => el.id === id);
+	if (x?.id) {
+		return true;
+	} else {
+		return false;
+	}
+};
 </script>
 
 <template>
 	<article class="flex flex-col h-full">
 		<header class="relative overflow-hidden rounded-md">
-			<nuxt-img class="aspect-[3/2] w-full h-full object-cover" :src="props.data.thumbnail" alt="img product" loading="lazy" quality="50" />
+			<nuxt-img
+				class="aspect-[3/2] w-full h-full object-cover"
+				:src="props.data.thumbnail"
+				alt="img product"
+				loading="lazy"
+				quality="50"
+			/>
 		</header>
 
 		<main class="py-2">
@@ -31,7 +52,9 @@ const props = defineProps<IProps>();
 		</main>
 
 		<footer class="mt-auto">
-			<UButton block>В корзину</UButton>
+			<UButton block :disabled="alreadyInCart(props.data.id)" @click="addItemToCart(props.data)">
+				{{ alreadyInCart(props.data.id) ? 'В корзине' : 'В корзину' }}
+			</UButton>
 		</footer>
 	</article>
 </template>

@@ -61,7 +61,7 @@
 		max-width: 768px;
 		margin: 0 auto;
 		width: 100%;
-		padding: 0 16px;
+		padding: 0 12px;
 	}
 
 	@media (width >= 40rem) {
@@ -71,9 +71,14 @@
 			}
 		}
 	}
-	@media screen and (width < 560px) {
-		.l-wrapper {
-			padding: 0 8px;
-		}
+
+	.fade-enter-active,
+	.fade-leave-active {
+		transition: opacity 0.5s ease;
+	}
+
+	.fade-enter-from,
+	.fade-leave-to {
+		opacity: 0;
 	}
 }

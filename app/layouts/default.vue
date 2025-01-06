@@ -7,7 +7,8 @@
 		<main class="content">
 			<slot />
 		</main>
-		<!-- <footer>footer</footer> -->
+
+		<cart-footer-button />
 	</section>
 </template>
 
@@ -16,6 +17,7 @@
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
+	margin-bottom: 64px;
 }
 
 .content {

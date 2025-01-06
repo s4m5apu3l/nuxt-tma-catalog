@@ -24,7 +24,7 @@ const itemsArray = [
 </script>
 
 <template>
-	<UCarousel v-slot="{ item }" :items="itemsArray" :ui="{ item: 'basis-auto' }">
+	<UCarousel v-slot="{ item }" :items="itemsArray" class="" :ui="{ item: 'basis-auto', container: 'first:pl-3 last:pr-3' }">
 		<nuxt-link :to="'/category/' + item.slug">
 			<UBadge
 				:color="$route.params.slug === item.slug ? 'primary' : 'neutral'"

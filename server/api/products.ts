@@ -27,6 +27,7 @@ export default defineEventHandler(() => {
 			sizes: [38, 39, 40, 41, 42, 43],
 			size_actual: 40,
 			features: 'Подходит для тренировок и повседневной носки.',
+			price: 1000,
 		},
 		{
 			id: 2,
@@ -56,6 +57,7 @@ export default defineEventHandler(() => {
 			sizes: [38, 39, 40, 41, 42, 43],
 			size_actual: 40,
 			features: 'Подходит для тренировок и повседневной носки.',
+			price: 1000,
 		},
 	];
 });

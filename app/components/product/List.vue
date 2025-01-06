@@ -9,7 +9,7 @@ const props = defineProps<IProps>();
 </script>
 
 <template>
-	<section>
+	<div class="l-product-list">
 		<template v-if="props.status === 'pending'">loading</template>
 		<template v-else-if="props.status === 'error'">error</template>
 		<template v-else>
@@ -17,5 +17,5 @@ const props = defineProps<IProps>();
 				<slot />
 			</section>
 		</template>
-	</section>
+	</div>
 </template>

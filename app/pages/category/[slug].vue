@@ -4,6 +4,7 @@ definePageMeta({
 		return typeof route.params.slug === 'string' && isNaN(parseInt(route.params.slug, 10));
 	},
 });
+
 const route = useRoute();
 // $fetch(`/api/products?category=${route.params.slug}`)
 const { data: products, status } = useAsyncData(`${route.params.slug}`, async () => {
@@ -12,14 +13,14 @@ const { data: products, status } = useAsyncData(`${route.params.slug}`, async ()
 </script>
 
 <template>
-	<section class="py-4">
-		<main-categories />
+	<div class="py-4">
+		<section class="max-w-[768px] mx-auto">
+			<main-categories />
+		</section>
 		<section class="l-wrapper !mt-4">
 			<product-list :status="status">
-				<template v-for="product in products" :key="product.id">
-					<product-card :data="product" />
-				</template>
+				<product-card v-for="product in products" :key="product.id" :data="product" />
 			</product-list>
 		</section>
-	</section>
+	</div>
 </template>

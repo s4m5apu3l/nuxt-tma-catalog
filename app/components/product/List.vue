@@ -12,9 +12,9 @@ const props = defineProps<IProps>();
 	<div class="l-product-list">
 		<transition name="fade" mode="out-in">
 			<template v-if="props.status === 'pending'">
-				<div class="grid grid-cols-2 gap-2">
+				<div class="grid grid-cols-2 gap-x-2 gap-y-4">
 					<div v-for="i in 4" :key="i">
-						<USkeleton class=" aspect-[3/2] rounded-md" />
+						<USkeleton class="aspect-[3/2] rounded-md" />
 						<div class="py-2">
 							<USkeleton class="h-[24px] w-[140px]" />
 							<USkeleton class="h-4 w-[80px] mt-2" />
@@ -24,7 +24,7 @@ const props = defineProps<IProps>();
 			</template>
 			<template v-else-if="props.status === 'error'">error</template>
 			<template v-else>
-				<section class="grid grid-cols-2 gap-2">
+				<section class="grid grid-cols-2 gap-x-2 gap-y-4">
 					<slot />
 				</section>
 			</template>

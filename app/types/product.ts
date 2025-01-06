@@ -8,7 +8,8 @@ export interface IProduct {
 	available: boolean;
 	discount: number | null;
 	description: string;
-	sizes: number[];
+	sizes: number[] | null;
 	size_actual: number;
-	features: string;
+	features: string | null;
+	price: number;
 }

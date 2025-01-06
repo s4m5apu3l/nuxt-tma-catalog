@@ -10,12 +10,24 @@ const props = defineProps<IProps>();
 
 <template>
 	<div class="l-product-list">
-		<template v-if="props.status === 'pending'">loading</template>
-		<template v-else-if="props.status === 'error'">error</template>
-		<template v-else>
-			<section class="grid grid-cols-2 gap-4">
-				<slot />
-			</section>
-		</template>
+		<transition name="fade" mode="out-in">
+			<template v-if="props.status === 'pending'">
+				<div class="grid grid-cols-2 gap-4">
+					<div v-for="i in 4" :key="i">
+						<USkeleton class=" aspect-[3/2] rounded-xl" />
+						<div class="py-2">
+							<USkeleton class="h-[24px] w-[140px]" />
+							<USkeleton class="h-4 w-[80px] mt-2" />
+						</div>
+					</div>
+				</div>
+			</template>
+			<template v-else-if="props.status === 'error'">error</template>
+			<template v-else>
+				<section class="grid grid-cols-2 gap-4">
+					<slot />
+				</section>
+			</template>
+		</transition>
 	</div>
 </template>

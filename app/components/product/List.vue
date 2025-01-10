@@ -22,7 +22,9 @@ const props = defineProps<IProps>();
 					</div>
 				</div>
 			</template>
+
 			<template v-else-if="props.status === 'error'">error</template>
+
 			<template v-else>
 				<section class="grid grid-cols-2 gap-x-2 gap-y-4">
 					<slot />

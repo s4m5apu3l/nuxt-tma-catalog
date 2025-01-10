@@ -8,20 +8,22 @@ interface IProps {
 <script setup lang="ts">
 const props = defineProps<IProps>();
 
-const cartItems = useCart();
+// const cartItems = useCart();
+// const addItemToCart = (item: IProduct) => {
+// 	cartItems.value.push(item);
+// };
+// const alreadyInCart = (id: number) => {
+// 	const x = cartItems.value?.find((el) => el.id === id);
+// 	if (x?.id) {
+// 		return true;
+// 	} else {
+// 		return false;
+// 	}
+// };
 
-const addItemToCart = (item: IProduct) => {
-	cartItems.value.push(item);
-};
-
-const alreadyInCart = (id: number) => {
-	const x = cartItems.value?.find((el) => el.id === id);
-	if (x?.id) {
-		return true;
-	} else {
-		return false;
-	}
-};
+// todo 
+// if card have a lot sizes  to nado sdelat tak 4toby pri clicke na dobavit v korzniy 
+// to otkruvaetsya modalka, esli tolko odin size to srazy v cart/
 </script>
 
 <template>
@@ -51,10 +53,10 @@ const alreadyInCart = (id: number) => {
 			</div> -->
 		</main>
 
-		<footer class="mt-auto">
+		<!-- <footer class="mt-auto">
 			<UButton block :disabled="alreadyInCart(props.data.id)" @click="addItemToCart(props.data)">
 				{{ alreadyInCart(props.data.id) ? 'В корзине' : 'В корзину' }}
 			</UButton>
-		</footer>
+		</footer> -->
 	</article>
 </template>

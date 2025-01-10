@@ -6,7 +6,7 @@
 
 	--breakpoint-3xl: 1920px;
 
-	--color-emerald-50: #ecfdf5;
+	/* --color-emerald-50: #ecfdf5;
 	--color-emerald-100: #d1fae5;
 	--color-emerald-200: #a7f3d0;
 	--color-emerald-300: #6ee7b7;
@@ -28,7 +28,29 @@
 	--color-zinc-700: oklch(0.37 0.013 285.805);
 	--color-zinc-800: oklch(0.274 0.006 286.033);
 	--color-zinc-900: oklch(0.21 0.006 285.885);
-	--color-zinc-950: oklch(0.141 0.005 285.823);
+	--color-zinc-950: oklch(0.141 0.005 285.823); */
+
+	--color-emerald-50: #f0fdfa;
+	--color-emerald-100: #ccfbf1;
+	--color-emerald-200: #99f6e4;
+	--color-emerald-300: #5eead4;
+	--color-emerald-400: #2dd4bf;
+	--color-emerald-500: #14b8a6;
+	--color-emerald-600: #0d9488;
+	--color-emerald-700: #0f766e;
+	--color-emerald-800: #115e59;
+	--color-emerald-900: #134e4a;
+
+	--color-zinc-50: #f8f8fa;
+	--color-zinc-100: #eaeaef;
+	--color-zinc-200: #cacbd5;
+	--color-zinc-300: #9c9eb2;
+	--color-zinc-400: #6e708c;
+	--color-zinc-500: #51526c;
+	--color-zinc-600: #3f4055;
+	--color-zinc-700: #2f2f41;
+	--color-zinc-800: #21212f;
+	--color-zinc-900: #161621;
 }
 
 @layer base {

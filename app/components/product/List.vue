@@ -17,7 +17,6 @@ const props = defineProps<IProps>();
 						<USkeleton class="aspect-[3/2] rounded-md" />
 						<div class="py-2">
 							<USkeleton class="h-[24px] w-[140px]" />
-							<USkeleton class="h-4 w-[80px] mt-2" />
 						</div>
 					</div>
 				</div>

@@ -21,8 +21,8 @@ const props = defineProps<IProps>();
 // 	}
 // };
 
-// todo 
-// if card have a lot sizes  to nado sdelat tak 4toby pri clicke na dobavit v korzniy 
+// todo
+// if card have a lot sizes  to nado sdelat tak 4toby pri clicke na dobavit v korzniy
 // to otkruvaetsya modalka, esli tolko odin size to srazy v cart/
 </script>
 
@@ -36,14 +36,16 @@ const props = defineProps<IProps>();
 				loading="lazy"
 				quality="50"
 			/>
+			<UBadge class="absolute right-2 bottom-2">
+				<span class="font-bold block ml-auto text-lg sm:text-2xl">
+					{{ useFormatPrice(props.data.price) }}
+				</span>
+			</UBadge>
 		</header>
 
 		<main class="py-2">
 			<div class="flex flex-col gap-2">
 				<span class="font-semibold text-base line-clamp-2">{{ props.data.name }}</span>
-				<span class="font-bold text-[24px] block ml-auto">
-					{{ useFormatPrice(props.data.price) }}
-				</span>
 			</div>
 
 			<!-- <div class="mt-2">

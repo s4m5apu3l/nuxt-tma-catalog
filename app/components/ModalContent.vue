@@ -8,17 +8,31 @@ const props = defineProps<{
 </script>
 
 <template>
-	<UModal :title="props.data.name">
+	<UModal
+		:title="props.data.name"
+		:close="{
+			color: 'neutral',
+			variant: 'solid',
+		}"
+	>
 		<template #body>
 			<UCarousel
 				v-slot="{ item }"
 				:items="props.data.images"
-				:ui="{ item: 'basis-full' }"
-				class="rounded-lg overflow-hidden"
-				arrows
-				indicators
+				:ui="{ item: 'basis-full', dots: 'bottom-3' }"
+				prev-icon="i-lucide-chevron-left"
+				next-icon="i-lucide-chevron-right"
+				class=""
+				fade
+				dots
 			>
-				<nuxt-img :src="item.url" alt="img card product" class="w-full aspect-[3/2]" draggable="false" loading="lazy" />
+				<nuxt-img
+					:src="item.url"
+					alt="img card product"
+					class="w-full object-cover rounded-md aspect-[3/2]"
+					draggable="false"
+					loading="lazy"
+				/>
 			</UCarousel>
 		</template>
 

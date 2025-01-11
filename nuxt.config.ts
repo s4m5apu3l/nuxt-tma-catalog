@@ -32,6 +32,10 @@ export default defineNuxtConfig({
 		rootTag: 'main',
 		head: {
 			title: 'TWA nuxt4',
-		}
+		},
+		rootAttrs: {
+			'vaul-drawer-wrapper': '',
+			class: 'bg-[var(--ui-bg)]',
+		},
 	},
 });

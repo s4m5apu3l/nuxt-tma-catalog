@@ -1,27 +1,29 @@
 <script setup lang="ts">
+import type { IProduct } from '@/types/product';
 const modal = useModal();
 
 const props = defineProps<{
-	data: unknown;
+	data: IProduct;
 }>();
 </script>
 
 <template>
-	<UModal>
+	<UModal :title="props.data.name">
 		<template #body>
-			<section>
-				<header class="px-4 py-5 sm:px-6">
-					<h2 class="text-[var(--ui-text-highlighted)] font-semibold">
-						{{ props.data.name }}
-					</h2>
-				</header>
-				<main>
-					<pre>{{ props.data }}</pre>
-				</main>
-				<footer>
-					<UButton color="neutral" label="Close" @click="modal.close()" />
-				</footer>
-			</section>
+			<UCarousel
+				v-slot="{ item }"
+				:items="props.data.images"
+				:ui="{ item: 'basis-full' }"
+				class="rounded-lg overflow-hidden"
+				arrows
+				indicators
+			>
+				<nuxt-img :src="item.url" alt="img card product" class="w-full aspect-[3/2]" draggable="false" loading="lazy" />
+			</UCarousel>
+		</template>
+
+		<template #footer>
+			<UButton color="neutral" label="Close" @click="modal.close()" />
 		</template>
 	</UModal>
 </template>

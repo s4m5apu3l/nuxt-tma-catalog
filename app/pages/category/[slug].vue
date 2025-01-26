@@ -18,12 +18,13 @@ const { data: products, status } = useAsyncData(`${route.params.slug}`, async ()
 const modal = useModal();
 const resolveModalContent = defineAsyncComponent(() => import('~/components/product/DrawerContent.vue'));
 
-const isOpenDrawer = ref(false);
+const drawerContent = useState<{ isOpen: boolean; product: IProduct | null }>('drawer-content');
 const selectedProduct = ref<IProduct | null>(null);
 
 const openCardDetail = (product: IProduct) => {
-	selectedProduct.value = product;
-	isOpenDrawer.value = true;
+	drawerContent.value.product = product;
+	drawerContent.value.isOpen = true;
+	// selectedProduct.value = product;
 	// modal.open(resolveModalContent, {
 	// 	data: product,
 	// });

@@ -1,29 +1,36 @@
 <script setup lang="ts">
-// import type { IProduct } from '@/types/product';
+import type { IProduct } from '@/types/product';
 
-// const isOpenDrawer = ref(false);
+const drawerContent = useState<{ isOpen: boolean; product: IProduct | null }>('drawer-content', () => {
+	return {
+		isOpen: false,
+		product: null,
+	};
+});
 // const selectedProduct = ref<IProduct | null>(null);
 </script>
 
 <template>
 	<div class="py-4">
 		<client-only>
-			dsa
+			<!-- dsa ETO DL9 TG poka otmena -->
 			<mini-app />
 		</client-only>
+
 		<section class="max-w-[768px] mx-auto">
 			<main-categories />
 		</section>
+
 		<section class="l-wrapper !mt-4">
 			<nuxt-page />
 		</section>
-		<!-- 
-		<UDrawer v-model:open="isOpenDrawer" should-scale-background>
+
+		<UDrawer v-model:open="drawerContent.isOpen" should-scale-background>
 			<template #content>
 				<article class="my-4 h-screen overflow-y-auto">
 					<UCarousel
 						v-slot="{ item }"
-						:items="selectedProduct?.images"
+						:items="drawerContent.product?.images"
 						:ui="{ item: 'basis-full', dots: 'bottom-3' }"
 						prev-icon="i-lucide-chevron-left"
 						next-icon="i-lucide-chevron-right"
@@ -69,6 +76,6 @@
 					</main>
 				</article>
 			</template>
-		</UDrawer> -->
+		</UDrawer>
 	</div>
 </template>

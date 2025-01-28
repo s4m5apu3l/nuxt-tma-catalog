@@ -53,26 +53,6 @@ const drawerContent = useState<{ isOpen: boolean; product: IProduct | null }>('d
 							distinctio deleniti ullam. Quisquam dicta nostrum tempore cupiditate totam minima quis illum ad veniam!
 							Possimus, officia perspiciatis.
 						</p>
-						<p>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, perferendis nihil soluta aliquam
-							distinctio deleniti ullam. Quisquam dicta nostrum tempore cupiditate totam minima quis illum ad veniam!
-							Possimus, officia perspiciatis.
-						</p>
-						<p>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, perferendis nihil soluta aliquam
-							distinctio deleniti ullam. Quisquam dicta nostrum tempore cupiditate totam minima quis illum ad veniam!
-							Possimus, officia perspiciatis.
-						</p>
-						<p>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, perferendis nihil soluta aliquam
-							distinctio deleniti ullam. Quisquam dicta nostrum tempore cupiditate totam minima quis illum ad veniam!
-							Possimus, officia perspiciatis.
-						</p>
-						<p>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, perferendis nihil soluta aliquam
-							distinctio deleniti ullam. Quisquam dicta nostrum tempore cupiditate totam minima quis illum ad veniam!
-							Possimus, officia perspiciatis.
-						</p>
 					</main>
 				</article>
 			</template>

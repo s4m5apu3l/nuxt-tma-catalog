@@ -6,3 +6,7 @@ export function useFormatPrice(price: number) {
 		maximumFractionDigits: 0,
 	}).format(price);
 }
+
+export function useDebounce() {
+	return 
+}

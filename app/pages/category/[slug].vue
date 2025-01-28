@@ -24,6 +24,7 @@ const selectedProduct = ref<IProduct | null>(null);
 const openCardDetail = (product: IProduct) => {
 	drawerContent.value.product = product;
 	drawerContent.value.isOpen = true;
+	console.dir(useScreenSize().value);
 	// selectedProduct.value = product;
 	// modal.open(resolveModalContent, {
 	// 	data: product,

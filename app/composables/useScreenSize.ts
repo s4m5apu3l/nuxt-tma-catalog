@@ -1,10 +1,30 @@
-// export default function () {
-// 	const width = ref(window.innerWidth);
-// 	const handler = () => {
-// 		width.value = window.innerWidth;
-// 	};
-// 	onMounted(() => window.addEventListener('resize', handler));
-// 	onUnmounted(() => window.removeEventListener('resize', handler));
+export default function () {
+	const sizes = reactive({
+		browserWidth: window.innerWidth,
+		deviceWidth: screen.width,
+		isMobile: false,
+	});
 
-// 	return width;
-// }
+	const browserResized = () => {
+		sizes.browserWidth = window.innerWidth;
+		sizes.deviceWidth = screen.width;
+		sizes.isMobile = isMobile();
+	};
+
+	const isMobile = () => {
+		return window.innerWidth <= 600 ? true : false;
+	};
+
+	onMounted(() => {
+		window.addEventListener('resize', useDebounce(browserResized, 300));
+	});
+
+	onUnmounted(() => {
+		window.removeEventListener('resize', browserResized);
+	});
+
+	// return {
+	// 	...toRefs(sizes),
+	// };
+	return sizes;
+}

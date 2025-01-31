@@ -34,6 +34,7 @@ export default defineNuxtConfig({
 			'vaul-drawer-wrapper': '',
 			class: 'bg-[var(--ui-bg)]',
 		},
+		baseURL: 'nuxt-twa-catalog'
 	},
 
 	modules: ['@nuxt/ui', '@nuxt/eslint', '@nuxt/image'],

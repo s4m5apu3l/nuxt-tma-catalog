@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // import { MainButton, useWebAppPopup } from 'vue-tg';
-import type { IProduct } from '@/types/product';
+import type { IProduct } from '~/types/product';
 // const { showAlert } = useWebAppPopup();
 
 definePageMeta({
@@ -16,8 +16,8 @@ const { data: products, status } = useAsyncData(`${route.params.slug}`, async ()
 	return await $fetch(`/api/products`);
 });
 
-const modal = useModal();
-const resolveModalContent = defineAsyncComponent(() => import('~/components/product/DrawerContent.vue'));
+// const modal = useModal();
+// const resolveModalContent = defineAsyncComponent(() => import('~/components/product/DrawerContent.vue'));
 
 const drawerContent = useState<{ isOpen: boolean; product: IProduct | null }>('drawer-content');
 // const selectedProduct = ref<IProduct | null>(null);
@@ -29,16 +29,16 @@ const openCardDetail = (product: IProduct) => {
 		drawerContent.value.isOpen = true;
 	} else {
 		// selectedProduct.value = product;
-		modal.open(resolveModalContent, {
-			data: product,
-		});
+		// modal.open(resolveModalContent, {
+		// 	data: product,
+		// });
 	}
 };
 </script>
 
 <template>
 	<product-list :status="status">
-		<pre>{{ sizes.screenSize }}</pre>
+		<pre>{{ sizes }}</pre>
 		<product-card v-for="product in products" :key="product.id" :data="product" @click="openCardDetail(product)" />
 	</product-list>
 </template>

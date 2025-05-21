@@ -18,12 +18,12 @@ export default defineNuxtConfig({
 	},
 	runtimeConfig: {
 		apiUrl: '',
-		twaToken: process.env.TELEGRAM_BOT_TOKEN,
+		tmaToken: process.env.TELEGRAM_BOT_TOKEN,
 	},
 	app: {
 		rootTag: 'main',
 		head: {
-			title: 'TWA nuxt4',
+			title: 'TMA catalog',
 			script: [
 				{
 					src: 'https://telegram.org/js/telegram-web-app.js',
@@ -36,7 +36,7 @@ export default defineNuxtConfig({
 		},
 	},
 
-	modules: ['@nuxt/ui', '@nuxt/eslint', '@nuxt/image'],
+	modules: ['@nuxt/ui', '@nuxt/eslint', '@nuxt/image', '@nuxtjs/supabase'],
 	css: ['~/assets/css/main.css'],
 	vite: {
 		plugins: [Tailwind()],
@@ -47,4 +47,7 @@ export default defineNuxtConfig({
 			colors: ['primary', 'secondary', 'tertiary', 'info', 'success', 'warning', 'error'],
 		},
 	},
+	supabase: {
+		redirect: false
+	}
 });

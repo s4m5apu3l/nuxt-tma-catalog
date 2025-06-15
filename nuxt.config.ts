@@ -4,7 +4,7 @@ export default defineNuxtConfig({
 	compatibilityDate: '2025-05-15',
 	devtools: { enabled: true },
 
-	modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxt/scripts', '@nuxt/ui', '@vite-pwa/nuxt', '@nuxt/icon'],
+	modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxt/scripts', '@nuxt/ui', '@vite-pwa/nuxt', '@nuxt/icon', '@nuxtjs/supabase'],
 
 	ssr: false,
 	hooks: {
@@ -20,7 +20,8 @@ export default defineNuxtConfig({
 
 	runtimeConfig: {
 		public: {
-			keyMap: process.env.MAPGL,
+			// keyMap: process.env.MAPGL,
+			tmaToken: process.env.TELEGRAM_BOT_TOKEN,
 		},
 	},
 
@@ -42,14 +43,19 @@ export default defineNuxtConfig({
 	},
 
 	app: {
+		rootTag: 'main',
 		head: {
-			title: 'Моторки Якутии',
+			title: 'simple catalog tma bot',
 			script: [
 				{
-					src: 'https://mapgl.2gis.com/api/js/v1',
+					src: 'https://telegram.org/js/telegram-web-app.js',
 					defer: true,
 				},
 			],
 		},
+	},
+
+	supabase: {
+		redirect: false,
 	},
 });

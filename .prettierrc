@@ -1,0 +1,11 @@
+{
+	"tabWidth": 4,
+	"singleQuote": true,
+	"semi": true,
+	"useTabs": true,
+	"printWidth": 140,
+	"vueIndentScriptAndStyle": false,
+	"htmlWhitespaceSensitivity": "ignore",
+	"bracketSpacing": true,
+	"endOfLine": "auto"
+}

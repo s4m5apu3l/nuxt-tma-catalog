@@ -1,11 +1,10 @@
 import Tailwind from '@tailwindcss/vite';
 
 export default defineNuxtConfig({
-	// span mode start
 	ssr: false,
 	hooks: {
 		'prerender:routes'({ routes }) {
-			routes.clear(); // Не создает никаких маршрутов (кроме значений по умолчанию)
+			routes.clear();
 		},
 	},
 	spaLoadingTemplate: 'spa-loading-template.html',
@@ -31,7 +30,7 @@ export default defineNuxtConfig({
 			],
 		},
 		rootAttrs: {
-			'vaul-drawer-wrapper': '',
+			// 'vaul-drawer-wrapper': '',
 			class: 'bg-[var(--ui-bg)]',
 		},
 	},
@@ -48,6 +47,6 @@ export default defineNuxtConfig({
 		},
 	},
 	supabase: {
-		redirect: false
-	}
+		redirect: false,
+	},
 });

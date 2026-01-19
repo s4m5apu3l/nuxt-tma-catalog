@@ -1,8 +1,54 @@
 {
   "welcome": "Welcome",
-  "categories": "Categories",
-  "products": "Products",
+  "categories": {
+    "title": "Categories",
+    "description": "Browse our product categories to find what you're looking for.",
+    "empty": {
+      "title": "No categories available",
+      "description": "There are currently no categories to display. Please check back later."
+    }
+  },
+  "category": {
+    "viewProducts": "View products in this category",
+    "productsDescription": "Found {count} products in this category",
+    "notFound": {
+      "title": "Category not found",
+      "description": "The category you're looking for doesn't exist or has been removed."
+    },
+    "backToCategories": "Back to Categories"
+  },
+  "product": {
+    "noImage": "No image available",
+    "description": "Description",
+    "addedOn": "Added on",
+    "category": "Category",
+    "shareOnTelegram": "Share on Telegram",
+    "sharing": "Sharing...",
+    "backToCategory": "Back to {category}",
+    "backToCategories": "Back to Categories",
+    "notFound": {
+      "title": "Product not found",
+      "description": "The product you're looking for doesn't exist or has been removed."
+    },
+    "gallery": {
+      "previous": "Previous",
+      "next": "Next"
+    }
+  },
+  "products": {
+    "empty": {
+      "title": "No products available",
+      "description": "There are currently no products in this category."
+    },
+    "loadMore": "Load More Products"
+  },
   "admin": "Admin",
   "login": "Login",
-  "logout": "Logout"
+  "logout": "Logout",
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "dismiss": "Dismiss"
+  }
 }

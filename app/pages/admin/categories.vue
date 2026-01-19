@@ -1,219 +1,157 @@
 <template>
-	<div class="min-h-screen bg-gray-50">
-		<!-- Navigation Header -->
-		<nav class="bg-white shadow-sm border-b border-gray-200">
-			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div class="flex justify-between h-16">
-					<div class="flex items-center space-x-4">
-						<UButton to="/admin" color="gray" variant="ghost" icon="i-heroicons-arrow-left">
-							Back to Dashboard
-						</UButton>
-						<h1 class="text-xl font-semibold text-gray-900">Category Management</h1>
-					</div>
-
-					<div class="flex items-center space-x-4">
-						<UButton @click="openCreateModal" color="primary" icon="i-heroicons-plus">Add Category</UButton>
-						<UButton
-							@click="handleLogout"
-							:loading="authLoading"
-							color="red"
-							variant="ghost"
-							icon="i-heroicons-arrow-right-on-rectangle"
-						>
-							Logout
-						</UButton>
-					</div>
+	<div class="space-y-6">
+		<!-- Header -->
+		<div class="border-b border-gray-200 pb-5">
+			<div class="flex items-center justify-between">
+				<div>
+					<h1 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl">
+						{{ $t('admin.categories.title') }}
+					</h1>
+				</div>
+				<div class="flex items-center space-x-3">
+					<UButton @click="showCreateModal = true" icon="i-lucide-plus">
+						{{ $t('admin.categories.add') }}
+					</UButton>
 				</div>
 			</div>
-		</nav>
+		</div>
 
-		<!-- Main Content -->
-		<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-			<div class="px-4 py-6 sm:px-0">
-				<!-- Error Alert -->
-				<div v-if="error" class="mb-6">
-					<UAlert
-						color="red"
-						variant="soft"
-						:title="error"
-						:close-button="{
-							icon: 'i-heroicons-x-mark-20-solid',
-							color: 'gray',
-							variant: 'link',
-							padded: false
-						}"
-						@close="clearError"
-					/>
-				</div>
+		<!-- Loading State -->
+		<div v-if="isLoading" class="flex justify-center py-12">
+			<Icon name="i-lucide-loader-2" class="h-8 w-8 animate-spin text-gray-400" />
+		</div>
 
-				<!-- Categories List -->
-				<div class="bg-white shadow rounded-lg">
-					<div class="px-6 py-4 border-b border-gray-200">
-						<h3 class="text-lg font-medium text-gray-900">Categories</h3>
-					</div>
-
-					<!-- Loading State -->
-					<div v-if="isLoading && categories.length === 0" class="p-6">
-						<div class="animate-pulse space-y-4">
-							<div v-for="i in 3" :key="i" class="h-16 bg-gray-200 rounded"></div>
-						</div>
-					</div>
-
-					<!-- Empty State -->
-					<div v-else-if="!isLoading && categories.length === 0" class="p-6 text-center">
-						<UIcon name="i-heroicons-folder" class="mx-auto h-12 w-12 text-gray-400" />
-						<h3 class="mt-2 text-sm font-medium text-gray-900">No categories</h3>
-						<p class="mt-1 text-sm text-gray-500">Get started by creating a new category.</p>
-						<div class="mt-6">
-							<UButton @click="openCreateModal" color="primary">
-								<UIcon name="i-heroicons-plus" class="mr-2 h-4 w-4" />
-								Add Category
-							</UButton>
-						</div>
-					</div>
-
-					<!-- Categories Table -->
-					<div v-else class="overflow-hidden">
-						<table class="min-w-full divide-y divide-gray-200">
-							<thead class="bg-gray-50">
-								<tr>
-									<th
-										class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-									>
-										Name
-									</th>
-									<th
-										class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-									>
-										Slug
-									</th>
-									<th
-										class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-									>
-										Created
-									</th>
-									<th
-										class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
-									>
-										Actions
-									</th>
-								</tr>
-							</thead>
-							<tbody class="bg-white divide-y divide-gray-200">
-								<tr v-for="category in categories" :key="category.$id" class="hover:bg-gray-50">
-									<td class="px-6 py-4 whitespace-nowrap">
-										<div class="text-sm font-medium text-gray-900">{{ category.name }}</div>
-									</td>
-									<td class="px-6 py-4 whitespace-nowrap">
-										<div class="text-sm text-gray-500">{{ category.slug }}</div>
-									</td>
-									<td class="px-6 py-4 whitespace-nowrap">
-										<div class="text-sm text-gray-500">
-											{{ formatDate(category.$createdAt) }}
-										</div>
-									</td>
-									<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-										<div class="flex justify-end space-x-2">
-											<UButton
-												@click="openEditModal(category)"
-												color="blue"
-												variant="ghost"
-												size="sm"
-												icon="i-heroicons-pencil"
-											>
-												Edit
-											</UButton>
-											<UButton
-												@click="openDeleteModal(category)"
-												color="red"
-												variant="ghost"
-												size="sm"
-												icon="i-heroicons-trash"
-											>
-												Delete
-											</UButton>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+		<!-- Error State -->
+		<div v-else-if="error" class="rounded-md bg-red-50 p-4">
+			<div class="flex">
+				<Icon name="i-lucide-alert-circle" class="h-5 w-5 text-red-400" />
+				<div class="ml-3">
+					<p class="text-sm text-red-800">{{ error }}</p>
+					<div class="mt-2">
+						<UButton @click="fetchCategories" size="sm" variant="outline">
+							{{ $t('common.retry') }}
+						</UButton>
 					</div>
 				</div>
 			</div>
 		</div>
 
+		<!-- Categories List -->
+		<div v-else-if="categories.length > 0" class="bg-white shadow overflow-hidden sm:rounded-md">
+			<ul class="divide-y divide-gray-200">
+				<li v-for="category in categories" :key="category.$id" class="px-6 py-4">
+					<div class="flex items-center justify-between">
+						<div class="flex-1 min-w-0">
+							<div class="flex items-center space-x-3">
+								<div class="flex-1 min-w-0">
+									<p class="text-sm font-medium text-gray-900 truncate">
+										{{ category.name }}
+									</p>
+									<p class="text-sm text-gray-500 truncate">
+										{{ category.slug }}
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="flex items-center space-x-2">
+							<UButton @click="editCategory(category)" size="sm" variant="outline" icon="i-lucide-edit">
+								{{ $t('common.edit') }}
+							</UButton>
+							<UButton
+								size="sm"
+								color="error"
+								variant="outline"
+								icon="i-lucide-trash"
+								@click="confirmDelete(category)"
+							>
+								{{ $t('common.delete') }}
+							</UButton>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<!-- Empty State -->
+		<div v-else class="text-center py-12">
+			<Icon name="i-lucide-folder" class="mx-auto h-12 w-12 text-gray-400" />
+			<h3 class="mt-2 text-sm font-medium text-gray-900">{{ $t('admin.categories.empty.title') }}</h3>
+			<p class="mt-1 text-sm text-gray-500">{{ $t('admin.categories.empty.description') }}</p>
+			<div class="mt-6">
+				<UButton @click="showCreateModal = true" icon="i-lucide-plus">
+					{{ $t('admin.categories.add') }}
+				</UButton>
+			</div>
+		</div>
+
 		<!-- Create/Edit Modal -->
-		<UModal v-model="showModal" :prevent-close="isSubmitting">
+		<UModal v-model="showCreateModal">
 			<UCard>
 				<template #header>
-					<h3 class="text-lg font-semibold">
-						{{ editingCategory ? 'Edit Category' : 'Create Category' }}
+					<h3 class="text-lg font-medium">
+						{{ editingCategory ? $t('admin.categories.edit') : $t('admin.categories.add') }}
 					</h3>
 				</template>
 
-				<UForm :schema="categorySchema" :state="formState" class="space-y-4" @submit="handleSubmit">
-					<UFormGroup label="Name" name="name" required>
+				<form class="space-y-4" @submit.prevent="handleSubmit">
+					<div>
+						<ULabel for="name">{{ $t('admin.categories.name') }}</ULabel>
 						<UInput
+							id="name"
 							v-model="formState.name"
-							placeholder="Enter category name"
-							:disabled="isSubmitting"
-							@input="onNameChange"
+							:placeholder="$t('admin.categories.name')"
+							@input="generateSlugFromName"
+							required
 						/>
-					</UFormGroup>
+					</div>
 
-					<UFormGroup label="Slug" name="slug" required>
-						<UInput v-model="formState.slug" placeholder="category-slug" :disabled="isSubmitting" />
-						<template #help>
-							URL-friendly version of the name. Only lowercase letters, numbers, and hyphens allowed.
-						</template>
-					</UFormGroup>
+					<div>
+						<ULabel for="slug">{{ $t('admin.categories.slug') }}</ULabel>
+						<UInput
+							id="slug"
+							v-model="formState.slug"
+							:placeholder="$t('admin.categories.slug')"
+							required
+						/>
+					</div>
 
 					<div class="flex justify-end space-x-3 pt-4">
-						<UButton @click="closeModal" color="gray" variant="ghost" :disabled="isSubmitting">
-							Cancel
+						<UButton variant="outline" @click="closeModal">
+							{{ $t('common.cancel') }}
 						</UButton>
-						<UButton type="submit" :loading="isSubmitting" :disabled="isSubmitting">
-							{{ editingCategory ? 'Update' : 'Create' }}
+						<UButton type="submit" :loading="isLoading">
+							{{ $t('common.save') }}
 						</UButton>
 					</div>
-				</UForm>
+				</form>
 			</UCard>
 		</UModal>
 
 		<!-- Delete Confirmation Modal -->
-		<UModal v-model="showDeleteModal" :prevent-close="isDeleting">
+		<UModal v-model="showDeleteModal">
 			<UCard>
 				<template #header>
-					<h3 class="text-lg font-semibold text-red-600">Delete Category</h3>
+					<h3 class="text-lg font-medium text-red-600">
+						{{ $t('admin.categories.delete') }}
+					</h3>
 				</template>
 
 				<div class="space-y-4">
 					<p class="text-sm text-gray-600">
-						Are you sure you want to delete the category "{{ categoryToDelete?.name }}"? This action cannot
-						be undone.
+						{{ $t('admin.categories.confirmDelete') }}
 					</p>
-
-					<div class="bg-yellow-50 border border-yellow-200 rounded-md p-4">
-						<div class="flex">
-							<UIcon name="i-heroicons-exclamation-triangle" class="h-5 w-5 text-yellow-400" />
-							<div class="ml-3">
-								<p class="text-sm text-yellow-800">
-									<strong>Warning:</strong>
-									Products in this category may be affected. Please ensure you handle associated
-									products appropriately.
-								</p>
-							</div>
-						</div>
-					</div>
+					<p class="text-sm text-red-600 font-medium">
+						{{ $t('admin.categories.deleteWarning') }}
+					</p>
 				</div>
 
 				<template #footer>
 					<div class="flex justify-end space-x-3">
-						<UButton @click="closeDeleteModal" color="gray" variant="ghost" :disabled="isDeleting">
-							Cancel
+						<UButton @click="showDeleteModal = false" variant="outline">
+							{{ $t('common.cancel') }}
 						</UButton>
-						<UButton @click="confirmDelete" color="red" :loading="isDeleting" :disabled="isDeleting">
-							Delete Category
+						<UButton @click="handleDelete" :loading="isLoading" color="error">
+							{{ $t('common.delete') }}
 						</UButton>
 					</div>
 				</template>
@@ -223,26 +161,14 @@
 </template>
 
 <script setup lang="ts">
-import { z } from 'zod'
+import type { Category } from '~/composables/useCategories'
 
-// Define page meta for authentication
+// Set page meta
 definePageMeta({
-	layout: false,
 	middleware: 'auth'
 })
 
-// Form validation schema
-const categorySchema = z.object({
-	name: z.string().min(1, 'Name is required').max(100, 'Name must be 100 characters or less'),
-	slug: z
-		.string()
-		.min(1, 'Slug is required')
-		.max(100, 'Slug must be 100 characters or less')
-		.regex(/^[a-z0-9-]+$/, 'Slug can only contain lowercase letters, numbers, and hyphens')
-})
-
 // Use composables
-const { logout, isLoading: authLoading } = useAuth()
 const {
 	categories,
 	isLoading,
@@ -251,17 +177,17 @@ const {
 	createCategory,
 	updateCategory,
 	deleteCategory,
-	clearError,
-	generateSlug
+	generateSlug,
+	clearError
 } = useCategories()
+const { t } = useI18n()
+const toast = useToast()
 
 // Modal states
-const showModal = ref(false)
+const showCreateModal = ref(false)
 const showDeleteModal = ref(false)
-const editingCategory = ref<any>(null)
-const categoryToDelete = ref<any>(null)
-const isSubmitting = ref(false)
-const isDeleting = ref(false)
+const editingCategory = ref<Category | null>(null)
+const deletingCategory = ref<Category | null>(null)
 
 // Form state
 const formState = reactive({
@@ -269,118 +195,139 @@ const formState = reactive({
 	slug: ''
 })
 
-// Format date helper
-const formatDate = (dateString: string) => {
-	return new Date(dateString).toLocaleDateString('en-US', {
-		year: 'numeric',
-		month: 'short',
-		day: 'numeric'
-	})
+// Validate form
+const validateForm = () => {
+	if (!formState.name.trim()) {
+		return 'Category name is required'
+	}
+	if (formState.name.length > 100) {
+		return 'Name too long'
+	}
+	if (!formState.slug.trim()) {
+		return 'Slug is required'
+	}
+	if (formState.slug.length > 100) {
+		return 'Slug too long'
+	}
+	if (!/^[a-z0-9-]+$/.test(formState.slug)) {
+		return 'Slug can only contain lowercase letters, numbers, and hyphens'
+	}
+	return null
 }
 
-// Handle name change to auto-generate slug
-const onNameChange = () => {
-	if (!editingCategory.value) {
+// Generate slug from name
+const generateSlugFromName = () => {
+	if (formState.name && !editingCategory.value) {
 		formState.slug = generateSlug(formState.name)
 	}
 }
 
-// Open create modal
-const openCreateModal = () => {
-	editingCategory.value = null
-	formState.name = ''
-	formState.slug = ''
-	showModal.value = true
-}
-
-// Open edit modal
-const openEditModal = (category: any) => {
+// Edit category
+const editCategory = (category: Category) => {
 	editingCategory.value = category
 	formState.name = category.name
 	formState.slug = category.slug
-	showModal.value = true
+	showCreateModal.value = true
+}
+
+// Confirm delete
+const confirmDelete = (category: Category) => {
+	deletingCategory.value = category
+	showDeleteModal.value = true
+}
+
+// Handle form submit
+const handleSubmit = async () => {
+	clearError()
+
+	const validationError = validateForm()
+	if (validationError) {
+		toast.add({
+			title: validationError,
+			color: 'error'
+		})
+		return
+	}
+
+	let success = false
+
+	if (editingCategory.value) {
+		// Update existing category
+		const result = await updateCategory(editingCategory.value.$id, {
+			name: formState.name,
+			slug: formState.slug
+		})
+		success = !!result
+
+		if (success) {
+			toast.add({
+				title: t('admin.categories.updated'),
+				color: 'success'
+			})
+		}
+	} else {
+		// Create new category
+		const result = await createCategory({
+			name: formState.name,
+			slug: formState.slug
+		})
+		success = !!result
+
+		if (success) {
+			toast.add({
+				title: t('admin.categories.created'),
+				color: 'success'
+			})
+		}
+	}
+
+	if (success) {
+		closeModal()
+	} else if (error.value) {
+		toast.add({
+			title: error.value,
+			color: 'error'
+		})
+	}
+}
+
+// Handle delete
+const handleDelete = async () => {
+	if (!deletingCategory.value) return
+
+	clearError()
+	const success = await deleteCategory(deletingCategory.value.$id)
+
+	if (success) {
+		toast.add({
+			title: t('admin.categories.deleted'),
+			color: 'success'
+		})
+		showDeleteModal.value = false
+		deletingCategory.value = null
+	} else if (error.value) {
+		toast.add({
+			title: error.value,
+			color: 'error'
+		})
+	}
 }
 
 // Close modal
 const closeModal = () => {
-	showModal.value = false
+	showCreateModal.value = false
 	editingCategory.value = null
 	formState.name = ''
 	formState.slug = ''
 }
 
-// Handle form submission
-const handleSubmit = async () => {
-	isSubmitting.value = true
-
-	try {
-		if (editingCategory.value) {
-			// Update existing category
-			const updated = await updateCategory(editingCategory.value.$id, {
-				name: formState.name,
-				slug: formState.slug
-			})
-
-			if (updated) {
-				closeModal()
-			}
-		} else {
-			// Create new category
-			const created = await createCategory({
-				name: formState.name,
-				slug: formState.slug
-			})
-
-			if (created) {
-				closeModal()
-			}
-		}
-	} finally {
-		isSubmitting.value = false
-	}
-}
-
-// Open delete modal
-const openDeleteModal = (category: any) => {
-	categoryToDelete.value = category
-	showDeleteModal.value = true
-}
-
-// Close delete modal
-const closeDeleteModal = () => {
-	showDeleteModal.value = false
-	categoryToDelete.value = null
-}
-
-// Confirm delete
-const confirmDelete = async () => {
-	if (!categoryToDelete.value) return
-
-	isDeleting.value = true
-
-	try {
-		const success = await deleteCategory(categoryToDelete.value.$id)
-		if (success) {
-			closeDeleteModal()
-		}
-	} finally {
-		isDeleting.value = false
-	}
-}
-
-// Handle logout
-const handleLogout = async () => {
-	await logout()
-	await navigateTo('/admin/login')
-}
-
-// Load categories on mount
+// Fetch categories on mount
 onMounted(() => {
 	fetchCategories()
 })
 
 // Set page title
 useHead({
-	title: 'Category Management - Admin'
+	title: t('admin.categories.title')
 })
 </script>

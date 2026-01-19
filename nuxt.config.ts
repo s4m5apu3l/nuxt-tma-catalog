@@ -1,12 +1,22 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 	modules: ['@nuxt/eslint', '@nuxt/ui', '@nuxtjs/i18n'],
-
-	devtools: {
-		enabled: true
-	},
-
 	css: ['~/assets/css/main.css'],
+
+	runtimeConfig: {
+		// Private keys (only available on server-side)
+		appwriteApiKey: process.env.APPWRITE_API_KEY,
+
+		// Public keys (exposed to client-side)
+		public: {
+			appwriteEndpoint: process.env.APPWRITE_ENDPOINT,
+			appwriteProjectId: process.env.APPWRITE_PROJECT_ID,
+			appwriteDatabaseId: process.env.APPWRITE_DATABASE_ID,
+			appwriteCategoriesCollectionId: process.env.APPWRITE_CATEGORIES_COLLECTION_ID,
+			appwriteProductsCollectionId: process.env.APPWRITE_PRODUCTS_COLLECTION_ID,
+			appwriteStorageBucketId: process.env.APPWRITE_STORAGE_BUCKET_ID
+		}
+	},
 
 	routeRules: {
 		'/': { prerender: true }
@@ -38,26 +48,10 @@ export default defineNuxtConfig({
 		],
 		defaultLocale: 'en',
 		strategy: 'prefix_except_default',
-		langDir: 'i18n/locales/',
 		detectBrowserLanguage: {
 			useCookie: true,
 			cookieKey: 'i18n_redirected',
 			redirectOn: 'root'
-		}
-	},
-
-	runtimeConfig: {
-		// Private keys (only available on server-side)
-		appwriteApiKey: process.env.APPWRITE_API_KEY,
-		
-		// Public keys (exposed to client-side)
-		public: {
-			appwriteEndpoint: process.env.APPWRITE_ENDPOINT,
-			appwriteProjectId: process.env.APPWRITE_PROJECT_ID,
-			appwriteDatabaseId: process.env.APPWRITE_DATABASE_ID,
-			appwriteCategoriesCollectionId: process.env.APPWRITE_CATEGORIES_COLLECTION_ID,
-			appwriteProductsCollectionId: process.env.APPWRITE_PRODUCTS_COLLECTION_ID,
-			appwriteStorageBucketId: process.env.APPWRITE_STORAGE_BUCKET_ID
 		}
 	}
 })

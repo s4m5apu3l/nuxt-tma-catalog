@@ -1,33 +1,33 @@
 <template>
-	<div class="min-h-screen bg-gray-50">
-		<!-- Navigation Header -->
-		<nav class="bg-white shadow-sm border-b border-gray-200">
-			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div class="flex justify-between h-16">
-					<div class="flex items-center space-x-4">
-						<UButton to="/admin" color="neutral" variant="ghost" icon="i-heroicons-arrow-left">
-							Back to Dashboard
-						</UButton>
-						<h1 class="text-xl font-semibold text-gray-900">Product Management</h1>
-					</div>
+	<div class="space-y-6">
+		<!-- Header -->
+		<div class="border-b border-gray-200 pb-5">
+			<div class="flex items-center justify-between">
+				<div>
+					<h1 class="text-2xl font-bold leading-7 tt-3xl">
+						{{ $t('admin.products.title') }}
+					</h1>
+				</div>
+				<div class="flex items-center space-x-3">
+					<UButton
 
-					<div class="flex items-center space-x-4">
-						<UButton @click="openCreateModal" color="primary" icon="i-heroicons-plus">Add Product</UButton>
-						<UButton
-							@click="handleLogout"
-							:loading="authLoading"
-							color="error"
-							variant="ghost"
-							icon="i-heroicons-arrow-right-on-rectangle"
-						>
-							Logout
-						</UButton>
-					</div>
+						icon="i-lucide-plus"
+					>
+						{{ $t('a }}
+					</UButton>
 				</div>
 			</div>
-		</nav>
+		</div>
 
-		<!-- Main Content -->
+		<!-- 
+		<div v-if=">
+			<Icon name="i" />
+		</div>
+
+		<!-- Er
+		<div v
+>
+				<Icon name="i-lucidrt-cie-ale
 		<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
 			<div class="px-4 py-6 sm:px-0">
 				<!-- Error Alert -->

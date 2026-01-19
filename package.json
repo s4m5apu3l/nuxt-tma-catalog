@@ -1,26 +1,32 @@
 {
-  "name": "nuxt-tma-catalog",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
-    "lint": "eslint .",
-    "typecheck": "nuxt typecheck"
-  },
-  "dependencies": {
-    "@iconify-json/lucide": "^1.2.82",
-    "@iconify-json/simple-icons": "^1.2.63",
-    "@nuxt/ui": "^4.3.0",
-    "nuxt": "^4.2.2"
-  },
-  "devDependencies": {
-    "@nuxt/eslint": "^1.12.1",
-    "eslint": "^9.39.2",
-    "typescript": "^5.9.3",
-    "vue-tsc": "^3.2.1"
-  },
-  "packageManager": "pnpm@10.26.1"
+	"name": "nuxt-tma-catalog",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "nuxt build",
+		"dev": "nuxt dev",
+		"preview": "nuxt preview",
+		"postinstall": "nuxt prepare",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
+		"format": "prettier --check .",
+		"format:fix": "prettier --write .",
+		"typecheck": "nuxt typecheck"
+	},
+	"dependencies": {
+		"@iconify-json/lucide": "^1.2.82",
+		"@iconify-json/simple-icons": "^1.2.63",
+		"@nuxt/ui": "^4.3.0",
+		"nuxt": "^4.2.2"
+	},
+	"devDependencies": {
+		"@nuxt/eslint": "^1.12.1",
+		"eslint": "^9.39.2",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-prettier": "^5.5.5",
+		"prettier": "^3.8.0",
+		"typescript": "^5.9.3",
+		"vue-tsc": "^3.2.1"
+	},
+	"packageManager": "pnpm@10.26.1"
 }

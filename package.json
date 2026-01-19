@@ -17,10 +17,13 @@
 		"@iconify-json/lucide": "^1.2.82",
 		"@iconify-json/simple-icons": "^1.2.63",
 		"@nuxt/ui": "^4.3.0",
+		"@nuxtjs/i18n": "^10.2.1",
+		"appwrite": "^21.5.0",
 		"nuxt": "^4.2.2"
 	},
 	"devDependencies": {
 		"@nuxt/eslint": "^1.12.1",
+		"@types/node": "^25.0.9",
 		"eslint": "^9.39.2",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-prettier": "^5.5.5",

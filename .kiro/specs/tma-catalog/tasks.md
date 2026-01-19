@@ -9,21 +9,13 @@
 
 - [x]   2. Create Appwrite client service and authentication
 
-
-
-
-
     - [x] 2.1 Implement Appwrite client configuration
-
-
         - Create appwriteClient.ts service with SDK initialization
         - Configure project ID, endpoint, and API key from environment
         - Export configured client instance for use across application
         - _Requirements: 4.1, 4.2_
 
     - [x] 2.2 Create authentication composable
-
-
         - Implement useAuth.ts with login, logout, and session management
         - Add authentication state management with reactive user data
         - Create login validation and error handling logic
@@ -99,29 +91,45 @@
     - Test share functionality with actual Telegram integration
     - _Requirements: 3.1, 3.2, 3.3_
 
-- [ ]   6. Build admin dashboard interface
-    - [ ] 6.1 Create admin authentication page
+- [-]   6. Build admin dashboard interface
+
+
+
+    - [x] 6.1 Create admin authentication page
+
+
         - Implement admin/login.vue with secure login form
         - Add form validation and error message display
         - Implement redirect logic after successful authentication
         - Create protected route middleware for admin pages
         - _Requirements: 4.1, 4.2, 4.3_
 
-    - [ ] 6.2 Create admin dashboard layout
+    - [x] 6.2 Create admin dashboard layout
+
+
         - Implement admin/index.vue as main dashboard page
         - Create navigation menu for category and product management
         - Add logout functionality and session management
         - Implement responsive layout for admin interface
         - _Requirements: 4.2_
 
-    - [ ] 6.3 Build category management interface
+    - [x] 6.3 Build category management interface
+
+
         - Implement admin/categories.vue with category CRUD operations
         - Create forms for adding and editing categories
         - Add confirmation dialogs for category deletion
         - Implement validation and error handling for category operations
         - _Requirements: 5.1, 5.2, 5.3, 5.4_
 
-    - [ ] 6.4 Build product management interface
+
+    - [x] 6.4 Build product management interface
+
+
+
+
+
+
         - Implement admin/products.vue with product CRUD operations
         - Create forms for adding and editing products with category assignment
         - Add image upload interface with drag-and-drop functionality

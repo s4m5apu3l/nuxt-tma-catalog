@@ -42,13 +42,89 @@
     },
     "loadMore": "Load More Products"
   },
-  "admin": "Admin",
+  "admin": {
+    "title": "Admin",
+    "dashboard": "Dashboard",
+    "login": {
+      "title": "Admin Login",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Login",
+      "error": "Invalid credentials. Please try again.",
+      "loading": "Logging in..."
+    },
+    "navigation": {
+      "dashboard": "Dashboard",
+      "categories": "Categories",
+      "products": "Products",
+      "logout": "Logout"
+    },
+    "categories": {
+      "title": "Category Management",
+      "add": "Add Category",
+      "edit": "Edit Category",
+      "delete": "Delete Category",
+      "name": "Category Name",
+      "slug": "Slug",
+      "actions": "Actions",
+      "confirmDelete": "Are you sure you want to delete this category?",
+      "deleteWarning": "This action cannot be undone.",
+      "created": "Category created successfully",
+      "updated": "Category updated successfully",
+      "deleted": "Category deleted successfully",
+      "empty": {
+        "title": "No categories",
+        "description": "Start by creating your first category."
+      }
+    },
+    "products": {
+      "title": "Product Management",
+      "add": "Add Product",
+      "edit": "Edit Product",
+      "delete": "Delete Product",
+      "title_field": "Product Title",
+      "description": "Description",
+      "price": "Price",
+      "category": "Category",
+      "images": "Images",
+      "actions": "Actions",
+      "confirmDelete": "Are you sure you want to delete this product?",
+      "deleteWarning": "This action cannot be undone.",
+      "created": "Product created successfully",
+      "updated": "Product updated successfully",
+      "deleted": "Product deleted successfully",
+      "uploadImages": "Upload Images",
+      "dragDrop": "Drag and drop images here or click to select",
+      "maxSize": "Maximum file size: 5MB",
+      "allowedTypes": "Allowed types: JPG, PNG, WebP",
+      "empty": {
+        "title": "No products",
+        "description": "Start by creating your first product."
+      }
+    }
+  },
   "login": "Login",
   "logout": "Logout",
+  "language": {
+    "switch": "Switch Language",
+    "english": "English",
+    "russian": "Русский"
+  },
   "common": {
     "loading": "Loading...",
     "error": "Error",
     "retry": "Retry",
-    "dismiss": "Dismiss"
+    "dismiss": "Dismiss",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "yes": "Yes",
+    "no": "No",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close"
   }
 }

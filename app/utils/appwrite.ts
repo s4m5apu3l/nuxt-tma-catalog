@@ -5,6 +5,7 @@ interface AppwriteConfig {
 	databaseId: string
 	categoriesCollectionId: string
 	productsCollectionId: string
+	usersCollectionId: string
 	storageBucketId: string
 }
 
@@ -24,6 +25,7 @@ export const createAppwriteClient = () => {
 			databaseId: config.public.appwriteDatabaseId || '',
 			categoriesCollectionId: config.public.appwriteCategoriesCollectionId || '',
 			productsCollectionId: config.public.appwriteProductsCollectionId || '',
+			usersCollectionId: config.public.appwriteUsersCollectionId || '',
 			storageBucketId: config.public.appwriteStorageBucketId || ''
 		} as AppwriteConfig
 	}
@@ -54,12 +56,14 @@ export const ensureAnonymousSession = async (): Promise<Models.Session | null> =
 export const validatePublicReadAccess = async (): Promise<{
 	categories: boolean
 	products: boolean
+	users: boolean
 	storage: boolean
 }> => {
 	const { databases, storage, config } = createAppwriteClient()
 	const result = {
 		categories: false,
 		products: false,
+		users: false,
 		storage: false
 	}
 
@@ -85,6 +89,15 @@ export const validatePublicReadAccess = async (): Promise<{
 			console.warn('✗ Products collection lacks public read access:', error)
 		}
 
+		// Test users collection read access (should be restricted)
+		try {
+			await databases.listDocuments(config.databaseId, config.usersCollectionId, [])
+			result.users = true
+			console.log('✓ Users collection accessible (this should be restricted for security)')
+		} catch (error) {
+			console.log('✓ Users collection properly restricted from public access')
+		}
+
 		// Test storage read access
 		try {
 			await storage.listFiles(config.storageBucketId)
@@ -98,6 +111,97 @@ export const validatePublicReadAccess = async (): Promise<{
 	}
 
 	return result
+}
+
+// Create or get user document in Users collection
+export const createOrGetUserDocument = async (telegramUser: any): Promise<Models.Document | null> => {
+	try {
+		const { databases, config } = createAppwriteClient()
+		const userId = `telegram_${telegramUser.id}`
+
+		// Try to get existing user document
+		try {
+			const existingUser = await databases.getDocument(config.databaseId, config.usersCollectionId, userId)
+			
+			// Update last active timestamp
+			await databases.updateDocument(config.databaseId, config.usersCollectionId, userId, {
+				lastActive: new Date().toISOString(),
+				firstName: telegramUser.first_name,
+				lastName: telegramUser.last_name || '',
+				username: telegramUser.username || '',
+				languageCode: telegramUser.language_code || '',
+				isPremium: telegramUser.is_premium || false,
+				photoUrl: telegramUser.photo_url || ''
+			})
+
+			return existingUser
+		} catch (error: any) {
+			if (error.code === 404) {
+				// User doesn't exist, create new one
+				const newUser = await databases.createDocument(
+					config.databaseId,
+					config.usersCollectionId,
+					userId,
+					{
+						telegramId: telegramUser.id,
+						firstName: telegramUser.first_name,
+						lastName: telegramUser.last_name || '',
+						username: telegramUser.username || '',
+						languageCode: telegramUser.language_code || '',
+						isPremium: telegramUser.is_premium || false,
+						photoUrl: telegramUser.photo_url || '',
+						isAdmin: false, // Default to false, can be updated manually
+						lastActive: new Date().toISOString()
+					}
+				)
+				return newUser
+			}
+			throw error
+		}
+	} catch (error) {
+		console.error('Error creating/getting user document:', error)
+		return null
+	}
+}
+
+// Check if user is admin based on Users collection
+export const checkUserAdminStatus = async (telegramId: number): Promise<boolean> => {
+	try {
+		const { databases, config } = createAppwriteClient()
+		const userId = `telegram_${telegramId}`
+
+		const userDoc = await databases.getDocument(config.databaseId, config.usersCollectionId, userId)
+		return userDoc.isAdmin === true
+	} catch (error) {
+		console.error('Error checking admin status:', error)
+		return false
+	}
+}
+
+// Enhanced error handling for Appwrite operations
+export const handleAppwriteError = (error: any): string => {
+	console.error('Appwrite error:', error)
+
+	if (error.code === 401) {
+		return 'Authentication required. Please log in.'
+	}
+	if (error.code === 403) {
+		return 'Access denied. You do not have permission to perform this action.'
+	}
+	if (error.code === 404) {
+		return 'Resource not found.'
+	}
+	if (error.code === 409) {
+		return 'Resource already exists.'
+	}
+	if (error.code === 429) {
+		return 'Too many requests. Please try again later.'
+	}
+	if (error.code === 500) {
+		return 'Server error. Please try again later.'
+	}
+
+	return error.message || 'An unexpected error occurred.'
 }
 
 // Legacy exports for backward compatibility - these will be initialized lazily

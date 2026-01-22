@@ -38,15 +38,27 @@ Build a minimal, production-ready catalog system that can be reused for differen
 
 ### Requirement 4
 
-**User Story:** As an admin, I want to authenticate securely, so that I can access management features.
+**User Story:** As a user, I want to authenticate through Telegram, so that I can access personalized features in the TMA.
 
 #### Acceptance Criteria
 
-1. WHEN an admin attempts to access admin features THEN the system SHALL require authentication
-2. WHEN an admin provides valid credentials THEN the system SHALL grant access to admin dashboard
-3. WHEN an admin session expires THEN the system SHALL redirect to login page
+1. WHEN a user opens the TMA THEN the system SHALL authenticate using Telegram WebApp data
+2. WHEN Telegram authentication is successful THEN the system SHALL create or update user session in Appwrite
+3. WHEN Telegram authentication fails THEN the system SHALL display appropriate error message
+4. WHEN user data is received from Telegram THEN the system SHALL store user profile information
 
 ### Requirement 5
+
+**User Story:** As an admin, I want to authenticate securely through Telegram, so that I can access management features.
+
+#### Acceptance Criteria
+
+1. WHEN an admin attempts to access admin features THEN the system SHALL verify admin privileges through Telegram user data
+2. WHEN an admin has valid Telegram authentication and admin rights THEN the system SHALL grant access to admin dashboard
+3. WHEN an admin session expires THEN the system SHALL re-authenticate through Telegram
+4. WHEN a non-admin user tries to access admin features THEN the system SHALL deny access
+
+### Requirement 6
 
 **User Story:** As an admin, I want to manage categories, so that I can organize products effectively.
 
@@ -57,7 +69,7 @@ Build a minimal, production-ready catalog system that can be reused for differen
 3. WHEN an admin updates a category THEN the system SHALL save changes and update the display
 4. WHEN an admin deletes a category THEN the system SHALL remove the category and handle associated products appropriately
 
-### Requirement 6
+### Requirement 7
 
 **User Story:** As an admin, I want to manage products, so that I can maintain an up-to-date catalog.
 
@@ -68,7 +80,7 @@ Build a minimal, production-ready catalog system that can be reused for differen
 3. WHEN an admin updates a product THEN the system SHALL save changes including price, description, and category assignment
 4. WHEN an admin deletes a product THEN the system SHALL remove the product and associated images
 
-### Requirement 7
+### Requirement 8
 
 **User Story:** As an admin, I want to upload and manage product images, so that products are visually represented.
 
@@ -78,7 +90,7 @@ Build a minimal, production-ready catalog system that can be reused for differen
 2. WHEN an admin uploads an invalid file type THEN the system SHALL reject the upload and display an error message
 3. WHEN an admin deletes a product image THEN the system SHALL remove it from storage and update the product
 
-### Requirement 8
+### Requirement 9
 
 **User Story:** As a user, I want the interface in my preferred language, so that I can use the catalog comfortably.
 

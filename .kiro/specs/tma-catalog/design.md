@@ -2,7 +2,7 @@
 
 ## Overview
 
-The TMA Catalog is a minimal, production-ready catalog system built with Nuxt 4 frontend and Appwrite backend. The system enables public users to browse products and categories while providing admin capabilities for content management. The architecture follows a split-responsibility model with clear separation between frontend presentation and backend data management.
+The TMA Catalog is a minimal, production-ready catalog system built with Nuxt 4 frontend and Appwrite backend, designed specifically as a Telegram Mini App (TMA). The system enables public users to browse products and categories while providing admin capabilities for content management. Authentication is handled through Telegram WebApp integration, eliminating the need for separate login systems. The architecture follows a split-responsibility model with clear separation between frontend presentation and backend data management.
 
 ## Architecture
 
@@ -10,13 +10,15 @@ The TMA Catalog is a minimal, production-ready catalog system built with Nuxt 4 
 
 ```mermaid
 graph TB
-    A[Public Users] --> B[Nuxt 4 Frontend]
-    C[Admin Users] --> B
+    A[Telegram Bot/WebApp] --> B[Nuxt 4 Frontend]
+    B --> C[Telegram WebApp SDK]
     B --> D[Appwrite Backend]
     B --> E[Telegram Share Integration]
-    D --> F[Categories Collection]
-    D --> G[Products Collection]
-    D --> H[File Storage]
+    C --> F[User Authentication]
+    D --> G[Categories Collection]
+    D --> H[Products Collection]
+    D --> I[File Storage]
+    D --> J[Users Collection]
 ```
 
 ### Technology Stack
@@ -25,9 +27,10 @@ graph TB
 - **Backend**: Appwrite (BaaS)
 - **Database**: Appwrite Database Collections
 - **File Storage**: Appwrite Storage
-- **Authentication**: Appwrite Auth
+- **Authentication**: Telegram WebApp + Appwrite Auth
 - **Localization**: nuxt-i18n
-- **Integration**: Telegram Web Share API
+- **Integration**: Telegram WebApp SDK, vue-telegram package
+- **TMA Integration**: vue-telegram or direct Telegram WebApp SDK
 
 ### Responsibility Split
 
@@ -52,12 +55,14 @@ graph TB
 
 ```
 app/
+├── layouts/
+│   ├── default.vue               # Main layout with proper containers
+│   └── admin.vue                 # Admin layout with navigation
 ├── pages/
 │   ├── index.vue                 # Categories listing
 │   ├── category/[id].vue         # Products by category
 │   ├── product/[id].vue          # Product details
 │   └── admin/
-│       ├── login.vue             # Admin authentication
 │       ├── index.vue             # Admin dashboard
 │       ├── categories.vue        # Category management
 │       └── products.vue          # Product management
@@ -65,13 +70,17 @@ app/
 │   ├── CategoryCard.vue          # Category display component
 │   ├── ProductCard.vue           # Product listing component
 │   ├── ImageGallery.vue          # Product image viewer
-│   └── LanguageSwitcher.vue      # Localization control
+│   ├── LanguageSwitcher.vue      # Localization control
+│   └── TelegramAuth.vue          # Telegram authentication component
 ├── composables/
-│   ├── useAuth.ts                # Authentication logic
+│   ├── useAuth.ts                # Telegram + Appwrite authentication
+│   ├── useTelegramWebApp.ts      # Telegram WebApp integration
 │   ├── useCategories.ts          # Category data management
 │   └── useProducts.ts            # Product data management
-└── services/
-    └── appwriteClient.ts         # Appwrite SDK configuration
+├── plugins/
+│   └── telegram.client.ts        # Telegram WebApp initialization
+└── utils/
+    └── appwrite.ts               # Appwrite SDK configuration
 ```
 
 ### Key Interfaces
@@ -103,6 +112,32 @@ interface Product {
 }
 ```
 
+**Telegram User Interface**:
+
+```typescript
+interface TelegramUser {
+	id: number
+	first_name: string
+	last_name?: string
+	username?: string
+	language_code?: string
+	is_premium?: boolean
+	photo_url?: string
+}
+```
+
+**Telegram WebApp Data Interface**:
+
+```typescript
+interface TelegramWebAppData {
+	user?: TelegramUser
+	chat_instance?: string
+	chat_type?: string
+	auth_date: number
+	hash: string
+}
+```
+
 ## Data Models
 
 ### Appwrite Collections Schema
@@ -119,6 +154,18 @@ interface Product {
 - `description`: text (optional, max 2000 chars)
 - `price`: number (required, min 0)
 - `images`: array of strings (file IDs from storage)
+
+**Users Collection**:
+
+- `telegramId`: number (required, unique, Telegram user ID)
+- `firstName`: string (required, max 100 chars)
+- `lastName`: string (optional, max 100 chars)
+- `username`: string (optional, max 100 chars)
+- `languageCode`: string (optional, max 10 chars)
+- `isPremium`: boolean (default false)
+- `photoUrl`: string (optional, max 500 chars)
+- `isAdmin`: boolean (default false)
+- `lastActive`: datetime (auto-updated)
 
 **Storage Bucket**:
 

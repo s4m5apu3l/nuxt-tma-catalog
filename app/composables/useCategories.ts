@@ -1,4 +1,4 @@
-import { databases, appwriteConfig } from '~/utils/appwrite'
+import { databases, appwriteConfig, handleAppwriteError } from '~/utils/appwrite'
 import { ID, Query } from 'appwrite'
 import { useNetworkRetry } from './useRetry'
 
@@ -105,7 +105,7 @@ export const useCategories = () => {
 			state.categories = response.documents as unknown as Category[]
 		} catch (error: unknown) {
 			console.error('Fetch categories error:', error)
-			setError('Failed to load categories. Please try again.')
+			setError(handleAppwriteError(error))
 		} finally {
 			setLoading(false)
 		}
@@ -126,12 +126,7 @@ export const useCategories = () => {
 			return response as unknown as Category
 		} catch (error: unknown) {
 			console.error('Get category error:', error)
-			const err = error as { code?: number }
-			if (err.code === 404) {
-				setError('Category not found')
-			} else {
-				setError('Failed to load category. Please try again.')
-			}
+			setError(handleAppwriteError(error))
 			return null
 		} finally {
 			setLoading(false)
@@ -158,7 +153,7 @@ export const useCategories = () => {
 			return response.documents[0] as unknown as Category
 		} catch (error: unknown) {
 			console.error('Get category by slug error:', error)
-			setError('Failed to load category. Please try again.')
+			setError(handleAppwriteError(error))
 			return null
 		} finally {
 			setLoading(false)
@@ -207,16 +202,7 @@ export const useCategories = () => {
 			return newCategory
 		} catch (error: unknown) {
 			console.error('Create category error:', error)
-
-			const err = error as { code?: number }
-			if (err.code === 409) {
-				setError('A category with this slug already exists')
-			} else if (err.code === 400) {
-				setError('Invalid category data. Please check your input.')
-			} else {
-				setError('Failed to create category. Please try again.')
-			}
-
+			setError(handleAppwriteError(error))
 			return null
 		} finally {
 			setLoading(false)
@@ -264,18 +250,7 @@ export const useCategories = () => {
 			return updatedCategory
 		} catch (error: unknown) {
 			console.error('Update category error:', error)
-
-			const err = error as { code?: number }
-			if (err.code === 404) {
-				setError('Category not found')
-			} else if (err.code === 409) {
-				setError('A category with this slug already exists')
-			} else if (err.code === 400) {
-				setError('Invalid category data. Please check your input.')
-			} else {
-				setError('Failed to update category. Please try again.')
-			}
-
+			setError(handleAppwriteError(error))
 			return null
 		} finally {
 			setLoading(false)
@@ -299,14 +274,7 @@ export const useCategories = () => {
 			return true
 		} catch (error: unknown) {
 			console.error('Delete category error:', error)
-
-			const err = error as { code?: number }
-			if (err.code === 404) {
-				setError('Category not found')
-			} else {
-				setError('Failed to delete category. Please try again.')
-			}
-
+			setError(handleAppwriteError(error))
 			return false
 		} finally {
 			setLoading(false)

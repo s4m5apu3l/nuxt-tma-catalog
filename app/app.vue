@@ -1,18 +1,8 @@
 <script setup>
-const { locale } = useI18n()
-
 // Initialize authentication (including anonymous sessions for public users)
 const { initAuth } = useAuth()
 onMounted(async () => {
 	await initAuth()
-})
-
-useHead({
-	meta: [{ name: 'viewport', content: 'width=device-width, initial-scale=1' }],
-	link: [{ rel: 'icon', href: '/favicon.ico' }],
-	htmlAttrs: {
-		lang: locale
-	}
 })
 
 const title = 'TMA Catalog'
@@ -25,45 +15,17 @@ useSeoMeta({
 	ogDescription: description,
 	twitterCard: 'summary_large_image'
 })
+
+useHead({
+	meta: [{ name: 'viewport', content: 'width=device-width, initial-scale=1' }],
+	link: [{ rel: 'icon', href: '/favicon.ico' }]
+})
 </script>
 
 <template>
 	<UApp>
-		<UHeader>
-			<template #left>
-				<NuxtLink to="/">
-					<AppLogo class="w-auto h-6 shrink-0" />
-				</NuxtLink>
-			</template>
-
-			<template #right>
-				<!-- <LanguageSwitcher /> -->
-
-				<UColorModeButton />
-			</template>
-		</UHeader>
-
-		<UMain>
+		<NuxtLayout>
 			<NuxtPage />
-		</UMain>
-
-		<USeparator icon="i-simple-icons-nuxtdotjs" />
-
-		<UFooter>
-			<template #left>
-				<p class="text-sm text-muted">Built with FrostByte • © {{ new Date().getFullYear() }}</p>
-			</template>
-
-			<template #right>
-				<UButton
-					to="https://github.com/nuxt-ui-templates/starter"
-					target="_blank"
-					icon="i-simple-icons-github"
-					aria-label="GitHub"
-					color="neutral"
-					variant="ghost"
-				/>
-			</template>
-		</UFooter>
+		</NuxtLayout>
 	</UApp>
 </template>

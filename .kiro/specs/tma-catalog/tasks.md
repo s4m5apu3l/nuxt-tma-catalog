@@ -5,7 +5,7 @@
     - Install Appwrite SDK for backend integration
     - Configure environment variables for Appwrite connection
     - Verify application runs locally with new dependencies
-    - _Requirements: 8.1, 8.2_
+    - _Requirements: 9.1, 9.2_
 
 - [x]   2. Create Appwrite client service and authentication
     - [x] 2.1 Implement Appwrite client configuration
@@ -115,9 +115,86 @@
     - Implement empty state components for no data scenarios
     - _Requirements: 1.3, 2.3_
 
-- [ ]   9. Create end-to-end tests
-    - Write E2E tests for public user browsing flow
+- [ ]   9. Implement Telegram WebApp authentication
+    - [ ] 9.1 Install and configure Telegram WebApp dependencies
+        - Install vue-telegram package or configure direct Telegram WebApp SDK
+
+
+
+        - Create Telegram WebApp plugin for client-side initialization
+        - Configure Telegram WebApp SDK in Nuxt application
+        - _Requirements: 4.1, 4.2_
+
+
+
+    - [ ] 9.2 Create Telegram authentication composable
+        - Implement useTelegramWebApp.ts for WebApp data access
+        - Update useAuth.ts to integrate Telegram authentication with Appwrite
+        - Create user session management with Telegram user data
+        - Add automatic user creation/update from Telegram data
+        - _Requirements: 4.1, 4.2, 4.3, 4.4_
+
+    - [ ] 9.3 Update Appwrite backend schema
+        - Create Users collection in Appwrite with Telegram user fields
+        - Configure proper permissions for Users collection
+        - Update authentication flow to use Telegram user ID as primary key
+        - Set up admin user identification system
+        - _Requirements: 4.1, 4.2, 5.1, 5.2_
+
+- [ ]   10. Fix layout and container structure
+    - [ ] 10.1 Create proper layout system
+        - Create layouts/default.vue with proper container structure
+
+
+        - Create layouts/admin.vue with admin navigation and sidebar
+        - Update app.vue to use NuxtLayout instead of direct UApp structure
+        - Fix container and spacing issues across all pages
+        - _Requirements: All UI requirements_
+
+
+
+    - [ ] 10.2 Update admin pages to use admin layout
+        - Update all admin pages to use admin layout
+        - Remove redundant navigation from individual admin pages
+        - Ensure proper responsive design for admin interface
+        - Fix any remaining container or styling issues
+        - _Requirements: 5.1, 5.2, 5.3, 5.4, 6.1, 6.2, 6.3, 6.4, 7.1, 7.2, 7.3_
+
+- [ ]   11. Update authentication flow for Telegram
+    - [ ] 11.1 Remove traditional login system
+        - Remove admin/login.vue page (no longer needed)
+        - Update admin middleware to check Telegram authentication
+        - Update admin access control to use Telegram user data
+        - Remove guest middleware if no longer needed
+        - _Requirements: 5.1, 5.2, 5.3_
+
+    - [-] 11.2 Implement admin privilege system
+
+        - Create admin user management in Appwrite
+        - Implement admin privilege checking based on Telegram user ID
+        - Add admin user interface for managing admin privileges
+        - Test admin access control with Telegram authentication
+        - _Requirements: 5.1, 5.2, 5.3, 5.4_
+
+- [ ]   12. Test and fix authorization issues
+    - [ ] 12.1 Debug Appwrite authorization errors
+        - Review and fix Appwrite permissions for all collections
+        - Ensure proper user session creation with Telegram authentication
+        - Test CRUD operations with authenticated Telegram users
+        - Fix any remaining 401 authorization errors
+        - _Requirements: 4.1, 4.2, 4.3, 4.4_
+
+    - [ ] 12.2 Verify end-to-end functionality
+        - Test complete user flow from Telegram WebApp initialization to data access
+        - Verify admin functionality works with Telegram authentication
+        - Test all CRUD operations for categories and products
+        - Ensure proper error handling for authentication failures
+        - _Requirements: All requirements_
+
+- [ ]   13. Create end-to-end tests
+    - Write E2E tests for public user browsing flow with Telegram auth
     - Create tests for admin authentication and management workflows
     - Test Telegram sharing functionality
     - Verify internationalization works correctly
+    - Test layout responsiveness and container structure
     - _Requirements: All requirements validation_

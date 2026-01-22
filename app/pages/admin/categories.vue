@@ -165,7 +165,8 @@ import type { Category } from '~/composables/useCategories'
 
 // Set page meta
 definePageMeta({
-	middleware: 'auth'
+	middleware: 'auth',
+	layout: 'admin'
 })
 
 // Use composables

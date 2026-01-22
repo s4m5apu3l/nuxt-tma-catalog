@@ -347,7 +347,7 @@
 <script setup lang="ts">
 // Define page meta for authentication
 definePageMeta({
-	layout: false,
+	layout: 'admin',
 	middleware: 'auth'
 })
 

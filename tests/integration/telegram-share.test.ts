@@ -5,207 +5,207 @@ import { useTelegramShare } from '~/composables/useTelegramShare'
 // Mock window.open for integration testing
 const mockWindowOpen = vi.fn()
 Object.defineProperty(window, 'open', {
-  value: mockWindowOpen,
-  writable: true
+	value: mockWindowOpen,
+	writable: true
 })
 
 describe('Telegram Share Integration', () => {
-  beforeEach(() => {
-    mockWindowOpen.mockClear()
-  })
+	beforeEach(() => {
+		mockWindowOpen.mockClear()
+	})
 
-  afterEach(() => {
-    vi.clearAllMocks()
-  })
+	afterEach(() => {
+		vi.clearAllMocks()
+	})
 
-  it('should generate valid Telegram share URLs with product data', async () => {
-    const { shareProduct } = useTelegramShare()
-    
-    // Mock successful window.open
-    const mockWindow = {}
-    mockWindowOpen.mockReturnValue(mockWindow)
+	it('should generate valid Telegram share URLs with product data', async () => {
+		const { shareProduct } = useTelegramShare()
 
-    const testProduct = {
-      title: 'Test Product',
-      price: 1500.50,
-      description: 'This is a test product with a detailed description'
-    }
-    const testUrl = 'https://example.com/product/123'
+		// Mock successful window.open
+		const mockWindow = {}
+		mockWindowOpen.mockReturnValue(mockWindow)
 
-    const result = await shareProduct(testProduct, testUrl)
+		const testProduct = {
+			title: 'Test Product',
+			price: 1500.5,
+			description: 'This is a test product with a detailed description'
+		}
+		const testUrl = 'https://example.com/product/123'
 
-    expect(result).toBe(true)
-    expect(mockWindowOpen).toHaveBeenCalledTimes(1)
+		const result = await shareProduct(testProduct, testUrl)
 
-    const [calledUrl, target, features] = mockWindowOpen.mock.calls[0]
-    
-    // Verify the URL structure
-    expect(calledUrl).toContain('https://t.me/share/url')
-    expect(calledUrl).toContain('url=' + encodeURIComponent(testUrl))
-    expect(calledUrl).toContain(encodeURIComponent('Test Product'))
-    expect(calledUrl).toContain(encodeURIComponent('1 500,50 ₽'))
-    expect(calledUrl).toContain(encodeURIComponent('This is a test product with a detailed description'))
-    
-    // Verify window.open parameters
-    expect(target).toBe('_blank')
-    expect(features).toBe('noopener,noreferrer')
-  })
+		expect(result).toBe(true)
+		expect(mockWindowOpen).toHaveBeenCalledTimes(1)
 
-  it('should handle products with long descriptions by truncating', async () => {
-    const { shareProduct } = useTelegramShare()
-    
-    const mockWindow = {}
-    mockWindowOpen.mockReturnValue(mockWindow)
+		const [calledUrl, target, features] = mockWindowOpen.mock.calls[0]
 
-    const longDescription = 'a'.repeat(250) // Longer than 200 char limit
-    const testProduct = {
-      title: 'Product with Long Description',
-      price: 999.99,
-      description: longDescription
-    }
-    const testUrl = 'https://example.com/product/456'
+		// Verify the URL structure
+		expect(calledUrl).toContain('https://t.me/share/url')
+		expect(calledUrl).toContain('url=' + encodeURIComponent(testUrl))
+		expect(calledUrl).toContain(encodeURIComponent('Test Product'))
+		expect(calledUrl).toContain(encodeURIComponent('1 500,50 ₽'))
+		expect(calledUrl).toContain(encodeURIComponent('This is a test product with a detailed description'))
 
-    const result = await shareProduct(testProduct, testUrl)
+		// Verify window.open parameters
+		expect(target).toBe('_blank')
+		expect(features).toBe('noopener,noreferrer')
+	})
 
-    expect(result).toBe(true)
-    
-    const calledUrl = mockWindowOpen.mock.calls[0][0]
-    const decodedUrl = decodeURIComponent(calledUrl)
-    
-    // Should contain truncated description with ellipsis
-    expect(decodedUrl).toContain('a'.repeat(200) + '...')
-    expect(decodedUrl).not.toContain('a'.repeat(250))
-  })
+	it('should handle products with long descriptions by truncating', async () => {
+		const { shareProduct } = useTelegramShare()
 
-  it('should handle products without descriptions', async () => {
-    const { shareProduct } = useTelegramShare()
-    
-    const mockWindow = {}
-    mockWindowOpen.mockReturnValue(mockWindow)
+		const mockWindow = {}
+		mockWindowOpen.mockReturnValue(mockWindow)
 
-    const testProduct = {
-      title: 'Simple Product',
-      price: 50.00
-    }
-    const testUrl = 'https://example.com/product/789'
+		const longDescription = 'a'.repeat(250) // Longer than 200 char limit
+		const testProduct = {
+			title: 'Product with Long Description',
+			price: 999.99,
+			description: longDescription
+		}
+		const testUrl = 'https://example.com/product/456'
 
-    const result = await shareProduct(testProduct, testUrl)
+		const result = await shareProduct(testProduct, testUrl)
 
-    expect(result).toBe(true)
-    
-    const calledUrl = mockWindowOpen.mock.calls[0][0]
-    const decodedUrl = decodeURIComponent(calledUrl)
-    
-    // Should only contain title and price
-    expect(decodedUrl).toContain('Simple Product - 50,00 ₽')
-    expect(decodedUrl).not.toContain('\n\n') // No description separator
-  })
+		expect(result).toBe(true)
 
-  it('should handle popup blocker scenarios', async () => {
-    const { shareProduct, error } = useTelegramShare()
-    
-    // Mock popup blocker (window.open returns null)
-    mockWindowOpen.mockReturnValue(null)
+		const calledUrl = mockWindowOpen.mock.calls[0][0]
+		const decodedUrl = decodeURIComponent(calledUrl)
 
-    const testProduct = {
-      title: 'Blocked Product',
-      price: 100.00
-    }
-    const testUrl = 'https://example.com/product/blocked'
+		// Should contain truncated description with ellipsis
+		expect(decodedUrl).toContain('a'.repeat(200) + '...')
+		expect(decodedUrl).not.toContain('a'.repeat(250))
+	})
 
-    const result = await shareProduct(testProduct, testUrl)
+	it('should handle products without descriptions', async () => {
+		const { shareProduct } = useTelegramShare()
 
-    expect(result).toBe(false)
-    expect(error.value).toBe('Failed to open share window. Please check your popup blocker settings.')
-  })
+		const mockWindow = {}
+		mockWindowOpen.mockReturnValue(mockWindow)
 
-  it('should validate share URLs correctly', () => {
-    const { validateShareUrl } = useTelegramShare()
+		const testProduct = {
+			title: 'Simple Product',
+			price: 50.0
+		}
+		const testUrl = 'https://example.com/product/789'
 
-    // Valid URLs
-    expect(validateShareUrl('https://example.com')).toBe(true)
-    expect(validateShareUrl('http://localhost:3000')).toBe(true)
-    expect(validateShareUrl('https://example.com/path?query=value')).toBe(true)
+		const result = await shareProduct(testProduct, testUrl)
 
-    // Invalid URLs
-    expect(validateShareUrl('not-a-url')).toBe(false)
-    expect(validateShareUrl('ftp://example.com')).toBe(false)
-    expect(validateShareUrl('')).toBe(false)
-    expect(validateShareUrl('javascript:alert(1)')).toBe(false)
-  })
+		expect(result).toBe(true)
 
-  it('should validate share text correctly', () => {
-    const { validateShareText } = useTelegramShare()
+		const calledUrl = mockWindowOpen.mock.calls[0][0]
+		const decodedUrl = decodeURIComponent(calledUrl)
 
-    // Valid text
-    expect(validateShareText('Valid share text')).toBe(true)
-    expect(validateShareText('a'.repeat(4096))).toBe(true) // Max length
+		// Should only contain title and price
+		expect(decodedUrl).toContain('Simple Product - 50,00 ₽')
+		expect(decodedUrl).not.toContain('\n\n') // No description separator
+	})
 
-    // Invalid text
-    expect(validateShareText('')).toBe(false)
-    expect(validateShareText('   ')).toBe(false) // Whitespace only
-    expect(validateShareText('a'.repeat(4097))).toBe(false) // Too long
-  })
+	it('should handle popup blocker scenarios', async () => {
+		const { shareProduct, error } = useTelegramShare()
 
-  it('should detect Telegram Web App environment', () => {
-    const { isTelegramWebApp } = useTelegramShare()
+		// Mock popup blocker (window.open returns null)
+		mockWindowOpen.mockReturnValue(null)
 
-    // Initially should be false
-    expect(isTelegramWebApp()).toBe(false)
+		const testProduct = {
+			title: 'Blocked Product',
+			price: 100.0
+		}
+		const testUrl = 'https://example.com/product/blocked'
 
-    // Mock Telegram Web App
-    ;(window as any).Telegram = {
-      WebApp: {
-        version: '6.0'
-      }
-    }
+		const result = await shareProduct(testProduct, testUrl)
 
-    expect(isTelegramWebApp()).toBe(true)
+		expect(result).toBe(false)
+		expect(error.value).toBe('Failed to open share window. Please check your popup blocker settings.')
+	})
 
-    // Clean up
-    delete (window as any).Telegram
-    expect(isTelegramWebApp()).toBe(false)
-  })
+	it('should validate share URLs correctly', () => {
+		const { validateShareUrl } = useTelegramShare()
 
-  it('should clear errors correctly', () => {
-    const { generateTelegramShareUrl, error, clearError } = useTelegramShare()
+		// Valid URLs
+		expect(validateShareUrl('https://example.com')).toBe(true)
+		expect(validateShareUrl('http://localhost:3000')).toBe(true)
+		expect(validateShareUrl('https://example.com/path?query=value')).toBe(true)
 
-    // Generate an error
-    generateTelegramShareUrl({
-      url: 'invalid-url',
-      text: 'Valid text'
-    })
+		// Invalid URLs
+		expect(validateShareUrl('not-a-url')).toBe(false)
+		expect(validateShareUrl('ftp://example.com')).toBe(false)
+		expect(validateShareUrl('')).toBe(false)
+		expect(validateShareUrl('javascript:alert(1)')).toBe(false)
+	})
 
-    expect(error.value).toBeTruthy()
+	it('should validate share text correctly', () => {
+		const { validateShareText } = useTelegramShare()
 
-    // Clear the error
-    clearError()
+		// Valid text
+		expect(validateShareText('Valid share text')).toBe(true)
+		expect(validateShareText('a'.repeat(4096))).toBe(true) // Max length
 
-    expect(error.value).toBeNull()
-  })
+		// Invalid text
+		expect(validateShareText('')).toBe(false)
+		expect(validateShareText('   ')).toBe(false) // Whitespace only
+		expect(validateShareText('a'.repeat(4097))).toBe(false) // Too long
+	})
 
-  it('should handle special characters in product data', async () => {
-    const { shareProduct } = useTelegramShare()
-    
-    const mockWindow = {}
-    mockWindowOpen.mockReturnValue(mockWindow)
+	it('should detect Telegram Web App environment', () => {
+		const { isTelegramWebApp } = useTelegramShare()
 
-    const testProduct = {
-      title: 'Product with "quotes" & symbols!',
-      price: 1234.56,
-      description: 'Description with émojis 🎉 and special chars: @#$%'
-    }
-    const testUrl = 'https://example.com/product/special'
+		// Initially should be false
+		expect(isTelegramWebApp()).toBe(false)
 
-    const result = await shareProduct(testProduct, testUrl)
+		// Mock Telegram Web App
+		;(window as any).Telegram = {
+			WebApp: {
+				version: '6.0'
+			}
+		}
 
-    expect(result).toBe(true)
-    
-    const calledUrl = mockWindowOpen.mock.calls[0][0]
-    
-    // URL should be properly encoded
-    expect(calledUrl).toContain('https://t.me/share/url')
-    expect(calledUrl).toContain(encodeURIComponent('Product with "quotes" & symbols!'))
-    expect(calledUrl).toContain(encodeURIComponent('Description with émojis 🎉 and special chars: @#$%'))
-  })
+		expect(isTelegramWebApp()).toBe(true)
+
+		// Clean up
+		delete (window as any).Telegram
+		expect(isTelegramWebApp()).toBe(false)
+	})
+
+	it('should clear errors correctly', () => {
+		const { generateTelegramShareUrl, error, clearError } = useTelegramShare()
+
+		// Generate an error
+		generateTelegramShareUrl({
+			url: 'invalid-url',
+			text: 'Valid text'
+		})
+
+		expect(error.value).toBeTruthy()
+
+		// Clear the error
+		clearError()
+
+		expect(error.value).toBeNull()
+	})
+
+	it('should handle special characters in product data', async () => {
+		const { shareProduct } = useTelegramShare()
+
+		const mockWindow = {}
+		mockWindowOpen.mockReturnValue(mockWindow)
+
+		const testProduct = {
+			title: 'Product with "quotes" & symbols!',
+			price: 1234.56,
+			description: 'Description with émojis 🎉 and special chars: @#$%'
+		}
+		const testUrl = 'https://example.com/product/special'
+
+		const result = await shareProduct(testProduct, testUrl)
+
+		expect(result).toBe(true)
+
+		const calledUrl = mockWindowOpen.mock.calls[0][0]
+
+		// URL should be properly encoded
+		expect(calledUrl).toContain('https://t.me/share/url')
+		expect(calledUrl).toContain(encodeURIComponent('Product with "quotes" & symbols!'))
+		expect(calledUrl).toContain(encodeURIComponent('Description with émojis 🎉 and special chars: @#$%'))
+	})
 })

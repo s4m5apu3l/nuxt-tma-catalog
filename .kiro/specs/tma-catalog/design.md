@@ -32,6 +32,7 @@ graph TB
 ### Responsibility Split
 
 **Frontend (Nuxt 4)**:
+
 - UI rendering and routing
 - Data fetching and state management
 - Authentication state management
@@ -39,6 +40,7 @@ graph TB
 - Internationalization
 
 **Backend (Appwrite)**:
+
 - Data persistence and validation
 - User authentication and authorization
 - File storage and management
@@ -75,27 +77,29 @@ app/
 ### Key Interfaces
 
 **Category Interface**:
+
 ```typescript
 interface Category {
-  $id: string
-  name: string
-  slug: string
-  $createdAt: string
-  $updatedAt: string
+	$id: string
+	name: string
+	slug: string
+	$createdAt: string
+	$updatedAt: string
 }
 ```
 
 **Product Interface**:
+
 ```typescript
 interface Product {
-  $id: string
-  categoryId: string
-  title: string
-  description: string
-  price: number
-  images: string[]
-  $createdAt: string
-  $updatedAt: string
+	$id: string
+	categoryId: string
+	title: string
+	description: string
+	price: number
+	images: string[]
+	$createdAt: string
+	$updatedAt: string
 }
 ```
 
@@ -104,10 +108,12 @@ interface Product {
 ### Appwrite Collections Schema
 
 **Categories Collection**:
+
 - `name`: string (required, max 100 chars)
 - `slug`: string (required, unique, max 100 chars)
 
 **Products Collection**:
+
 - `categoryId`: string (required, relationship to Categories)
 - `title`: string (required, max 200 chars)
 - `description`: text (optional, max 2000 chars)
@@ -115,6 +121,7 @@ interface Product {
 - `images`: array of strings (file IDs from storage)
 
 **Storage Bucket**:
+
 - `product-images`: For storing product image files
 - Allowed file types: jpg, jpeg, png, webp
 - Max file size: 5MB per image
@@ -122,11 +129,13 @@ interface Product {
 ### Access Control
 
 **Public Permissions**:
+
 - Categories: Read only
 - Products: Read only
 - Storage: Read only (for image display)
 
 **Admin Permissions**:
+
 - Categories: Full CRUD access
 - Products: Full CRUD access
 - Storage: Full access (upload, delete)
@@ -156,22 +165,26 @@ interface Product {
 ## Testing Strategy
 
 ### Unit Testing
+
 - Composables testing with mock Appwrite responses
 - Component testing with Vue Test Utils
 - Utility function testing
 
 ### Integration Testing
+
 - API integration tests with Appwrite test environment
 - Authentication flow testing
 - File upload functionality testing
 
 ### End-to-End Testing
+
 - Public user browsing flow
 - Admin management workflows
 - Cross-browser compatibility testing
 - Mobile responsiveness testing
 
 ### Test Data Management
+
 - Seed data for development environment
 - Mock data for unit tests
 - Test user accounts for different permission levels

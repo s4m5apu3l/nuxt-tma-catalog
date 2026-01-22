@@ -1,6 +1,12 @@
 <script setup>
 const { locale } = useI18n()
 
+// Initialize authentication (including anonymous sessions for public users)
+const { initAuth } = useAuth()
+onMounted(async () => {
+	await initAuth()
+})
+
 useHead({
 	meta: [{ name: 'viewport', content: 'width=device-width, initial-scale=1' }],
 	link: [{ rel: 'icon', href: '/favicon.ico' }],

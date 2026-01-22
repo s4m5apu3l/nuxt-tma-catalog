@@ -1,5 +1,6 @@
 import { databases, appwriteConfig } from '~/utils/appwrite'
 import { ID, Query } from 'appwrite'
+import { useNetworkRetry } from './useRetry'
 
 export interface Category {
 	$id: string
@@ -32,6 +33,9 @@ export const useCategories = () => {
 		isLoading: false,
 		error: null
 	})
+
+	// Network retry composable
+	const { withNetworkRetry } = useNetworkRetry()
 
 	// Clear error state
 	const clearError = () => {
@@ -92,10 +96,10 @@ export const useCategories = () => {
 			clearError()
 			setLoading(true)
 
-			const response = await databases.listDocuments(
-				appwriteConfig.databaseId,
-				appwriteConfig.categoriesCollectionId,
-				[Query.orderAsc('name')]
+			const response = await withNetworkRetry(() =>
+				databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.categoriesCollectionId, [
+					Query.orderAsc('name')
+				])
 			)
 
 			state.categories = response.documents as unknown as Category[]

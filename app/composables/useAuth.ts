@@ -1,4 +1,4 @@
-import { account } from '~/utils/appwrite'
+import { account, ensureAnonymousSession, validatePublicReadAccess } from '~/utils/appwrite'
 import type { Models } from 'appwrite'
 
 interface AuthState {
@@ -170,7 +170,32 @@ export const useAuth = () => {
 	// Initialize auth state (call this on app startup)
 	const initAuth = async () => {
 		if (!state.isInitialized) {
-			await getCurrentUser()
+			try {
+				setLoading(true)
+				clearError()
+
+				// Try to get current user first
+				const user = await getCurrentUser()
+
+				// If no authenticated user, ensure anonymous session for public access
+				if (!user) {
+					console.log('No authenticated user found, ensuring anonymous session for public access')
+					await ensureAnonymousSession()
+
+					// Validate public read access
+					const accessValidation = await validatePublicReadAccess()
+
+					if (!accessValidation.categories || !accessValidation.products) {
+						console.warn('Some collections may not have proper public read access configured')
+					}
+				}
+			} catch (error) {
+				console.error('Auth initialization error:', error)
+				setError('Failed to initialize authentication')
+			} finally {
+				setLoading(false)
+				state.isInitialized = true
+			}
 		}
 	}
 

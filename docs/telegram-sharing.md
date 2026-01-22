@@ -32,21 +32,16 @@ The sharing functionality is implemented as a Vue composable located at `app/com
 #### Usage Example
 
 ```typescript
-const {
-  shareProduct,
-  isSharing,
-  error,
-  clearError
-} = useTelegramShare()
+const { shareProduct, isSharing, error, clearError } = useTelegramShare()
 
 // Share a product
 const success = await shareProduct(
-  {
-    title: 'Product Name',
-    price: 1500.50,
-    description: 'Product description'
-  },
-  'https://example.com/product/123'
+	{
+		title: 'Product Name',
+		price: 1500.5,
+		description: 'Product description'
+	},
+	'https://example.com/product/123'
 )
 ```
 
@@ -62,6 +57,7 @@ The product detail page (`app/pages/product/[id].vue`) includes:
 ### Share URL Format
 
 Generated Telegram share URLs follow this format:
+
 ```
 https://t.me/share/url?url={encoded_product_url}&text={encoded_share_text}
 ```
@@ -69,10 +65,12 @@ https://t.me/share/url?url={encoded_product_url}&text={encoded_share_text}
 ### Share Text Format
 
 The share text includes:
+
 1. Product title and formatted price
 2. Product description (truncated if > 200 characters)
 
 Example:
+
 ```
 Product Name - 1 500,50 ₽
 
@@ -82,11 +80,13 @@ This is the product description that provides details about the item.
 ## Validation Rules
 
 ### URL Validation
+
 - Must be valid HTTP or HTTPS URL
 - Rejects other protocols (ftp, javascript, etc.)
 - Rejects empty or malformed URLs
 
 ### Text Validation
+
 - Must not be empty or whitespace-only
 - Maximum length: 4096 characters (Telegram limit)
 - Automatically truncates descriptions to fit within limits
@@ -103,21 +103,27 @@ The implementation includes comprehensive error handling:
 ## Testing
 
 ### Unit Tests
+
 Located at `tests/composables/useTelegramShare.test.ts`
+
 - Tests all validation functions
 - Tests URL generation
 - Tests error scenarios
 - Tests product sharing logic
 
 ### Integration Tests
+
 Located at `tests/integration/telegram-share.test.ts`
+
 - End-to-end sharing flow tests
 - Special character handling
 - Description truncation
 - Popup blocker scenarios
 
 ### Manual Testing
+
 Manual test page at `tests/manual/telegram-share-test.html`
+
 - Interactive testing interface
 - Real Telegram integration testing
 - Visual validation of generated URLs
@@ -125,6 +131,7 @@ Manual test page at `tests/manual/telegram-share-test.html`
 ## Browser Compatibility
 
 The sharing functionality works in all modern browsers that support:
+
 - `window.open()` method
 - `URL` constructor
 - `URLSearchParams` API
@@ -140,6 +147,7 @@ The sharing functionality works in all modern browsers that support:
 ## Internationalization
 
 The sharing functionality supports:
+
 - Russian and English UI text
 - Localized price formatting (Russian Ruble)
 - Proper encoding of international characters and emojis
@@ -147,6 +155,7 @@ The sharing functionality supports:
 ## Future Enhancements
 
 Potential improvements for future versions:
+
 - Telegram Bot API integration for enhanced sharing
 - Custom share templates
 - Analytics tracking for shared links

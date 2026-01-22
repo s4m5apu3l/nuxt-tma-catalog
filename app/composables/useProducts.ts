@@ -1,5 +1,6 @@
 import { databases, storage, appwriteConfig } from '~/utils/appwrite'
 import { ID, Query } from 'appwrite'
+import { useNetworkRetry } from './useRetry'
 
 interface Product {
 	$id: string
@@ -43,6 +44,9 @@ export const useProducts = () => {
 		error: null,
 		uploadProgress: 0
 	})
+
+	// Network retry composable
+	const { withNetworkRetry } = useNetworkRetry()
 
 	// Clear error state
 	const clearError = () => {
@@ -212,10 +216,10 @@ export const useProducts = () => {
 			clearError()
 			setLoading(true)
 
-			const response = await databases.listDocuments(
-				appwriteConfig.databaseId,
-				appwriteConfig.productsCollectionId,
-				[Query.orderDesc('$createdAt')]
+			const response = await withNetworkRetry(() =>
+				databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.productsCollectionId, [
+					Query.orderDesc('$createdAt')
+				])
 			)
 
 			state.products = response.documents as unknown as Product[]
@@ -233,10 +237,11 @@ export const useProducts = () => {
 			clearError()
 			setLoading(true)
 
-			const response = await databases.listDocuments(
-				appwriteConfig.databaseId,
-				appwriteConfig.productsCollectionId,
-				[Query.equal('categoryId', categoryId), Query.orderDesc('$createdAt')]
+			const response = await withNetworkRetry(() =>
+				databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.productsCollectionId, [
+					Query.equal('categoryId', categoryId),
+					Query.orderDesc('$createdAt')
+				])
 			)
 
 			state.products = response.documents as unknown as Product[]
@@ -254,10 +259,8 @@ export const useProducts = () => {
 			clearError()
 			setLoading(true)
 
-			const response = await databases.getDocument(
-				appwriteConfig.databaseId,
-				appwriteConfig.productsCollectionId,
-				id
+			const response = await withNetworkRetry(() =>
+				databases.getDocument(appwriteConfig.databaseId, appwriteConfig.productsCollectionId, id)
 			)
 
 			return response as unknown as Product

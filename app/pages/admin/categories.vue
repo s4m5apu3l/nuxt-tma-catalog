@@ -9,7 +9,7 @@
 					</h1>
 				</div>
 				<div class="flex items-center space-x-3">
-					<UButton @click="showCreateModal = true" icon="i-lucide-plus">
+					<UButton icon="i-lucide-plus" @click="showCreateModal = true">
 						{{ $t('admin.categories.add') }}
 					</UButton>
 				</div>
@@ -28,7 +28,7 @@
 				<div class="ml-3">
 					<p class="text-sm text-red-800">{{ error }}</p>
 					<div class="mt-2">
-						<UButton @click="fetchCategories" size="sm" variant="outline">
+						<UButton size="sm" variant="outline" @click="fetchCategories">
 							{{ $t('common.retry') }}
 						</UButton>
 					</div>
@@ -54,7 +54,7 @@
 							</div>
 						</div>
 						<div class="flex items-center space-x-2">
-							<UButton @click="editCategory(category)" size="sm" variant="outline" icon="i-lucide-edit">
+							<UButton size="sm" variant="outline" icon="i-lucide-edit" @click="editCategory(category)">
 								{{ $t('common.edit') }}
 							</UButton>
 							<UButton
@@ -78,7 +78,7 @@
 			<h3 class="mt-2 text-sm font-medium text-gray-900">{{ $t('admin.categories.empty.title') }}</h3>
 			<p class="mt-1 text-sm text-gray-500">{{ $t('admin.categories.empty.description') }}</p>
 			<div class="mt-6">
-				<UButton @click="showCreateModal = true" icon="i-lucide-plus">
+				<UButton icon="i-lucide-plus" @click="showCreateModal = true">
 					{{ $t('admin.categories.add') }}
 				</UButton>
 			</div>
@@ -100,8 +100,8 @@
 							id="name"
 							v-model="formState.name"
 							:placeholder="$t('admin.categories.name')"
-							@input="generateSlugFromName"
 							required
+							@input="generateSlugFromName"
 						/>
 					</div>
 
@@ -147,10 +147,10 @@
 
 				<template #footer>
 					<div class="flex justify-end space-x-3">
-						<UButton @click="showDeleteModal = false" variant="outline">
+						<UButton variant="outline" @click="showDeleteModal = false">
 							{{ $t('common.cancel') }}
 						</UButton>
-						<UButton @click="handleDelete" :loading="isLoading" color="error">
+						<UButton :loading="isLoading" color="error" @click="handleDelete">
 							{{ $t('common.delete') }}
 						</UButton>
 					</div>

@@ -20,10 +20,11 @@ pnpm dev
 
 ## Production
 
-Build the application for production:
+Build the application for production static:
+more info https://nuxt.com/docs/4.x/getting-started/deployment#client-side-only-rendering
 
 ```bash
-pnpm build
+pnpm generate
 ```
 
 Locally preview production build:

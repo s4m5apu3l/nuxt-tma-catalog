@@ -168,7 +168,9 @@
         - Remove guest middleware if no longer needed
         - _Requirements: 5.1, 5.2, 5.3_
 
-    - [-] 11.2 Implement admin privilege system
+    - [x] 11.2 Implement admin privilege system
+
+
 
         - Create admin user management in Appwrite
         - Implement admin privilege checking based on Telegram user ID

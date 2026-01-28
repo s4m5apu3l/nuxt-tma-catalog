@@ -1,5 +1,3 @@
-import { WebApp } from 'vue-tg'
-
 export interface TelegramUser {
 	id: number
 	first_name: string
@@ -27,7 +25,7 @@ export const useTelegramWebApp = () => {
 
 	const webApp = computed(() => {
 		if (!isAvailable.value) return null
-		return WebApp
+		return window.Telegram.WebApp
 	})
 
 	const user = computed((): TelegramUser | null => {
@@ -97,7 +95,10 @@ export const useTelegramWebApp = () => {
 		webApp.value?.showPopup(params, callback)
 	}
 
-	const hapticFeedback = (type: 'impact' | 'notification' | 'selection', style?: 'light' | 'medium' | 'heavy' | 'error' | 'success' | 'warning') => {
+	const hapticFeedback = (
+		type: 'impact' | 'notification' | 'selection',
+		style?: 'light' | 'medium' | 'heavy' | 'error' | 'success' | 'warning'
+	) => {
 		if (type === 'impact') {
 			webApp.value?.HapticFeedback?.impactOccurred(style as any)
 		} else if (type === 'notification') {
@@ -126,10 +127,10 @@ export const useTelegramWebApp = () => {
 	// Main Button
 	const showMainButton = (text: string, callback?: () => void) => {
 		if (!webApp.value?.MainButton) return
-		
+
 		webApp.value.MainButton.text = text
 		webApp.value.MainButton.show()
-		
+
 		if (callback) {
 			webApp.value.MainButton.onClick(callback)
 		}
@@ -156,9 +157,9 @@ export const useTelegramWebApp = () => {
 	// Back Button
 	const showBackButton = (callback?: () => void) => {
 		if (!webApp.value?.BackButton) return
-		
+
 		webApp.value.BackButton.show()
-		
+
 		if (callback) {
 			webApp.value.BackButton.onClick(callback)
 		}

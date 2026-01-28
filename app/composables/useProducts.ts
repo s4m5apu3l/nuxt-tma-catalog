@@ -1,4 +1,4 @@
-import { databases, storage, appwriteConfig } from '~/utils/appwrite'
+import { databases, storage, appwriteConfig, handleAppwriteError } from '~/utils/appwrite'
 import { ID, Query } from 'appwrite'
 import { useNetworkRetry } from './useRetry'
 
@@ -225,7 +225,7 @@ export const useProducts = () => {
 			state.products = response.documents as unknown as Product[]
 		} catch (error: unknown) {
 			console.error('Fetch products error:', error)
-			setError('Failed to load products. Please try again.')
+			setError(handleAppwriteError(error))
 		} finally {
 			setLoading(false)
 		}
@@ -247,7 +247,7 @@ export const useProducts = () => {
 			state.products = response.documents as unknown as Product[]
 		} catch (error: unknown) {
 			console.error('Fetch products by category error:', error)
-			setError('Failed to load products. Please try again.')
+			setError(handleAppwriteError(error))
 		} finally {
 			setLoading(false)
 		}
@@ -266,12 +266,7 @@ export const useProducts = () => {
 			return response as unknown as Product
 		} catch (error: unknown) {
 			console.error('Get product error:', error)
-			const err = error as { code?: number }
-			if (err.code === 404) {
-				setError('Product not found')
-			} else {
-				setError('Failed to load product. Please try again.')
-			}
+			setError(handleAppwriteError(error))
 			return null
 		} finally {
 			setLoading(false)
@@ -314,14 +309,7 @@ export const useProducts = () => {
 			return newProduct
 		} catch (error: unknown) {
 			console.error('Create product error:', error)
-
-			const err = error as { code?: number }
-			if (err.code === 400) {
-				setError('Invalid product data. Please check your input.')
-			} else {
-				setError('Failed to create product. Please try again.')
-			}
-
+			setError(handleAppwriteError(error))
 			return null
 		} finally {
 			setLoading(false)
@@ -403,16 +391,7 @@ export const useProducts = () => {
 			return updatedProduct
 		} catch (error: unknown) {
 			console.error('Update product error:', error)
-
-			const err = error as { code?: number }
-			if (err.code === 404) {
-				setError('Product not found')
-			} else if (err.code === 400) {
-				setError('Invalid product data. Please check your input.')
-			} else {
-				setError('Failed to update product. Please try again.')
-			}
-
+			setError(handleAppwriteError(error))
 			return null
 		} finally {
 			setLoading(false)
@@ -450,14 +429,7 @@ export const useProducts = () => {
 			return true
 		} catch (error: unknown) {
 			console.error('Delete product error:', error)
-
-			const err = error as { code?: number }
-			if (err.code === 404) {
-				setError('Product not found')
-			} else {
-				setError('Failed to delete product. Please try again.')
-			}
-
+			setError(handleAppwriteError(error))
 			return false
 		} finally {
 			setLoading(false)

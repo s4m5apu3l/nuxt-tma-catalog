@@ -2,7 +2,6 @@
 const { locale } = useI18n()
 const { user, logout } = useAuth()
 
-// Redirect if not authenticated or not admin
 const router = useRouter()
 onMounted(() => {
 	if (!user.value || !user.value.isAdmin) {
@@ -36,7 +35,7 @@ const adminNavigation = [
 
 const handleLogout = async () => {
 	await logout()
-	router.push('/')
+	return navigateTo('/')
 }
 </script>
 
@@ -53,20 +52,13 @@ const handleLogout = async () => {
 			<template #right>
 				<LanguageSwitcher />
 				<UColorModeButton />
-				<UButton
-					@click="handleLogout"
-					icon="i-lucide-log-out"
-					color="red"
-					variant="ghost"
-					size="sm"
-				>
+				<UButton icon="i-lucide-log-out" color="red" variant="ghost" size="sm" @click="handleLogout">
 					Logout
 				</UButton>
 			</template>
 		</UHeader>
 
 		<div class="flex">
-			<!-- Sidebar Navigation -->
 			<aside class="w-64 min-h-screen bg-muted/30 border-r">
 				<nav class="p-4">
 					<ul class="space-y-2">
@@ -83,8 +75,6 @@ const handleLogout = async () => {
 					</ul>
 				</nav>
 			</aside>
-
-			<!-- Main Content -->
 			<main class="flex-1">
 				<UContainer class="py-8">
 					<slot />

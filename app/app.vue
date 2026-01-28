@@ -1,10 +1,4 @@
 <script setup>
-// Initialize authentication (including anonymous sessions for public users)
-const { initAuth } = useAuth()
-onMounted(async () => {
-	await initAuth()
-})
-
 const title = 'TMA Catalog'
 const description = 'A minimal, production-ready catalog system for browsing products and categories.'
 
@@ -16,10 +10,10 @@ useSeoMeta({
 	twitterCard: 'summary_large_image'
 })
 
-useHead({
-	meta: [{ name: 'viewport', content: 'width=device-width, initial-scale=1' }],
-	link: [{ rel: 'icon', href: '/favicon.ico' }]
-})
+// useHead({
+// 	meta: [{ name: 'viewport', content: 'width=device-width, initial-scale=1' }],
+// 	link: [{ rel: 'icon', href: '/favicon.ico' }]
+// })
 </script>
 
 <template>

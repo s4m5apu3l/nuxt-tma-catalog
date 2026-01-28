@@ -5,15 +5,14 @@
 	"scripts": {
 		"build": "nuxt build",
 		"dev": "nuxt dev",
+		"generate": "nuxt generate",
 		"preview": "nuxt preview",
 		"postinstall": "nuxt prepare",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"format": "prettier --check .",
 		"format:fix": "prettier --write .",
-		"typecheck": "nuxt typecheck",
-		"test": "vitest",
-		"test:run": "vitest --run"
+		"typecheck": "nuxt typecheck"
 	},
 	"dependencies": {
 		"@iconify-json/lucide": "^1.2.82",

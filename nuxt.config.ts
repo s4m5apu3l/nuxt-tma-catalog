@@ -2,11 +2,32 @@
 export default defineNuxtConfig({
 	modules: ['@nuxt/eslint', '@nuxt/ui', '@nuxtjs/i18n'],
 	ssr: false,
+
+	app: {
+		head: {
+			// title: 'TMA catalog',
+			charset: 'utf-8',
+			viewport: 'width=device-width, initial-scale=1',
+			script: [
+				{
+					src: 'https://telegram.org/js/telegram-web-app.js'
+				}
+			]
+		},
+		// for static deploy gh-pages need to baseURL: '/<repository-name>/'
+		baseURL: '/nuxt-tma-catalog/',
+		buildAssetsDir: 'assets'
+	},
+
 	css: ['~/assets/css/main.css'],
+
+	// spa loader
+	spaLoadingTemplate: 'spa-loader.html',
 
 	runtimeConfig: {
 		// Private keys (only available on server-side)
 		appwriteApiKey: process.env.APPWRITE_API_KEY,
+		tmaToken: process.env.TELEGRAM_BOT_TOKEN,
 
 		// Public keys (exposed to client-side)
 		public: {
@@ -21,6 +42,11 @@ export default defineNuxtConfig({
 	},
 
 	compatibilityDate: '2026-01-19',
+	hooks: {
+		'prerender:routes'({ routes }) {
+			routes.clear()
+		}
+	},
 
 	eslint: {
 		config: {

@@ -28,6 +28,7 @@ export default defineNuxtConfig({
 		// Private keys (only available on server-side)
 		// appwriteApiKey: process.env.APPWRITE_API_KEY,
 		tmaToken: process.env.TELEGRAM_BOT_TOKEN,
+		appwriteBdKey: process.env.NUXT_APPWRITE_BD_KEY,
 
 		// Public keys (exposed to client-side)
 		public: {

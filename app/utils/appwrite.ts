@@ -1,11 +1,38 @@
 import { Client, TablesDB, Account } from 'appwrite'
 
-const url: string = import.meta.env.NUXT_PUBLIC_APPWRITE_ENDPOINT
-const project: string = import.meta.env.NUXT_PUBLIC_APPWRITE_PROJECT_ID
+interface AppwriteServices {
+	account: Account
+	tablesDB: TablesDB
+}
 
-const client: Client = new Client()
+interface AppwriteConfig {
+	endpoint: string
+	projectId: string
+}
 
-client.setEndpoint(url).setProject(project)
+const createAppwriteClient = (config: AppwriteConfig): Client => {
+	const client = new Client()
+	return client.setEndpoint(config.endpoint).setProject(config.projectId)
+}
 
-export const account: Account = new Account(client)
-export const tablesDB: TablesDB = new TablesDB(client)
+let clientInstance: Client | null = null
+
+export const useAppwrite = (): AppwriteServices => {
+	if (!clientInstance) {
+		const config = useRuntimeConfig()
+
+		if (!config.public.appwriteEndpoint || !config.public.appwriteProjectId) {
+			throw new Error('Appwrite configuration is missing. Please check your environment variables.')
+		}
+
+		clientInstance = createAppwriteClient({
+			endpoint: config.public.appwriteEndpoint,
+			projectId: config.public.appwriteProjectId
+		})
+	}
+
+	return {
+		account: new Account(clientInstance),
+		tablesDB: new TablesDB(clientInstance)
+	}
+}

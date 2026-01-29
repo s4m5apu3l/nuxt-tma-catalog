@@ -1,7 +1,16 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const categories = useCategories()
+
+// const
+onMounted(() => {
+	categories.fetch()
+})
+</script>
 
 <template>
-	<div>page inde</div>
+	<div>
+		<pre>{{ categories }}</pre>
+	</div>
 </template>
 
 <style scoped></style>

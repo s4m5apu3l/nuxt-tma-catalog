@@ -1,8 +1,9 @@
-import { Client, TablesDB, Account } from 'appwrite'
+import { Client, Databases, Account, Storage } from 'appwrite'
 
 interface AppwriteServices {
 	account: Account
-	tablesDB: TablesDB
+	databases: Databases
+	storage: Storage
 }
 
 interface AppwriteConfig {
@@ -33,6 +34,7 @@ export const useAppwrite = (): AppwriteServices => {
 
 	return {
 		account: new Account(clientInstance),
-		tablesDB: new TablesDB(clientInstance)
+		databases: new Databases(clientInstance),
+		storage: new Storage(clientInstance)
 	}
 }

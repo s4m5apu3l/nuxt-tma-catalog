@@ -1,21 +1,23 @@
 <script setup lang="ts">
-const categories = useCategories()
+const { categories, fetchCategories } = useCategories()
 
-// const
 onMounted(() => {
-	categories.fetch()
-})
-const imgSrc = computed(() => {
-	const firstCategory = categories.current.value?.[0]
-	if (!firstCategory?.imgId) return null
-	return `https://sgp.cloud.appwrite.io/v1/storage/buckets/698025b600277146b491/files/${firstCategory.imgId}/view?project=696740db00155c53ebd1`
+	fetchCategories()
 })
 </script>
 
 <template>
 	<div>
-		<pre>{{ categories }}</pre>
-		<img v-if="imgSrc" :src="imgSrc" />
+		<h1>TMA Catalog</h1>
+		<div v-if="categories">
+			<div v-for="category in categories" :key="category.$id" class="mb-4">
+				<h2>{{ category.name.en }}</h2>
+				<p>{{ category.description.en }}</p>
+			</div>
+		</div>
+		<div v-else>
+			Loading categories...
+		</div>
 	</div>
 </template>
 

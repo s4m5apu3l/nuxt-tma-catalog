@@ -36,7 +36,8 @@ export default defineNuxtConfig({
 			appwriteProjectName: process.env.APPWRITE_PUBLIC_PROJECT_NAME,
 
 			appwriteBdKey: process.env.APPWRITE_PUBLIC_BD_KEY,
-			appwriteCollectionCategories: process.env.APPWRITE_PUBLIC_COLLECTION_CATEGORIES_ID
+			appwriteCollectionCategories: process.env.APPWRITE_PUBLIC_COLLECTION_CATEGORIES_ID,
+			appwriteCollectionProducts: process.env.APPWRITE_PUBLIC_COLLECTION_PRODUCTS_ID
 		}
 	},
 

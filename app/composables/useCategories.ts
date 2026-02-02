@@ -1,62 +1,130 @@
-import type { Models } from 'appwrite'
-import { Query } from 'appwrite'
+import type { Category, CreateCategoryData, UpdateCategoryData } from '~/types'
+import { Query, ID } from 'appwrite'
 
 const config = useRuntimeConfig()
 
-const categoriesDatabaseId: string = config.public.appwriteBdKey
-const categoriesTableId: string = config.public.appwriteCollectionCategories
-const queryLimit: number = 10
+const databaseId: string = config.public.appwriteBdKey
+const collectionId: string = config.public.appwriteCollectionCategories
 
-interface I_Categories extends Models.Row {
-	name: string
-	slug: string
-	imgId?: string
-}
-
-const current = ref<I_Categories[] | null>(null)
+const categories = ref<Category[] | null>(null)
+const loading = ref(false)
+const error = ref<string | null>(null)
 
 export const useCategories = () => {
-	const fetch = async (): Promise<void> => {
-		try {
-			const res = await useAppwrite().tablesDB.listRows({
-				databaseId: categoriesDatabaseId,
-				tableId: categoriesTableId,
-				queries: [Query.orderDesc('$createdAt'), Query.limit(queryLimit)]
-			})
-			// const promise = await useAppwrite().account.createAnonymousSession()
-			console.dir(res)
+	const { databases } = useAppwrite()
 
-			current.value = res.rows as unknown as I_Categories[]
-		} catch (er) {
-			console.error(er)
+	const fetchCategories = async (): Promise<void> => {
+		loading.value = true
+		error.value = null
+
+		try {
+			const response = await databases.listDocuments(databaseId, collectionId, [
+				Query.equal('isActive', true),
+				Query.orderAsc('sortOrder'),
+				Query.orderDesc('$createdAt')
+			])
+
+			categories.value = response.documents as unknown as Category[]
+		} catch (err) {
+			console.error('Error fetching categories:', err)
+			error.value = 'Failed to fetch categories'
+		} finally {
+			loading.value = false
 		}
 	}
 
-	// Add new idea to the database,
-	// Change the value of the current object
-	// const add = async (idea: Idea): Promise<void> => {
-	// 	const response = await tablesDB.createRow({
-	// 		databaseId: ideasDatabaseId,
-	// 		tableId: ideasTableId,
-	// 		rowId: ID.unique(),
-	// 		data: idea
-	// 	})
-	// 	current.value = [response, ...(current.value as Idea[])].slice(0, 10) as Idea[]
-	// }
+	const createCategory = async (data: CreateCategoryData): Promise<Category | null> => {
+		loading.value = true
+		error.value = null
 
-	// const remove = async (id: string): Promise<void> => {
-	// 	await tablesDB.deleteRow({
-	// 		databaseId: ideasDatabaseId,
-	// 		tableId: ideasTableId,
-	// 		rowId: id
-	// 	})
-	// 	await fetch() // Refetch ideas to ensure we have 10 items
-	// }
+		try {
+			const response = await databases.createDocument(databaseId, collectionId, ID.unique(), {
+				...data,
+				sortOrder: data.sortOrder ?? 0,
+				isActive: data.isActive ?? true
+			})
+
+			const newCategory = response as unknown as Category
+			if (categories.value) {
+				categories.value.push(newCategory)
+				// Re-sort categories
+				categories.value.sort((a, b) => a.sortOrder - b.sortOrder)
+			}
+
+			return newCategory
+		} catch (err) {
+			console.error('Error creating category:', err)
+			error.value = 'Failed to create category'
+			return null
+		} finally {
+			loading.value = false
+		}
+	}
+
+	const updateCategory = async (data: UpdateCategoryData): Promise<Category | null> => {
+		loading.value = true
+		error.value = null
+
+		try {
+			const { $id, ...updateData } = data
+			const response = await databases.updateDocument(databaseId, collectionId, $id, updateData)
+
+			const updatedCategory = response as unknown as Category
+			if (categories.value) {
+				const index = categories.value.findIndex((cat) => cat.$id === $id)
+				if (index !== -1) {
+					categories.value[index] = updatedCategory
+				}
+			}
+
+			return updatedCategory
+		} catch (err) {
+			console.error('Error updating category:', err)
+			error.value = 'Failed to update category'
+			return null
+		} finally {
+			loading.value = false
+		}
+	}
+
+	const deleteCategory = async (categoryId: string): Promise<boolean> => {
+		loading.value = true
+		error.value = null
+
+		try {
+			await databases.deleteDocument(databaseId, collectionId, categoryId)
+
+			if (categories.value) {
+				categories.value = categories.value.filter((cat) => cat.$id !== categoryId)
+			}
+
+			return true
+		} catch (err) {
+			console.error('Error deleting category:', err)
+			error.value = 'Failed to delete category'
+			return false
+		} finally {
+			loading.value = false
+		}
+	}
+
+	const getCategoryBySlug = (slug: string): Category | undefined => {
+		return categories.value?.find((cat) => cat.slug === slug)
+	}
+
+	const getCategoryById = (id: string): Category | undefined => {
+		return categories.value?.find((cat) => cat.$id === id)
+	}
 
 	return {
-		// add,
-		current,
-		fetch
-		// remove
+		categories,
+		loading,
+		error,
+		fetchCategories,
+		createCategory,
+		updateCategory,
+		deleteCategory,
+		getCategoryBySlug,
+		getCategoryById
 	}
 }

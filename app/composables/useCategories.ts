@@ -1,17 +1,16 @@
 import type { Models } from 'appwrite'
-import { ID, Query } from 'appwrite'
-import { ref } from 'vue'
+import { Query } from 'appwrite'
 
 const config = useRuntimeConfig()
-// const categoriesDatabaseId: string = config.appwriteBdKey
-// const categoriesDatabaseId: string = import.meta.env.NUXT_APPWRITE_BD_KEY
-const categoriesDatabaseId: string = '696deae40009bb04e0fc'
-const categoriesTableId: string = 'categories'
+
+const categoriesDatabaseId: string = config.public.appwriteBdKey
+const categoriesTableId: string = config.public.appwriteCollectionCategories
 const queryLimit: number = 10
 
 interface I_Categories extends Models.Row {
 	name: string
 	slug: string
+	imgId?: string
 }
 
 const current = ref<I_Categories[] | null>(null)

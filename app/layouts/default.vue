@@ -10,18 +10,7 @@ useHead({
 
 <template>
 	<div class="min-h-screen bg-background">
-		<UHeader>
-			<template #left>
-				<NuxtLink to="/" class="flex items-center">
-					<AppLogo class="w-auto h-6 shrink-0" />
-				</NuxtLink>
-			</template>
-
-			<template #right>
-				<LanguageSwitcher />
-				<UColorModeButton />
-			</template>
-		</UHeader>
+		<MainHeader />
 
 		<UMain>
 			<UContainer class="py-8">
@@ -29,7 +18,7 @@ useHead({
 			</UContainer>
 		</UMain>
 
-		<USeparator icon="i-simple-icons-nuxtdotjs" />
+		<USeparator />
 
 		<UFooter>
 			<template #left>

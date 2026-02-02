@@ -30,11 +30,13 @@ export default defineNuxtConfig({
 		tmaToken: process.env.TELEGRAM_BOT_TOKEN,
 		appwriteBdKey: process.env.NUXT_APPWRITE_BD_KEY,
 
-		// Public keys (exposed to client-side)
 		public: {
-			appwriteEndpoint: process.env.NUXT_PUBLIC_APPWRITE_ENDPOINT,
-			appwriteProjectId: process.env.NUXT_PUBLIC_APPWRITE_PROJECT_ID,
-			appwriteProjectName: process.env.NUXT_PUBLIC_APPWRITE_PROJECT_NAME
+			appwriteEndpoint: process.env.APPWRITE_PUBLIC_ENDPOINT,
+			appwriteProjectId: process.env.APPWRITE_PUBLIC_PROJECT_ID,
+			appwriteProjectName: process.env.APPWRITE_PUBLIC_PROJECT_NAME,
+
+			appwriteBdKey: process.env.APPWRITE_PUBLIC_BD_KEY,
+			appwriteCollectionCategories: process.env.APPWRITE_PUBLIC_COLLECTION_CATEGORIES_ID
 		}
 	},
 

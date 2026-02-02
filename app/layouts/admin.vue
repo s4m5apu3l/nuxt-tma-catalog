@@ -50,7 +50,6 @@ const handleLogout = async () => {
 			</template>
 
 			<template #right>
-				<LanguageSwitcher />
 				<UColorModeButton />
 				<UButton icon="i-lucide-log-out" color="red" variant="ghost" size="sm" @click="handleLogout">
 					Logout

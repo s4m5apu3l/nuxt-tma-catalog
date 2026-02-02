@@ -2,7 +2,8 @@
 @import '@nuxt/ui';
 
 @theme static {
-	--font-sans: 'Comfortaa', sans-serif;
+	--font-sans: 'Comfortaa', system-ui, sans-serif;
+	--font-mono: 'JetBrains Mono', monospace;
 
 	--color-green-50: #effdf5;
 	--color-green-100: #d9fbe8;

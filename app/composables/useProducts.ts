@@ -1,17 +1,17 @@
 import type { Product, CreateProductData, UpdateProductData } from '~/types'
 import { Query, ID } from 'appwrite'
 
-const config = useRuntimeConfig()
-
-const databaseId: string = config.public.appwriteBdKey
-const collectionId: string = config.public.appwriteCollectionProducts
-
 const products = ref<Product[] | null>(null)
 const loading = ref(false)
 const error = ref<string | null>(null)
 
 export const useProducts = () => {
 	const { databases } = useAppwrite()
+	const { handleError, handleSuccess } = useErrorHandler()
+	const config = useRuntimeConfig()
+
+	const databaseId: string = config.public.appwriteBdKey
+	const collectionId: string = config.public.appwriteCollectionProducts
 
 	const fetchProducts = async (categoryId?: string): Promise<void> => {
 		loading.value = true
@@ -27,9 +27,10 @@ export const useProducts = () => {
 			const response = await databases.listDocuments(databaseId, collectionId, queries)
 
 			products.value = response.documents as unknown as Product[]
-		} catch (err) {
+		} catch (err: any) {
 			console.error('Error fetching products:', err)
 			error.value = 'Failed to fetch products'
+			handleError(err, 'Ошибка загрузки товаров')
 		} finally {
 			loading.value = false
 		}
@@ -57,10 +58,12 @@ export const useProducts = () => {
 				products.value.sort((a, b) => a.sortOrder - b.sortOrder)
 			}
 
+			handleSuccess('Товар успешно создан')
 			return newProduct
-		} catch (err) {
+		} catch (err: any) {
 			console.error('Error creating product:', err)
 			error.value = 'Failed to create product'
+			handleError(err, 'Ошибка создания товара')
 			return null
 		} finally {
 			loading.value = false
@@ -83,10 +86,12 @@ export const useProducts = () => {
 				}
 			}
 
+			handleSuccess('Товар успешно обновлен')
 			return updatedProduct
-		} catch (err) {
+		} catch (err: any) {
 			console.error('Error updating product:', err)
 			error.value = 'Failed to update product'
+			handleError(err, 'Ошибка обновления товара')
 			return null
 		} finally {
 			loading.value = false
@@ -104,10 +109,12 @@ export const useProducts = () => {
 				products.value = products.value.filter((prod) => prod.$id !== productId)
 			}
 
+			handleSuccess('Товар успешно удален')
 			return true
-		} catch (err) {
+		} catch (err: any) {
 			console.error('Error deleting product:', err)
 			error.value = 'Failed to delete product'
+			handleError(err, 'Ошибка удаления товара')
 			return false
 		} finally {
 			loading.value = false
@@ -130,17 +137,58 @@ export const useProducts = () => {
 		return products.value?.filter((prod) => prod.isAvailable && prod.isActive) ?? []
 	}
 
+	const fetchAllProducts = async (categoryId?: string): Promise<void> => {
+		loading.value = true
+		error.value = null
+
+		try {
+			const queries = [Query.orderAsc('sortOrder'), Query.orderDesc('$createdAt')]
+
+			if (categoryId) {
+				queries.unshift(Query.equal('categoryId', categoryId))
+			}
+
+			const response = await databases.listDocuments(databaseId, collectionId, queries)
+
+			products.value = response.documents as unknown as Product[]
+		} catch (err: any) {
+			console.error('Error fetching all products:', err)
+			error.value = 'Failed to fetch all products'
+			handleError(err, 'Ошибка загрузки всех товаров')
+		} finally {
+			loading.value = false
+		}
+	}
+
+	const getActiveProducts = (): Product[] => {
+		return products.value?.filter((prod) => prod.isActive) ?? []
+	}
+
+	const searchProducts = (query: string, locale: 'en' | 'ru' = 'en'): Product[] => {
+		if (!products.value || !query.trim()) return []
+
+		const searchTerm = query.toLowerCase().trim()
+		return products.value.filter(
+			(prod) =>
+				prod.name[locale].toLowerCase().includes(searchTerm) ||
+				prod.description[locale].toLowerCase().includes(searchTerm)
+		)
+	}
+
 	return {
-		products,
-		loading,
-		error,
+		products: readonly(products),
+		loading: readonly(loading),
+		error: readonly(error),
 		fetchProducts,
+		fetchAllProducts,
 		createProduct,
 		updateProduct,
 		deleteProduct,
 		getProductBySlug,
 		getProductById,
 		getProductsByCategory,
-		getAvailableProducts
+		getAvailableProducts,
+		getActiveProducts,
+		searchProducts
 	}
 }

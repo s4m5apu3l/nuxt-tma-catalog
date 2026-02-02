@@ -7,7 +7,7 @@ export default withNuxt([
 	{
 		rules: {
 			'prettier/prettier': ['error', { printWidth: 120 }],
-			'vue/max-len': ['error', { code: 120 }],
+			// 'vue/max-len': ['error', { code: 120 }],
 			'vue/no-v-html': 'off',
 			'@typescript-eslint/no-explicit-any': 'off'
 		}

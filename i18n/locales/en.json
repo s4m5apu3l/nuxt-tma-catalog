@@ -4,6 +4,7 @@
 		"title": "Categories",
 		"description": "Browse our product categories to find what you're looking for.",
 		"loading": "Loading categories...",
+		"productsCount": "{count} products",
 		"empty": {
 			"title": "No categories available",
 			"description": "There are currently no categories to display. Please check back later."
@@ -24,6 +25,11 @@
 		"description": "Description",
 		"addedOn": "Added on",
 		"category": "Category",
+		"unavailable": "Unavailable",
+		"contact": "Contact",
+		"contacting": "Contacting...",
+		"features": "Features",
+		"price": "Price",
 		"loading": "Loading product...",
 		"shareOnTelegram": "Share on Telegram",
 		"sharing": "Sharing...",

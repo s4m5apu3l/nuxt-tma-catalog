@@ -73,7 +73,6 @@ useSeoMeta({
 
 <template>
 	<div class="container mx-auto px-4 py-6">
-		<!-- Loading State -->
 		<div v-if="loading" class="space-y-6">
 			<USkeleton class="h-4 w-64" />
 			<USkeleton class="h-80 w-full" />
@@ -88,7 +87,6 @@ useSeoMeta({
 			</div>
 		</div>
 
-		<!-- Not Found -->
 		<div v-else-if="notFound" class="text-center py-12">
 			<UIcon name="i-lucide-package-x" class="w-16 h-16 text-gray-400 mx-auto mb-4" />
 			<h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
@@ -102,21 +100,15 @@ useSeoMeta({
 			</UButton>
 		</div>
 
-		<!-- Product Details -->
 		<div v-else-if="product" class="space-y-6">
-			<!-- Breadcrumbs -->
 			<UBreadcrumb :links="breadcrumbs" />
 
-			<!-- Product Content -->
 			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-				<!-- Product Gallery -->
 				<div class="space-y-4">
 					<ProductGallery :images="product.images" :product-name="productName" />
 				</div>
 
-				<!-- Product Info -->
 				<div class="space-y-6">
-					<!-- Title and Price -->
 					<div class="space-y-2">
 						<h1 class="text-3xl font-bold text-gray-900 dark:text-white">
 							{{ productName }}
@@ -137,7 +129,6 @@ useSeoMeta({
 						</div>
 					</div>
 
-					<!-- Category -->
 					<div v-if="category" class="flex items-center gap-2">
 						<span class="text-sm text-gray-500">{{ t('product.category') }}:</span>
 						<UButton :to="`/category/${category.slug}`" variant="ghost" size="sm" class="p-0 h-auto">
@@ -145,7 +136,6 @@ useSeoMeta({
 						</UButton>
 					</div>
 
-					<!-- Description -->
 					<div v-if="productDescription" class="space-y-2">
 						<h3 class="text-lg font-semibold text-gray-900 dark:text-white">
 							{{ t('product.description') }}
@@ -155,7 +145,6 @@ useSeoMeta({
 						</p>
 					</div>
 
-					<!-- Features -->
 					<div v-if="productFeatures.length > 0" class="space-y-2">
 						<h3 class="text-lg font-semibold text-gray-900 dark:text-white">
 							{{ t('product.features') }}
@@ -172,7 +161,6 @@ useSeoMeta({
 						</ul>
 					</div>
 
-					<!-- Contact Button -->
 					<div class="pt-4">
 						<ContactButton :product="product" />
 					</div>

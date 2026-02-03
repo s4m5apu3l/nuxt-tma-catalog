@@ -60,14 +60,42 @@
 	},
 	"admin": {
 		"title": "Admin",
-		"dashboard": "Dashboard",
+		"dashboard": {
+			"title": "Dashboard",
+			"welcome": "Welcome, {name}!",
+			"categories": "Categories",
+			"products": "Products",
+			"active": "Active",
+			"inactive": "Inactive",
+			"quickActions": "Quick Actions",
+			"addCategory": "Add Category",
+			"addProduct": "Add Product",
+			"recentProducts": "Recent Products",
+			"noRecentProducts": "No recent products"
+		},
+		"nav": {
+			"dashboard": "Dashboard",
+			"categories": "Categories",
+			"products": "Products"
+		},
+		"layout": {
+			"adminPanel": "Admin Panel",
+			"logout": "Logout"
+		},
 		"login": {
 			"title": "Admin Login",
+			"subtitle": "Sign in to access the admin panel",
 			"email": "Email",
 			"password": "Password",
-			"submit": "Login",
-			"error": "Invalid credentials. Please try again.",
-			"loading": "Logging in..."
+			"emailPlaceholder": "Enter your email",
+			"passwordPlaceholder": "Enter your password",
+			"submit": "Sign In",
+			"errors": {
+				"emailRequired": "Email is required",
+				"emailInvalid": "Please enter a valid email",
+				"passwordRequired": "Password is required",
+				"passwordTooShort": "Password must be at least 6 characters"
+			}
 		},
 		"navigation": {
 			"dashboard": "Dashboard",
@@ -145,7 +173,9 @@
 		"home": "Home",
 		"catalog": "Catalog",
 		"catalog_description": "Browse our product catalog",
-		"back_to_home": "Back to Home"
+		"back_to_home": "Back to Home",
+		"refresh": "Refresh",
+		"view_all": "View All"
 	},
 	"error": {
 		"boundary": {

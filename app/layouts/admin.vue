@@ -1,13 +1,6 @@
-<script setup>
-const { locale } = useI18n()
-const { user, logout } = useAuth()
-
-const router = useRouter()
-onMounted(() => {
-	if (!user.value || !user.value.isAdmin) {
-		router.push('/')
-	}
-})
+<script setup lang="ts">
+const { locale, t } = useI18n()
+const { logout, user } = useAuth()
 
 useHead({
 	htmlAttrs: {
@@ -15,69 +8,54 @@ useHead({
 	}
 })
 
-const adminNavigation = [
-	{
-		label: 'Dashboard',
-		to: '/admin',
-		icon: 'i-lucide-layout-dashboard'
-	},
-	{
-		label: 'Categories',
-		to: '/admin/categories',
-		icon: 'i-lucide-folder'
-	},
-	{
-		label: 'Products',
-		to: '/admin/products',
-		icon: 'i-lucide-package'
-	}
-]
-
-const handleLogout = async () => {
+const handleLogout = async (): Promise<void> => {
 	await logout()
-	return navigateTo('/')
 }
 </script>
 
 <template>
 	<div class="min-h-screen bg-background">
-		<UHeader>
+		<UHeader class="border-b border-border">
 			<template #left>
-				<NuxtLink to="/" class="flex items-center">
-					<AppLogo class="w-auto h-6 shrink-0" />
-				</NuxtLink>
-				<span class="ml-4 text-sm text-muted">Admin Panel</span>
+				<div class="flex items-center space-x-4">
+					<NuxtLink to="/" class="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+						<UIcon name="i-lucide-arrow-left" class="w-4 h-4" />
+						<span class="text-sm font-medium">{{ t('common.back_to_home') }}</span>
+					</NuxtLink>
+					<div class="flex items-center space-x-2">
+						<UIcon name="i-lucide-shield-check" class="w-5 h-5 text-primary" />
+						<span class="font-semibold">{{ t('admin.layout.adminPanel') }}</span>
+					</div>
+				</div>
 			</template>
 
 			<template #right>
-				<UColorModeButton />
-				<UButton icon="i-lucide-log-out" color="red" variant="ghost" size="sm" @click="handleLogout">
-					Logout
-				</UButton>
+				<div class="flex items-center space-x-3">
+					<div class="hidden sm:flex items-center space-x-2 text-sm text-muted-foreground">
+						<UIcon name="i-lucide-user" class="w-4 h-4" />
+						<span>{{ user?.name || user?.email || 'Admin' }}</span>
+					</div>
+					<UColorModeButton />
+					<UButton
+						icon="i-lucide-log-out"
+						color="error"
+						variant="ghost"
+						size="sm"
+						:title="t('admin.layout.logout')"
+						@click="handleLogout"
+					>
+						<span class="hidden sm:inline">{{ t('admin.layout.logout') }}</span>
+					</UButton>
+				</div>
 			</template>
 		</UHeader>
 
 		<div class="flex">
-			<aside class="w-64 min-h-screen bg-muted/30 border-r">
-				<nav class="p-4">
-					<ul class="space-y-2">
-						<li v-for="item in adminNavigation" :key="item.to">
-							<NuxtLink
-								:to="item.to"
-								class="flex items-center px-3 py-2 text-sm rounded-md hover:bg-muted transition-colors"
-								active-class="bg-primary text-primary-foreground"
-							>
-								<UIcon :name="item.icon" class="w-4 h-4 mr-3" />
-								{{ item.label }}
-							</NuxtLink>
-						</li>
-					</ul>
-				</nav>
-			</aside>
-			<main class="flex-1">
-				<UContainer class="py-8">
+			<AdminSidebar />
+			<main class="flex-1 min-h-[calc(100vh-4rem)]">
+				<div class="p-6">
 					<slot />
-				</UContainer>
+				</div>
 			</main>
 		</div>
 	</div>

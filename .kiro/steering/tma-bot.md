@@ -7,7 +7,7 @@
 ## 🎯 Core Principles
 
 1. **Minimal Comments** - Code должен быть самодокументируемым. Комментарии только для сложной логики и объяснения "ПОЧЕМУ", а не "ЧТО".
-2. **Always Format** - Всегда запускать `pnpm format:fix` и `pnpm lint:fix` перед коммитом.
+2. **Always Format** - Всегда запускать `npm run format:fix` и `npm run lint:fix` перед коммитом.
 3. **TypeScript Strict** - Явные типы для всех функций и переменных. .
 4. **Composition API Only** - Всегда использовать `<script setup lang="ts">` в Vue компонентах.
 
@@ -35,9 +35,9 @@ const isValid = validateTimestamp(initData, 86400)
 **Перед каждым коммитом:**
 
 ```bash
-pnpm format:fix  # Prettier
-pnpm lint:fix    # ESLint
-pnpm typecheck   # TypeScript
+npm run format:fix  # Prettier
+npm run lint:fix    # ESLint
+npm run typecheck   # TypeScript
 ```
 
 **Настройки Prettier:**
@@ -109,6 +109,7 @@ const handleDelete = async () => {
 }
 </script>
 
+<!-- внутри template минимум комментов таких как инфо про status card не нужна -->
 <template>
 	<UCard>
 		<UButton :loading="loading" @click="handleDelete">

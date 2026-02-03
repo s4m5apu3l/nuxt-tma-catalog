@@ -60,14 +60,42 @@
 	},
 	"admin": {
 		"title": "Администратор",
-		"dashboard": "Панель управления",
+		"dashboard": {
+			"title": "Панель управления",
+			"welcome": "Добро пожаловать, {name}!",
+			"categories": "Категории",
+			"products": "Товары",
+			"active": "Активные",
+			"inactive": "Неактивные",
+			"quickActions": "Быстрые действия",
+			"addCategory": "Добавить категорию",
+			"addProduct": "Добавить товар",
+			"recentProducts": "Последние товары",
+			"noRecentProducts": "Нет последних товаров"
+		},
+		"nav": {
+			"dashboard": "Панель управления",
+			"categories": "Категории",
+			"products": "Товары"
+		},
+		"layout": {
+			"adminPanel": "Панель администратора",
+			"logout": "Выйти"
+		},
 		"login": {
 			"title": "Вход администратора",
+			"subtitle": "Войдите для доступа к панели администратора",
 			"email": "Email",
 			"password": "Пароль",
+			"emailPlaceholder": "Введите ваш email",
+			"passwordPlaceholder": "Введите ваш пароль",
 			"submit": "Войти",
-			"error": "Неверные учетные данные. Попробуйте еще раз.",
-			"loading": "Вход в систему..."
+			"errors": {
+				"emailRequired": "Email обязателен",
+				"emailInvalid": "Пожалуйста, введите корректный email",
+				"passwordRequired": "Пароль обязателен",
+				"passwordTooShort": "Пароль должен содержать минимум 6 символов"
+			}
 		},
 		"navigation": {
 			"dashboard": "Панель управления",
@@ -145,7 +173,9 @@
 		"home": "Главная",
 		"catalog": "Каталог",
 		"catalog_description": "Просмотрите наш каталог товаров",
-		"back_to_home": "Вернуться на главную"
+		"back_to_home": "Вернуться на главную",
+		"refresh": "Обновить",
+		"view_all": "Показать все"
 	},
 	"error": {
 		"boundary": {

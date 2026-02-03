@@ -58,7 +58,6 @@ const statsCards = computed(() => [
 
 <template>
 	<div class="space-y-6">
-		<!-- Header -->
 		<div class="flex items-center justify-between">
 			<div>
 				<h1 class="text-2xl font-bold text-foreground">
@@ -79,7 +78,6 @@ const statsCards = computed(() => [
 			</UButton>
 		</div>
 
-		<!-- Stats Cards -->
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 			<UCard
 				v-for="card in statsCards"
@@ -119,9 +117,7 @@ const statsCards = computed(() => [
 			</UCard>
 		</div>
 
-		<!-- Content Grid -->
 		<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-			<!-- Quick Actions -->
 			<UCard>
 				<template #header>
 					<div class="flex items-center space-x-2">
@@ -155,7 +151,6 @@ const statsCards = computed(() => [
 				</div>
 			</UCard>
 
-			<!-- Recent Products -->
 			<UCard>
 				<template #header>
 					<div class="flex items-center justify-between">

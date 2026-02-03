@@ -119,6 +119,32 @@
 			"empty": {
 				"title": "No categories",
 				"description": "Start by creating your first category."
+			},
+			"form": {
+				"nameEn": "Name (English)",
+				"nameRu": "Name (Russian)",
+				"nameEnPlaceholder": "Enter category name in English",
+				"nameRuPlaceholder": "Enter category name in Russian",
+				"descriptionEn": "Description (English)",
+				"descriptionRu": "Description (Russian)",
+				"descriptionEnPlaceholder": "Enter description in English",
+				"descriptionRuPlaceholder": "Enter description in Russian",
+				"icon": "Icon",
+				"iconPlaceholder": "🏠",
+				"iconHelp": "Enter an emoji or icon character",
+				"slug": "Slug",
+				"slugPlaceholder": "category-slug",
+				"slugHelp": "URL-friendly identifier (auto-generated from English name)",
+				"sortOrder": "Sort Order",
+				"sortOrderPlaceholder": "0",
+				"isActive": "Active",
+				"isActiveHelp": "Inactive categories won't be visible to users"
+			},
+			"errors": {
+				"nameEnRequired": "English name is required",
+				"nameRuRequired": "Russian name is required",
+				"iconRequired": "Icon is required",
+				"slugRequired": "Slug is required"
 			}
 		},
 		"products": {
@@ -175,7 +201,8 @@
 		"catalog_description": "Browse our product catalog",
 		"back_to_home": "Back to Home",
 		"refresh": "Refresh",
-		"view_all": "View All"
+		"view_all": "View All",
+		"search": "Search..."
 	},
 	"error": {
 		"boundary": {

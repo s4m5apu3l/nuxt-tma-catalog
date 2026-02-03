@@ -37,7 +37,8 @@ export default defineNuxtConfig({
 
 			appwriteBdKey: process.env.APPWRITE_PUBLIC_BD_KEY,
 			appwriteCollectionCategories: process.env.APPWRITE_PUBLIC_COLLECTION_CATEGORIES_ID,
-			appwriteCollectionProducts: process.env.APPWRITE_PUBLIC_COLLECTION_PRODUCTS_ID
+			appwriteCollectionProducts: process.env.APPWRITE_PUBLIC_COLLECTION_PRODUCTS_ID,
+			appwriteBucketId: process.env.APPWRITE_PUBLIC_BUCKET_ID
 		}
 	},
 
@@ -70,7 +71,7 @@ export default defineNuxtConfig({
 				file: 'ru.json'
 			}
 		],
-		defaultLocale: 'en',
+		defaultLocale: 'ru',
 		strategy: 'prefix_except_default',
 		detectBrowserLanguage: {
 			useCookie: true,

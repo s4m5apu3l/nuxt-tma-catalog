@@ -385,6 +385,7 @@
         ```
 
     - Использует `window.Telegram.WebApp.openTelegramLink()`
+
 - Кнопка "Назад к категории"
 
 ---
@@ -919,6 +920,7 @@ APPWRITE_PUBLIC_COLLECTION_PRODUCTS_ID="products-collection-id"
 APPWRITE_PUBLIC_STORAGE_BUCKET_ID="product-images-bucket-id"
 TELEGRAM_BOT_TOKEN="your-bot-token"
 ```
+
 ---
 
 **Контакты для вопросов:** [Указать способ связи]

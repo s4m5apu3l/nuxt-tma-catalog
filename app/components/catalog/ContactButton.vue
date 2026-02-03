@@ -6,85 +6,57 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-const { locale } = useI18n()
 
-const isLoading = ref(false)
+const { t, locale } = useI18n()
+const { openTelegramLink, showAlert, isReady } = useTelegram()
 
-const productName = computed(() => props.product.name[locale.value as 'en' | 'ru'])
-const contactMessage = computed(() => {
-	const customMessage = props.product.contactMessage[locale.value as 'en' | 'ru']
-	if (customMessage && customMessage.trim()) {
-		return customMessage
-	}
-
-	return `Hi! I'm interested in "${productName.value}" (${props.product.price} ${props.product.priceUnit}). Could you please provide more details?`
-})
+const loading = ref(false)
 
 const openTelegramChat = async () => {
-	isLoading.value = true
+	if (!isReady.value) {
+		showAlert(t('product.contact.telegram_unavailable'))
+		return
+	}
+
+	loading.value = true
 
 	try {
-		// Check if we're in Telegram WebApp
-		if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
-			const webApp = window.Telegram.WebApp
+		const productName = props.product.name[locale.value as 'en' | 'ru']
+		const price = formatPrice(props.product.price, props.product.priceUnit)
+		const customMessage = props.product.contactMessage?.[locale.value as 'en' | 'ru']
 
-			// Create the message with product details
-			const message = encodeURIComponent(contactMessage.value)
+		const baseMessage =
+			customMessage ||
+			t('product.contact.default_message', {
+				productName,
+				price
+			})
 
-			// Try to open Telegram link
-			const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${message}`
+		const productUrl = `${window.location.origin}/product/${props.product.slug}`
+		const fullMessage = `${baseMessage}\n\n${t('product.contact.link')}: ${productUrl}`
 
-			// Use WebApp method if available
-			if (webApp.openTelegramLink) {
-				webApp.openTelegramLink(telegramUrl)
-			} else {
-				// Fallback to window.open
-				window.open(telegramUrl, '_blank')
-			}
-		} else {
-			// Fallback for non-Telegram environments
-			const message = encodeURIComponent(contactMessage.value)
-			const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${message}`
-			window.open(telegramUrl, '_blank')
-		}
+		const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(fullMessage)}`
+
+		openTelegramLink(telegramUrl)
 	} catch (error) {
 		console.error('Error opening Telegram chat:', error)
-
-		// Show error message to user
-		const toast = useToast()
-		toast.add({
-			title: 'Error',
-			description: 'Unable to open Telegram chat. Please try again.',
-			color: 'error'
-		})
+		showAlert(t('common.error'))
 	} finally {
-		isLoading.value = false
+		loading.value = false
 	}
 }
 </script>
 
 <template>
 	<UButton
-		:loading="isLoading"
-		:disabled="isLoading"
+		:loading="loading"
 		color="primary"
 		size="lg"
 		block
 		icon="i-lucide-message-circle"
-		class="contact-button"
+		class="font-semibold"
 		@click="openTelegramChat"
 	>
-		<span v-if="!isLoading">
-			{{ $t('product.contact') }}
-		</span>
-		<span v-else>
-			{{ $t('product.contacting') }}
-		</span>
+		{{ t('product.contact.button') }}
 	</UButton>
 </template>
-
-<style scoped>
-.contact-button {
-	@apply font-semibold;
-}
-</style>

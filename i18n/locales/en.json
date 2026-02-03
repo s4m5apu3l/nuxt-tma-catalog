@@ -26,6 +26,7 @@
 		"addedOn": "Added on",
 		"category": "Category",
 		"unavailable": "Unavailable",
+		"available": "Available",
 		"contact": "Contact",
 		"contacting": "Contacting...",
 		"features": "Features",
@@ -42,6 +43,12 @@
 		"gallery": {
 			"previous": "Previous",
 			"next": "Next"
+		},
+		"contact": {
+			"button": "Contact",
+			"telegram_unavailable": "Telegram is not available",
+			"default_message": "Hi! I'm interested in {productName} for {price}. Could you provide more details?",
+			"link": "Product link"
 		}
 	},
 	"products": {
@@ -134,7 +141,11 @@
 		"back": "Back",
 		"next": "Next",
 		"previous": "Previous",
-		"close": "Close"
+		"close": "Close",
+		"home": "Home",
+		"catalog": "Catalog",
+		"catalog_description": "Browse our product catalog",
+		"back_to_home": "Back to Home"
 	},
 	"error": {
 		"boundary": {

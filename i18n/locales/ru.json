@@ -26,6 +26,7 @@
 		"addedOn": "Добавлено",
 		"category": "Категория",
 		"unavailable": "Недоступен",
+		"available": "Доступен",
 		"contact": "Связаться",
 		"contacting": "Связываемся...",
 		"features": "Характеристики",
@@ -42,6 +43,12 @@
 		"gallery": {
 			"previous": "Предыдущий",
 			"next": "Следующий"
+		},
+		"contact": {
+			"button": "Связаться",
+			"telegram_unavailable": "Telegram недоступен",
+			"default_message": "Привет! Меня интересует {productName} за {price}. Можете предоставить больше деталей?",
+			"link": "Ссылка на товар"
 		}
 	},
 	"products": {
@@ -134,7 +141,11 @@
 		"back": "Назад",
 		"next": "Далее",
 		"previous": "Предыдущий",
-		"close": "Закрыть"
+		"close": "Закрыть",
+		"home": "Главная",
+		"catalog": "Каталог",
+		"catalog_description": "Просмотрите наш каталог товаров",
+		"back_to_home": "Вернуться на главную"
 	},
 	"error": {
 		"boundary": {

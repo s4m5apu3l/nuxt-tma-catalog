@@ -1,11 +1,22 @@
 <script setup lang="ts">
+import type { DropdownMenuItem } from '@nuxt/ui'
+
 const { locale, setLocale, locales } = useI18n()
 
-const languageOptions = computed(() =>
+const currentLocale = computed(() => locales.value.find((loc) => loc.code === locale.value))
+
+const flagIcons: Record<string, string> = {
+	en: 'i-twemoji-flag-united-states',
+	ru: 'i-twemoji-flag-russia'
+}
+
+const languageItems = computed<DropdownMenuItem[]>(() =>
 	locales.value.map((loc) => ({
 		label: loc.name,
-		value: loc.code,
-		click: () => setLocale(loc.code)
+		icon: flagIcons[loc.code] || 'i-lucide-globe',
+		onSelect: () => {
+			setLocale(loc.code)
+		}
 	}))
 )
 </script>
@@ -17,14 +28,19 @@ const languageOptions = computed(() =>
 		</template>
 
 		<template #right>
-			<UDropdown :items="[languageOptions]">
+			<UDropdownMenu
+				:items="languageItems"
+				:content="{ align: 'end', side: 'bottom', sideOffset: 8 }"
+				:ui="{ content: 'w-48' }"
+			>
 				<UButton
 					color="neutral"
 					variant="ghost"
-					:label="locale.toUpperCase()"
+					:label="currentLocale?.name || locale.toUpperCase()"
+					:leading-icon="flagIcons[currentLocale?.code || locale] || 'i-lucide-globe'"
 					trailing-icon="i-lucide-chevron-down"
 				/>
-			</UDropdown>
+			</UDropdownMenu>
 		</template>
 	</UHeader>
 </template>

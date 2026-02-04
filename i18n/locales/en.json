@@ -5,6 +5,7 @@
 		"description": "Browse our product categories to find what you're looking for.",
 		"loading": "Loading categories...",
 		"productsCount": "{count} products",
+		"products": "products",
 		"empty": {
 			"title": "No categories available",
 			"description": "There are currently no categories to display. Please check back later."

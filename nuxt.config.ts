@@ -3,6 +3,13 @@ export default defineNuxtConfig({
 	modules: ['@nuxt/eslint', '@nuxt/ui', '@nuxtjs/i18n'],
 	ssr: false,
 
+	components: [
+		{
+			path: '~/components',
+			pathPrefix: false
+		}
+	],
+
 	app: {
 		head: {
 			// title: 'TMA catalog',
@@ -72,11 +79,7 @@ export default defineNuxtConfig({
 			}
 		],
 		defaultLocale: 'ru',
-		strategy: 'prefix_except_default',
-		detectBrowserLanguage: {
-			useCookie: true,
-			cookieKey: 'i18n_redirected',
-			redirectOn: 'root'
-		}
+		strategy: 'no_prefix',
+		detectBrowserLanguage: false
 	}
 })

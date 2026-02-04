@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface Props {
-	images: string[]
+	images: readonly string[]
 	productName: string
 }
 

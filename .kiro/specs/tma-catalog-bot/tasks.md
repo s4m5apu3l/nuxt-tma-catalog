@@ -52,8 +52,6 @@
     - _Требования: 8.1, 8.2, 8.3, 8.4_
 
 - [x] 5.2 Реализовать управление категориями
-
-
     - Создать pages/admin/categories/index.vue со списком
     - Создать компонент CategoryForm.vue
     - Создать pages/admin/categories/create.vue

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Category } from '~/types'
+import { getCategoryName } from '~/utils/localization'
 
 const { categories, loading: categoriesLoading, fetchCategories } = useCategories()
 const { products, isLoading: productsLoading, fetchProducts } = useProducts()
@@ -22,6 +23,8 @@ onMounted(async () => {
 })
 
 const skeletonItems = Array.from({ length: 6 }, (_, i) => i)
+
+const { locale } = useI18n()
 </script>
 
 <template>
@@ -64,7 +67,7 @@ const skeletonItems = Array.from({ length: 6 }, (_, i) => i)
 			<div class="flex items-center justify-between">
 				<h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
 					<template v-if="selectedCategory">
-						{{ selectedCategory.name[$i18n.locale] || selectedCategory.name.en }}
+						{{ getCategoryName(selectedCategory, locale) }}
 					</template>
 					<template v-else>
 						{{ $t('products.allProducts') }}

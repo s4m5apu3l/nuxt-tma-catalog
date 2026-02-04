@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Category } from '~/types'
+import { getCategoryName } from '~/utils/localization'
 
 interface Props {
 	category: Category
@@ -18,41 +19,24 @@ const emit = defineEmits<Emits>()
 
 const { locale } = useI18n()
 
-const categoryName = computed(() => {
-	let name = props.category.name
+const categoryName = computed(() => getCategoryName(props.category, locale.value))
 
-	if (typeof name === 'string') {
-		try {
-			name = JSON.parse(name)
-		} catch {
-			return name
-		}
+const iconName = computed(() => {
+	const icon = props.category.icon
+
+	// Если иконка уже содержит префикс i-lucide-, используем как есть
+	if (icon?.startsWith('i-lucide-')) {
+		return icon
 	}
 
-	// Если name это объект с локализацией
-	if (typeof name === 'object' && name !== null) {
-		return name[locale.value as 'en' | 'ru'] || name.en || name.ru || 'Unnamed Category'
+	// Если иконка без префикса, добавляем i-lucide-
+	if (icon) {
+		return `i-lucide-${icon}`
 	}
 
-	return String(name || 'Unnamed Category')
+	// Fallback иконка
+	return 'i-lucide-package'
 })
-
-const iconMap: Record<string, string> = {
-	smartphone: 'i-lucide-smartphone',
-	shirt: 'i-lucide-shirt',
-	electronics: 'i-lucide-zap',
-	fashion: 'i-lucide-shirt',
-	home: 'i-lucide-home',
-	books: 'i-lucide-book',
-	sports: 'i-lucide-dumbbell',
-	food: 'i-lucide-utensils',
-	beauty: 'i-lucide-sparkles',
-	toys: 'i-lucide-gamepad-2',
-	automotive: 'i-lucide-car',
-	health: 'i-lucide-heart-pulse'
-}
-
-const iconName = computed(() => iconMap[props.category.icon] || 'i-lucide-package')
 </script>
 
 <template>

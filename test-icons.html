@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест иконок</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .icon-test { display: flex; align-items: center; gap: 10px; margin: 10px 0; }
+        .icon { width: 24px; height: 24px; }
+    </style>
+</head>
+<body>
+    <h1>Тест динамических иконок</h1>
+    
+    <h2>Категории аренды:</h2>
+    <div class="icon-test">
+        <span>🏠</span>
+        <strong>Аренда домов:</strong> i-lucide-home
+    </div>
+    <div class="icon-test">
+        <span>🏍️</span>
+        <strong>Аренда мотоциклов:</strong> i-lucide-bike
+    </div>
+    <div class="icon-test">
+        <span>🚗</span>
+        <strong>Аренда автомобилей:</strong> i-lucide-car
+    </div>
+
+    <h2>Продукты:</h2>
+    <ul>
+        <li><strong>Квартира в центре города</strong> - 3,500₽/день</li>
+        <li><strong>Семейный дом с садом</strong> - 5,500₽/день</li>
+        <li><strong>Yamaha R1 Спорт</strong> - 2,500₽/день</li>
+        <li><strong>Honda Shadow Круизер</strong> - 1,800₽/день</li>
+        <li><strong>Toyota Camry Седан</strong> - 2,800₽/день</li>
+        <li><strong>Honda Pilot Внедорожник</strong> - 3,800₽/день</li>
+    </ul>
+
+    <h2>Изменения:</h2>
+    <ul>
+        <li>✅ Убрали iconMap из CategoryCard.vue</li>
+        <li>✅ Сделали динамические иконки с префиксом i-lucide-</li>
+        <li>✅ Исправили отображение названий и цен в ProductCard.vue</li>
+        <li>✅ Создали утилиты для локализации</li>
+        <li>✅ Создали IconPicker для админки</li>
+        <li>✅ Обновили данные в Appwrite</li>
+    </ul>
+</body>
+</html>

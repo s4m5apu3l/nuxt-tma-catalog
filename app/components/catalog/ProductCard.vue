@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Product } from '~/types'
+import { getProductName, getLocalizedDescription } from '~/utils/localization'
 
 interface Props {
 	product: Product
@@ -8,8 +9,8 @@ interface Props {
 const props = defineProps<Props>()
 const { locale } = useI18n()
 
-const productName = computed(() => props.product.name[locale.value as 'en' | 'ru'])
-const productDescription = computed(() => props.product.description[locale.value as 'en' | 'ru'])
+const productName = computed(() => getProductName(props.product, locale.value))
+const productDescription = computed(() => getLocalizedDescription(props.product.description, locale.value))
 
 const primaryImage = computed(() => {
 	return props.product.images && props.product.images.length > 0 ? props.product.images[0] : null

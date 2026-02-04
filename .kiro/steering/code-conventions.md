@@ -2,10 +2,10 @@
 
 ## Core Principles
 
-### 1. Minimal Comments
-- Code should be self-documenting through clear naming and structure
-- Comments only for complex logic explaining "WHY", not "WHAT"
-- Avoid comments in `<template>` sections unless absolutely critical
+### 1. NO Comments in Templates
+- **NEVER** add comments inside `<template>` sections
+- Template code must be self-documenting through clear structure and naming
+- Comments only allowed in `<script>` sections for complex business logic explaining "WHY", not "WHAT"
 
 ### 2. Always Format
 - Run `npm run format:fix` and `npm run lint:fix` before every commit

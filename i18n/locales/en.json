@@ -53,6 +53,8 @@
 		}
 	},
 	"products": {
+		"allProducts": "All Products",
+		"items": "items",
 		"empty": {
 			"title": "No products available",
 			"description": "There are currently no products in this category."
@@ -203,6 +205,7 @@
 		"back_to_home": "Back to Home",
 		"refresh": "Refresh",
 		"view_all": "View All",
+		"showAll": "Show All",
 		"search": "Search..."
 	},
 	"error": {

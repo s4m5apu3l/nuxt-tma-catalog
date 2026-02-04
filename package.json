@@ -12,7 +12,9 @@
 		"lint:fix": "eslint . --fix",
 		"format": "prettier --check .",
 		"format:fix": "prettier --write .",
-		"typecheck": "nuxt typecheck"
+		"typecheck": "nuxt typecheck",
+		"test:images": "node scripts/test-images.js",
+		"add:sample-product": "node scripts/add-sample-product.js"
 	},
 	"dependencies": {
 		"@iconify-json/lucide": "^1.2.82",

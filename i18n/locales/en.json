@@ -174,7 +174,12 @@
 				"title": "No products",
 				"description": "Start by creating your first product."
 			}
-		}
+		},
+		"uploading": "Uploading...",
+		"clickToUpload": "Click to upload images",
+		"dragAndDrop": "or drag and drop files here",
+		"imageFormats": "JPG, PNG, WebP",
+		"maxSize": "Max size"
 	},
 	"login": "Login",
 	"logout": "Logout",

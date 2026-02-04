@@ -65,7 +65,7 @@ const currentIconDisplay = computed(() => {
 	<div class="relative">
 		<UButton
 			variant="outline"
-			color="gray"
+			color="neutral"
 			class="w-full justify-between"
 			@click="isOpen = !isOpen"
 		>

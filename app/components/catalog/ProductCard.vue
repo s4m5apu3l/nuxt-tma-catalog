@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Product } from '~/types'
 import { getProductName, getLocalizedDescription } from '~/utils/localization'
+import { getImageUrl } from '~/utils/images'
 
 interface Props {
 	product: Product
@@ -16,7 +17,12 @@ const primaryImage = computed(() => {
 	return props.product.images && props.product.images.length > 0 ? props.product.images[0] : null
 })
 
-const formatPrice = (price: number, unit: string) => {
+const primaryImageUrl = computed(() => {
+	if (!primaryImage.value) return null
+	return getImageUrl(primaryImage.value)
+})
+
+const formatPrice = (price: number, unit: string): string => {
 	return `${price} ${unit}`
 }
 </script>
@@ -26,8 +32,8 @@ const formatPrice = (price: number, unit: string) => {
 		<NuxtLink :to="`/product/${product.slug}`" class="block">
 			<div class="aspect-square relative overflow-hidden rounded-t-lg bg-gray-100 dark:bg-gray-800">
 				<img
-					v-if="primaryImage"
-					:src="getImageUrl(primaryImage)"
+					v-if="primaryImageUrl"
+					:src="primaryImageUrl"
 					:alt="productName"
 					class="w-full h-full object-cover"
 					loading="lazy"

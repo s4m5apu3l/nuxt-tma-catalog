@@ -25,7 +25,7 @@ export const useProducts = () => {
         queries
       )
       
-      products.value = response.documents as Product[]
+      products.value = response.documents as unknown as Product[]
       return products.value
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Unknown error'
@@ -35,10 +35,40 @@ export const useProducts = () => {
     }
   }
 
+  const fetchAllProducts = async (): Promise<Product[]> => {
+    isLoading.value = true
+    error.value = null
+    
+    try {
+      const { databases } = useAppwrite()
+      const config = useRuntimeConfig()
+      
+      const response = await databases.listDocuments(
+        config.public.appwriteBdKey,
+        config.public.appwriteCollectionProducts
+      )
+      
+      products.value = response.documents as unknown as Product[]
+      return products.value
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'Unknown error'
+      throw err
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  const getProductBySlug = (slug: string): Product | undefined => {
+    return products.value.find(product => product.slug === slug)
+  }
+
   return {
     products: readonly(products),
     isLoading: readonly(isLoading),
+    loading: readonly(isLoading), // Alias for compatibility
     error: readonly(error),
-    fetchProducts
+    fetchProducts,
+    fetchAllProducts,
+    getProductBySlug
   } as const
 }

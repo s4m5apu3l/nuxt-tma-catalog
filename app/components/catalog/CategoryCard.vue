@@ -30,7 +30,7 @@ const categoryName = computed(() => getCategoryName(props.category, locale.value
 		<div class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-2">
 			<span class="text-2xl">{{ category.icon || '📦' }}</span>
 		</div>
-		<span class="text-xs text-center text-gray-700 dark:text-gray-300 font-medium leading-tight">
+		<span class="text-xs text-center text-gray-700 dark:text-gray-300 font-medium leading-tight line-clamp-2">
 			{{ categoryName }}
 		</span>
 	</div>

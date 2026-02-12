@@ -128,26 +128,20 @@ useSeoMeta({
 
 				<div class="space-y-6">
 					<div class="space-y-4">
+						<UBadge v-if="product.isAvailable" color="success" variant="soft" size="lg" class="shrink-0">
+							{{ t('product.available') }}
+						</UBadge>
+						<UBadge v-else color="error" variant="soft" size="lg" class="shrink-0">
+							{{ t('product.unavailable') }}
+						</UBadge>
 						<div class="flex items-start justify-between gap-4">
-							<h1 class="text-4xl font-bold text-gray-900 dark:text-white leading-tight flex-1">
+							<h1 class="text-2xl font-bold text-gray-900 dark:text-white leading-tight flex-1">
 								{{ productName }}
 							</h1>
-							<UBadge
-								v-if="product.isAvailable"
-								color="success"
-								variant="soft"
-								size="lg"
-								class="shrink-0"
-							>
-								{{ t('product.available') }}
-							</UBadge>
-							<UBadge v-else color="error" variant="soft" size="lg" class="shrink-0">
-								{{ t('product.unavailable') }}
-							</UBadge>
 						</div>
 
 						<div class="space-y-3">
-							<div class="text-5xl font-bold text-gray-900 dark:text-orange-300">
+							<div class="text-3xl font-bold text-gray-900 dark:text-orange-300">
 								{{ formattedPrice }}
 							</div>
 							<div v-if="allPrices.length > 1" class="flex flex-wrap gap-2">

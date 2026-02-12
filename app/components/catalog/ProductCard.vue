@@ -45,11 +45,16 @@ const priceLabel = computed(() => {
 			</div>
 
 			<div class="content py-2">
-				<h3
-					class="font-semibold text-lg text-gray-900 dark:text-gray-100 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors"
-				>
-					{{ productName }}
-				</h3>
+				<div class="flex items-start justify-between gap-2 mb-1">
+					<h3
+						class="font-semibold text-lg text-gray-900 dark:text-gray-100 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors flex-1"
+					>
+						{{ productName }}
+					</h3>
+				</div>
+				<UBadge v-if="!product.isAvailable" color="error" variant="soft" size="xs" class="shrink-0">
+					{{ $t('product.unavailable') }}
+				</UBadge>
 
 				<p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
 					{{ productDescription }}

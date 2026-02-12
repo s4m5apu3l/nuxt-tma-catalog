@@ -29,9 +29,6 @@ const schema = z.object({
 		ru: z.string().min(1, t('admin.products.errors.descriptionRuRequired'))
 	}),
 	categoryId: z.string().min(1, t('admin.products.errors.categoryRequired')),
-	price: z.number().min(0, t('admin.products.errors.priceMin')),
-	priceUnit: z.enum(['hour', 'day', 'week', 'month']),
-	currency: z.enum(['₽', '$', '€', '฿', '¥']),
 	slug: z.string().min(1, t('admin.products.errors.slugRequired')),
 	sortOrder: z.number().min(0),
 	isActive: z.boolean(),
@@ -39,22 +36,6 @@ const schema = z.object({
 })
 
 type Schema = z.output<typeof schema>
-
-const getFirstPricing = (
-	product?: Product
-): { price: number; priceUnit: 'hour' | 'day' | 'week' | 'month'; currency: Currency } => {
-	if (product?.pricing && product.pricing.length > 0) {
-		const firstPrice = product.pricing[0]
-		return {
-			price: firstPrice?.price ?? 0,
-			priceUnit: firstPrice?.period ?? 'day',
-			currency: firstPrice?.currency ?? '₽'
-		}
-	}
-	return { price: 0, priceUnit: 'day', currency: '₽' }
-}
-
-const firstPricing = getFirstPricing(props.product)
 
 const form = reactive<Schema>({
 	name: {
@@ -66,14 +47,17 @@ const form = reactive<Schema>({
 		ru: props.product?.description.ru || ''
 	},
 	categoryId: props.product?.categoryId || '',
-	price: firstPricing.price,
-	priceUnit: firstPricing.priceUnit,
-	currency: firstPricing.currency,
 	slug: props.product?.slug || '',
 	sortOrder: props.product?.sortOrder || 0,
 	isActive: props.product?.isActive ?? true,
 	isAvailable: props.product?.isAvailable ?? true
 })
+
+const pricing = ref<PricingOption[]>(
+	props.product?.pricing && props.product.pricing.length > 0
+		? [...props.product.pricing]
+		: [{ period: 'day', price: 0, currency: '₽' }]
+)
 
 const images = ref<string[]>(props.product?.images ? [...props.product.images] : [])
 
@@ -91,6 +75,16 @@ const currencies = [
 	{ value: '฿', label: '฿ (THB)' },
 	{ value: '¥', label: '¥ (CNY/JPY)' }
 ]
+
+const addPricing = () => {
+	pricing.value.push({ period: 'day', price: 0, currency: '₽' })
+}
+
+const removePricing = (index: number) => {
+	if (pricing.value.length > 1) {
+		pricing.value.splice(index, 1)
+	}
+}
 
 const generateSlug = (text: string): string => {
 	return text
@@ -117,19 +111,11 @@ onMounted(async () => {
 })
 
 const onSubmit = async () => {
-	const pricing: PricingOption[] = [
-		{
-			period: form.priceUnit,
-			price: form.price,
-			currency: form.currency
-		}
-	]
-
 	const data = {
 		name: form.name,
 		description: form.description,
 		categoryId: form.categoryId,
-		pricing,
+		pricing: pricing.value.filter((p) => p.price > 0),
 		images: images.value,
 		slug: form.slug,
 		sortOrder: form.sortOrder,
@@ -176,7 +162,18 @@ const onSubmit = async () => {
 
 		<UCard>
 			<template #header>
-				<h3 class="text-base font-semibold">{{ t('admin.products.form.categoryAndPrice') }}</h3>
+				<div class="flex items-center justify-between">
+					<h3 class="text-base font-semibold">{{ t('admin.products.form.categoryAndPrice') }}</h3>
+					<UButton
+						icon="i-lucide-plus"
+						size="xs"
+						color="primary"
+						variant="soft"
+						@click="addPricing"
+					>
+						{{ t('admin.products.form.addPrice') }}
+					</UButton>
+				</div>
 			</template>
 			<div class="space-y-4">
 				<UFormField :label="t('admin.products.form.category')" name="categoryId" required>
@@ -188,18 +185,33 @@ const onSubmit = async () => {
 					/>
 				</UFormField>
 
-				<div class="grid grid-cols-3 gap-4">
-					<UFormField :label="t('admin.products.form.price')" name="price" required>
-						<UInput v-model.number="form.price" type="number" min="0" step="0.01" />
-					</UFormField>
+				<div class="space-y-3">
+					<div
+						v-for="(price, index) in pricing"
+						:key="index"
+						class="flex items-end gap-2"
+					>
+						<UFormField :label="index === 0 ? t('admin.products.form.price') : ''" class="flex-1">
+							<UInput v-model.number="price.price" type="number" min="0" step="0.01" />
+						</UFormField>
 
-					<UFormField :label="t('admin.products.form.currency')" name="currency" required>
-						<USelect v-model="form.currency" :items="currencies" value-key="value" />
-					</UFormField>
+						<UFormField :label="index === 0 ? t('admin.products.form.currency') : ''" class="w-32">
+							<USelect v-model="price.currency" :items="currencies" value-key="value" />
+						</UFormField>
 
-					<UFormField :label="t('admin.products.form.priceUnit')" name="priceUnit" required>
-						<USelect v-model="form.priceUnit" :items="priceUnits" value-key="value" />
-					</UFormField>
+						<UFormField :label="index === 0 ? t('admin.products.form.priceUnit') : ''" class="w-32">
+							<USelect v-model="price.period" :items="priceUnits" value-key="value" />
+						</UFormField>
+
+						<UButton
+							v-if="pricing.length > 1"
+							icon="i-lucide-trash-2"
+							color="red"
+							variant="soft"
+							size="sm"
+							@click="removePricing(index)"
+						/>
+					</div>
 				</div>
 			</div>
 		</UCard>

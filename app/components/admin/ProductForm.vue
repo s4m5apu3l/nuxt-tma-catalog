@@ -55,7 +55,7 @@ const form = reactive<Schema>({
 
 const pricing = ref<PricingOption[]>(
 	props.product?.pricing && props.product.pricing.length > 0
-		? [...props.product.pricing]
+		? props.product.pricing.map(p => ({ ...p }))
 		: [{ period: 'day', price: 0, currency: '₽' }]
 )
 
@@ -180,23 +180,33 @@ const onSubmit = async () => {
 				</UFormField>
 
 				<div class="space-y-3">
-					<div v-for="(price, index) in pricing" :key="index" class="flex items-end gap-2">
+					<div v-for="(priceItem, index) in pricing" :key="index" class="flex items-end gap-2">
 						<UFormField :label="index === 0 ? t('admin.products.form.price') : ''" class="flex-1">
-							<UInput v-model.number="price.price" type="number" min="0" step="0.01" />
+							<UInput v-model.number="priceItem.price" type="number" min="0" step="0.01" />
 						</UFormField>
 
 						<UFormField :label="index === 0 ? t('admin.products.form.currency') : ''" class="w-32">
-							<USelect v-model="price.currency" :items="currencies" value-key="value" />
+							<USelect
+								:model-value="priceItem.currency"
+								:items="currencies"
+								value-key="value"
+								@update:model-value="(val) => (priceItem.currency = val)"
+							/>
 						</UFormField>
 
 						<UFormField :label="index === 0 ? t('admin.products.form.priceUnit') : ''" class="w-32">
-							<USelect v-model="price.period" :items="priceUnits" value-key="value" />
+							<USelect
+								:model-value="priceItem.period"
+								:items="priceUnits"
+								value-key="value"
+								@update:model-value="(val) => (priceItem.period = val)"
+							/>
 						</UFormField>
 
 						<UButton
 							v-if="pricing.length > 1"
 							icon="i-lucide-trash-2"
-							color="error"
+							color="red"
 							variant="soft"
 							size="sm"
 							@click="removePricing(index)"

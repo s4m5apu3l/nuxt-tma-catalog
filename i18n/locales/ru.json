@@ -177,9 +177,53 @@
 			"allowedTypes": "Разрешенные типы: JPG, PNG, WebP",
 			"editForm": "Форма редактирования товара",
 			"createForm": "Форма создания товара",
+			"createSuccess": "Товар успешно создан",
+			"createError": "Не удалось создать товар",
+			"updateSuccess": "Товар успешно обновлен",
+			"updateError": "Не удалось обновить товар",
+			"loadError": "Не удалось загрузить товар",
 			"empty": {
 				"title": "Нет товаров",
 				"description": "Начните с создания первого товара."
+			},
+			"form": {
+				"basicInfo": "Основная информация",
+				"nameEn": "Название (Английский)",
+				"nameRu": "Название (Русский)",
+				"nameEnPlaceholder": "Введите название товара на английском",
+				"nameRuPlaceholder": "Введите название товара на русском",
+				"descriptionEn": "Описание (Английский)",
+				"descriptionRu": "Описание (Русский)",
+				"descriptionEnPlaceholder": "Введите описание товара на английском",
+				"descriptionRuPlaceholder": "Введите описание товара на русском",
+				"categoryAndPrice": "Категория и цена",
+				"category": "Категория",
+				"categoryPlaceholder": "Выберите категорию",
+				"price": "Цена",
+				"priceUnit": "Единица цены",
+				"settings": "Настройки",
+				"slug": "Слаг",
+				"slugPlaceholder": "product-slug",
+				"slugHelp": "URL-дружественный идентификатор (автоматически генерируется из английского названия)",
+				"sortOrder": "Порядок сортировки",
+				"isActive": "Активный",
+				"isAvailable": "Доступен для аренды",
+				"isAvailableHelp": "Отметьте как недоступный, если товар сейчас в аренде"
+			},
+			"priceUnits": {
+				"hour": "в час",
+				"day": "в день",
+				"week": "в неделю",
+				"month": "в месяц"
+			},
+			"errors": {
+				"nameEnRequired": "Название на английском обязательно",
+				"nameRuRequired": "Название на русском обязательно",
+				"descriptionEnRequired": "Описание на английском обязательно",
+				"descriptionRuRequired": "Описание на русском обязательно",
+				"categoryRequired": "Категория обязательна",
+				"priceMin": "Цена должна быть больше или равна 0",
+				"slugRequired": "Слаг обязателен"
 			}
 		},
 		"uploading": "Загрузка...",
@@ -218,7 +262,8 @@
 		"refresh": "Обновить",
 		"view_all": "Показать все",
 		"showAll": "Показать все",
-		"search": "Поиск..."
+		"search": "Поиск...",
+		"unknownError": "Произошла неизвестная ошибка"
 	},
 	"error": {
 		"boundary": {

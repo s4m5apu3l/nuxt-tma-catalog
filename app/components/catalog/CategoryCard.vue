@@ -24,7 +24,7 @@ const categoryName = computed(() => getCategoryName(props.category, locale.value
 
 <template>
 	<div
-		class="flex flex-col items-center p-3 rounded-xl bg-white dark:bg-gray-800 shadow-sm active:shadow-md transition-all duration-200 cursor-pointer min-w-[80px]"
+		class="flex flex-col items-center p-3 rounded-xl bg-white dark:bg-gray-800 shadow-sm active:shadow-md transition-all duration-200 cursor-pointer min-w-[110px]"
 		@click="emit('select', category)"
 	>
 		<div class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-2">

@@ -14,6 +14,7 @@ const parseProduct = (doc: any): Product => {
 
 export const useProducts = () => {
 	const products = ref<Product[]>([])
+	const product = ref<Product | null>(null)
 	const isLoading = ref(false)
 	const error = ref<string | null>(null)
 
@@ -38,6 +39,22 @@ export const useProducts = () => {
 
 			products.value = response.documents.map(parseProduct)
 			return products.value
+		} catch (err) {
+			error.value = err instanceof Error ? err.message : 'Unknown error'
+			throw err
+		} finally {
+			isLoading.value = false
+		}
+	}
+
+	const fetchProduct = async (productId: string): Promise<Product> => {
+		isLoading.value = true
+		error.value = null
+
+		try {
+			const response = await databases.getDocument(databaseId, collectionId, productId)
+			product.value = parseProduct(response)
+			return product.value
 		} catch (err) {
 			error.value = err instanceof Error ? err.message : 'Unknown error'
 			throw err
@@ -93,23 +110,22 @@ export const useProducts = () => {
 		}
 	}
 
-	const updateProduct = async (data: UpdateProductData): Promise<Product | null> => {
+	const updateProduct = async (productId: string, data: UpdateProductData): Promise<Product | null> => {
 		isLoading.value = true
 		error.value = null
 
 		try {
-			const { $id, ...updateData } = data
-			const response = await databases.updateDocument(databaseId, collectionId, $id, {
-				...updateData,
-				name: updateData.name ? JSON.stringify(updateData.name) : undefined,
-				description: updateData.description ? JSON.stringify(updateData.description) : undefined,
-				features: updateData.features ? JSON.stringify(updateData.features) : undefined,
-				contactMessage: updateData.contactMessage ? JSON.stringify(updateData.contactMessage) : undefined,
-				pricing: updateData.pricing ? JSON.stringify(updateData.pricing) : undefined
+			const response = await databases.updateDocument(databaseId, collectionId, productId, {
+				...data,
+				name: data.name ? JSON.stringify(data.name) : undefined,
+				description: data.description ? JSON.stringify(data.description) : undefined,
+				features: data.features ? JSON.stringify(data.features) : undefined,
+				contactMessage: data.contactMessage ? JSON.stringify(data.contactMessage) : undefined,
+				pricing: data.pricing ? JSON.stringify(data.pricing) : undefined
 			})
 
 			const updatedProduct = parseProduct(response)
-			const index = products.value.findIndex((prod) => prod.$id === $id)
+			const index = products.value.findIndex((prod) => prod.$id === productId)
 			if (index !== -1) {
 				products.value[index] = updatedProduct
 			}
@@ -156,10 +172,12 @@ export const useProducts = () => {
 
 	return {
 		products: readonly(products),
+		product: readonly(product),
 		isLoading: readonly(isLoading),
 		loading: readonly(isLoading),
 		error: readonly(error),
 		fetchProducts,
+		fetchProduct,
 		fetchAllProducts,
 		createProduct,
 		updateProduct,

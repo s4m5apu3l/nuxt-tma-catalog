@@ -39,27 +39,30 @@ const { locale } = useI18n()
 				</UButton>
 			</div>
 
-			<div class="flex gap-3 overflow-x-auto p-1 scrollbar-hide">
-				<template v-if="categoriesLoading">
-					<div
-						v-for="item in 5"
-						:key="`cat-skeleton-${item}`"
-						class="flex flex-col items-center p-3 rounded-xl bg-gray-100 dark:bg-gray-800 min-w-[80px] animate-pulse"
-					>
-						<div class="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 mb-2"></div>
-						<div class="w-12 h-3 bg-gray-200 dark:bg-gray-700 rounded"></div>
-					</div>
-				</template>
+			<div class="relative">
+				<div class="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scroll-smooth categories-scroll">
+					<template v-if="categoriesLoading">
+						<div
+							v-for="item in 5"
+							:key="`cat-skeleton-${item}`"
+							class="flex flex-col items-center p-3 rounded-xl bg-gray-100 dark:bg-gray-800 min-w-[80px] snap-start animate-pulse"
+						>
+							<div class="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 mb-2"></div>
+							<div class="w-12 h-3 bg-gray-200 dark:bg-gray-700 rounded"></div>
+						</div>
+					</template>
 
-				<template v-else-if="categories && categories.length > 0">
-					<CategoryCard
-						v-for="category in categories"
-						:key="category.$id"
-						:category="category"
-						:class="{ 'ring-2 ring-primary-500': selectedCategory?.$id === category.$id }"
-						@select="handleCategorySelect"
-					/>
-				</template>
+					<template v-else-if="categories && categories.length > 0">
+						<CategoryCard
+							v-for="category in categories"
+							:key="category.$id"
+							:category="category"
+							:class="{ 'ring-2 ring-primary-500': selectedCategory?.$id === category.$id }"
+							class="snap-start"
+							@select="handleCategorySelect"
+						/>
+					</template>
+				</div>
 			</div>
 		</div>
 
@@ -120,12 +123,38 @@ const { locale } = useI18n()
 </template>
 
 <style scoped>
-.scrollbar-hide {
-	-ms-overflow-style: none;
-	scrollbar-width: none;
+.categories-scroll {
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: thin;
+	scrollbar-color: rgba(156, 163, 175, 0.3) transparent;
 }
 
-.scrollbar-hide::-webkit-scrollbar {
-	display: none;
+.categories-scroll::-webkit-scrollbar {
+	height: 4px;
+}
+
+.categories-scroll::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.categories-scroll::-webkit-scrollbar-thumb {
+	background-color: rgba(156, 163, 175, 0.3);
+	border-radius: 2px;
+}
+
+.categories-scroll::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(156, 163, 175, 0.5);
+}
+
+.dark .categories-scroll {
+	scrollbar-color: rgba(75, 85, 99, 0.5) transparent;
+}
+
+.dark .categories-scroll::-webkit-scrollbar-thumb {
+	background-color: rgba(75, 85, 99, 0.5);
+}
+
+.dark .categories-scroll::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(75, 85, 99, 0.7);
 }
 </style>

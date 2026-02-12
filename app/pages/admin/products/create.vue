@@ -1,12 +1,41 @@
 <script setup lang="ts">
+import type { CreateProductData } from '~/types'
+
 definePageMeta({
 	layout: 'admin',
 	middleware: 'admin-auth'
 })
 
 const { t } = useI18n()
+const { createProduct } = useProducts()
+const toast = useToast()
+const router = useRouter()
 
-// TODO: Implement product creation form
+const isLoading = ref(false)
+
+const handleSubmit = async (data: CreateProductData) => {
+	isLoading.value = true
+	try {
+		await createProduct(data)
+		toast.add({
+			title: t('admin.products.createSuccess'),
+			color: 'green'
+		})
+		await router.push('/admin/products')
+	} catch (error) {
+		toast.add({
+			title: t('admin.products.createError'),
+			description: error instanceof Error ? error.message : t('common.unknownError'),
+			color: 'red'
+		})
+	} finally {
+		isLoading.value = false
+	}
+}
+
+const handleCancel = () => {
+	router.push('/admin/products')
+}
 </script>
 
 <template>
@@ -18,11 +47,6 @@ const { t } = useI18n()
 			</h1>
 		</div>
 
-		<UCard>
-			<div class="text-center py-8 text-muted-foreground">
-				<UIcon name="i-lucide-package-plus" class="w-12 h-12 mx-auto mb-3 opacity-50" />
-				<p>{{ t('admin.products.createForm') }}</p>
-			</div>
-		</UCard>
+		<ProductForm :loading="isLoading" @submit="handleSubmit" @cancel="handleCancel" />
 	</div>
 </template>

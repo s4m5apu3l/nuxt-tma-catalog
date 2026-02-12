@@ -63,7 +63,7 @@ onMounted(() => {
 
 		<div class="flex flex-col space-y-2">
 			<UInput v-model="searchQuery" icon="i-heroicons-magnifying-glass" :placeholder="t('common.search')" />
-			<USelect v-model="statusFilter" :options="statusOptions" />
+			<USelect v-model="statusFilter" :items="statusOptions" />
 		</div>
 
 		<div class="space-y-2">

@@ -177,9 +177,53 @@
 			"allowedTypes": "Allowed types: JPG, PNG, WebP",
 			"editForm": "Edit product form",
 			"createForm": "Create product form",
+			"createSuccess": "Product created successfully",
+			"createError": "Failed to create product",
+			"updateSuccess": "Product updated successfully",
+			"updateError": "Failed to update product",
+			"loadError": "Failed to load product",
 			"empty": {
 				"title": "No products",
 				"description": "Start by creating your first product."
+			},
+			"form": {
+				"basicInfo": "Basic Information",
+				"nameEn": "Name (English)",
+				"nameRu": "Name (Russian)",
+				"nameEnPlaceholder": "Enter product name in English",
+				"nameRuPlaceholder": "Enter product name in Russian",
+				"descriptionEn": "Description (English)",
+				"descriptionRu": "Description (Russian)",
+				"descriptionEnPlaceholder": "Enter product description in English",
+				"descriptionRuPlaceholder": "Enter product description in Russian",
+				"categoryAndPrice": "Category & Pricing",
+				"category": "Category",
+				"categoryPlaceholder": "Select a category",
+				"price": "Price",
+				"priceUnit": "Price Unit",
+				"settings": "Settings",
+				"slug": "Slug",
+				"slugPlaceholder": "product-slug",
+				"slugHelp": "URL-friendly identifier (auto-generated from English name)",
+				"sortOrder": "Sort Order",
+				"isActive": "Active",
+				"isAvailable": "Available for rent",
+				"isAvailableHelp": "Mark as unavailable if product is currently rented"
+			},
+			"priceUnits": {
+				"hour": "per hour",
+				"day": "per day",
+				"week": "per week",
+				"month": "per month"
+			},
+			"errors": {
+				"nameEnRequired": "English name is required",
+				"nameRuRequired": "Russian name is required",
+				"descriptionEnRequired": "English description is required",
+				"descriptionRuRequired": "Russian description is required",
+				"categoryRequired": "Category is required",
+				"priceMin": "Price must be greater than or equal to 0",
+				"slugRequired": "Slug is required"
 			}
 		},
 		"uploading": "Uploading...",
@@ -218,7 +262,8 @@
 		"refresh": "Refresh",
 		"view_all": "View All",
 		"showAll": "Show All",
-		"search": "Search..."
+		"search": "Search...",
+		"unknownError": "An unknown error occurred"
 	},
 	"error": {
 		"boundary": {

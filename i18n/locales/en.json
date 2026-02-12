@@ -41,6 +41,10 @@
 			"title": "Product not found",
 			"description": "The product you're looking for doesn't exist or has been removed."
 		},
+		"not_found": {
+			"title": "Product not found",
+			"description": "The product you're looking for doesn't exist or has been removed."
+		},
 		"gallery": {
 			"previous": "Previous",
 			"next": "Next"

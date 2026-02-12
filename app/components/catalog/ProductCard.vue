@@ -2,6 +2,7 @@
 import type { Product } from '~/types'
 import { getProductName, getLocalizedDescription } from '~/utils/localization'
 import { getImageUrl } from '~/utils/images'
+import { formatPricing } from '~/utils/pricing'
 
 interface Props {
 	product: Product
@@ -22,9 +23,9 @@ const primaryImageUrl = computed(() => {
 	return getImageUrl(primaryImage.value)
 })
 
-const formatPrice = (price: number, unit: string): string => {
-	return `${price} ${unit}`
-}
+const priceLabel = computed(() => {
+	return formatPricing(props.product.pricing, locale.value)
+})
 </script>
 
 <template>
@@ -41,15 +42,9 @@ const formatPrice = (price: number, unit: string): string => {
 				<div v-else class="w-full h-full flex items-center justify-center text-gray-400">
 					<UIcon name="i-lucide-image" class="text-4xl" />
 				</div>
-
-				<div v-if="!product.isAvailable" class="absolute top-2 right-2">
-					<UBadge color="error" variant="solid">
-						{{ $t('product.unavailable') }}
-					</UBadge>
-				</div>
 			</div>
 
-			<div class="p-4 space-y-2">
+			<div class="content py-2">
 				<h3
 					class="font-semibold text-lg text-gray-900 dark:text-gray-100 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors"
 				>
@@ -62,7 +57,7 @@ const formatPrice = (price: number, unit: string): string => {
 
 				<div class="flex items-center justify-between pt-2">
 					<div class="text-lg font-bold text-primary-600 dark:text-primary-400">
-						{{ formatPrice(product.price, product.priceUnit) }}
+						{{ priceLabel }}
 					</div>
 
 					<UIcon

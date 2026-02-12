@@ -1,3 +1,10 @@
+export type PricePeriod = 'hour' | 'day' | 'week' | 'month'
+
+export interface PricingOption {
+	period: PricePeriod
+	price: number
+}
+
 export interface Product {
 	readonly $id: string
 	readonly categoryId: string
@@ -9,8 +16,7 @@ export interface Product {
 		readonly en: string
 		readonly ru: string
 	}
-	readonly price: number
-	readonly priceUnit: string
+	readonly pricing: readonly PricingOption[]
 	readonly images: readonly string[]
 	readonly slug: string
 	readonly features: {
@@ -38,8 +44,7 @@ export interface CreateProductData {
 		en: string
 		ru: string
 	}
-	price: number
-	priceUnit: string
+	pricing: PricingOption[]
 	images?: string[]
 	slug: string
 	features?: {

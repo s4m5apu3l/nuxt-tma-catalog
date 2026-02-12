@@ -1,5 +1,16 @@
 import { Query } from 'appwrite'
-import type { Product } from '~/types'
+import type { Product, PricingOption } from '~/types'
+
+const parseProduct = (doc: any): Product => {
+  return {
+    ...doc,
+    name: typeof doc.name === 'string' ? JSON.parse(doc.name) : doc.name,
+    description: typeof doc.description === 'string' ? JSON.parse(doc.description) : doc.description,
+    features: typeof doc.features === 'string' ? JSON.parse(doc.features) : doc.features,
+    contactMessage: typeof doc.contactMessage === 'string' ? JSON.parse(doc.contactMessage) : doc.contactMessage,
+    pricing: typeof doc.pricing === 'string' ? JSON.parse(doc.pricing) : doc.pricing || []
+  } as Product
+}
 
 export const useProducts = () => {
   const products = ref<Product[]>([])
@@ -25,7 +36,7 @@ export const useProducts = () => {
         queries
       )
       
-      products.value = response.documents as unknown as Product[]
+      products.value = response.documents.map(parseProduct)
       return products.value
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Unknown error'
@@ -48,7 +59,7 @@ export const useProducts = () => {
         config.public.appwriteCollectionProducts
       )
       
-      products.value = response.documents as unknown as Product[]
+      products.value = response.documents.map(parseProduct)
       return products.value
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Unknown error'
@@ -65,7 +76,7 @@ export const useProducts = () => {
   return {
     products: readonly(products),
     isLoading: readonly(isLoading),
-    loading: readonly(isLoading), // Alias for compatibility
+    loading: readonly(isLoading),
     error: readonly(error),
     fetchProducts,
     fetchAllProducts,

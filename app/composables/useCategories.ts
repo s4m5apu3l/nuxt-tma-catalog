@@ -1,9 +1,17 @@
 import type { Category, CreateCategoryData, UpdateCategoryData } from '~/types'
 import { Query, ID } from 'appwrite'
 
-const categories = ref<Category[] | null>(null)
+const categories = ref<Category[]>([])
 const loading = ref(false)
 const error = ref<string | null>(null)
+
+const parseCategory = (doc: any): Category => {
+	return {
+		...doc,
+		name: typeof doc.name === 'string' ? JSON.parse(doc.name) : doc.name,
+		description: typeof doc.description === 'string' ? JSON.parse(doc.description) : doc.description
+	} as Category
+}
 
 export const useCategories = () => {
 	const { databases } = useAppwrite()
@@ -24,7 +32,7 @@ export const useCategories = () => {
 				Query.orderDesc('$createdAt')
 			])
 
-			categories.value = response.documents as unknown as Category[]
+			categories.value = response.documents.map(parseCategory)
 		} catch (err: any) {
 			console.error('Error fetching categories:', err)
 			error.value = 'Failed to fetch categories'
@@ -45,12 +53,9 @@ export const useCategories = () => {
 				isActive: data.isActive ?? true
 			})
 
-			const newCategory = response as unknown as Category
-			if (categories.value) {
-				categories.value.push(newCategory)
-				// Re-sort categories
-				categories.value.sort((a, b) => a.sortOrder - b.sortOrder)
-			}
+			const newCategory = parseCategory(response)
+			categories.value.push(newCategory)
+			categories.value.sort((a, b) => a.sortOrder - b.sortOrder)
 
 			handleSuccess('Категория успешно создана')
 			return newCategory
@@ -72,12 +77,10 @@ export const useCategories = () => {
 			const { $id, ...updateData } = data
 			const response = await databases.updateDocument(databaseId, collectionId, $id, updateData)
 
-			const updatedCategory = response as unknown as Category
-			if (categories.value) {
-				const index = categories.value.findIndex((cat) => cat.$id === $id)
-				if (index !== -1) {
-					categories.value[index] = updatedCategory
-				}
+			const updatedCategory = parseCategory(response)
+			const index = categories.value.findIndex((cat) => cat.$id === $id)
+			if (index !== -1) {
+				categories.value[index] = updatedCategory
 			}
 
 			handleSuccess('Категория успешно обновлена')
@@ -98,10 +101,7 @@ export const useCategories = () => {
 
 		try {
 			await databases.deleteDocument(databaseId, collectionId, categoryId)
-
-			if (categories.value) {
-				categories.value = categories.value.filter((cat) => cat.$id !== categoryId)
-			}
+			categories.value = categories.value.filter((cat) => cat.$id !== categoryId)
 
 			handleSuccess('Категория успешно удалена')
 			return true
@@ -116,11 +116,11 @@ export const useCategories = () => {
 	}
 
 	const getCategoryBySlug = (slug: string): Category | undefined => {
-		return categories.value?.find((cat) => cat.slug === slug)
+		return categories.value.find((cat) => cat.slug === slug)
 	}
 
 	const getCategoryById = (id: string): Category | undefined => {
-		return categories.value?.find((cat) => cat.$id === id)
+		return categories.value.find((cat) => cat.$id === id)
 	}
 
 	const fetchAllCategories = async (): Promise<void> => {
@@ -133,7 +133,7 @@ export const useCategories = () => {
 				Query.orderDesc('$createdAt')
 			])
 
-			categories.value = response.documents as unknown as Category[]
+			categories.value = response.documents.map(parseCategory)
 		} catch (err: any) {
 			console.error('Error fetching all categories:', err)
 			error.value = 'Failed to fetch all categories'
@@ -144,7 +144,7 @@ export const useCategories = () => {
 	}
 
 	const getActiveCategories = (): Category[] => {
-		return categories.value?.filter((cat) => cat.isActive) ?? []
+		return categories.value.filter((cat) => cat.isActive)
 	}
 
 	return {

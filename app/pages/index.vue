@@ -39,7 +39,7 @@ const { locale } = useI18n()
 				</UButton>
 			</div>
 
-			<div class="flex gap-3 overflow-x-auto p-2 scrollbar-hide">
+			<div class="flex gap-3 overflow-x-auto scrollbar-hide">
 				<template v-if="categoriesLoading">
 					<div
 						v-for="item in 5"
@@ -63,7 +63,29 @@ const { locale } = useI18n()
 			</div>
 		</div>
 
-		<div class="space-y-4">
+		<div v-if="productsLoading" class="space-y-4">
+			<div class="flex items-center justify-between">
+				<div class="h-6 w-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+				<div class="h-4 w-20 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+			</div>
+
+			<div class="grid grid-cols-2 gap-4">
+				<div
+					v-for="item in skeletonItems"
+					:key="`prod-skeleton-${item}`"
+					class="bg-white dark:bg-gray-800 rounded-lg shadow-sm animate-pulse"
+				>
+					<div class="aspect-square bg-gray-200 dark:bg-gray-700 rounded-t-lg"></div>
+					<div class="p-4 space-y-2">
+						<div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+						<div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+						<div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/3"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div v-else class="space-y-4">
 			<div class="flex items-center justify-between">
 				<h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
 					<template v-if="selectedCategory">
@@ -78,37 +100,20 @@ const { locale } = useI18n()
 				</span>
 			</div>
 
-			<div class="grid grid-cols-2 gap-4">
-				<template v-if="productsLoading">
-					<div
-						v-for="item in skeletonItems"
-						:key="`prod-skeleton-${item}`"
-						class="bg-white dark:bg-gray-800 rounded-lg shadow-sm animate-pulse"
-					>
-						<div class="aspect-square bg-gray-200 dark:bg-gray-700 rounded-t-lg"></div>
-						<div class="p-4 space-y-2">
-							<div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
-							<div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
-							<div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/3"></div>
-						</div>
-					</div>
-				</template>
+			<div v-if="products.length > 0" class="grid grid-cols-2 gap-4">
+				<ProductCard v-for="product in products" :key="product.$id" :product="product" />
+			</div>
 
-				<template v-else-if="products && products.length > 0">
-					<ProductCard v-for="product in products" :key="product.$id" :product="product" />
-				</template>
-
-				<template v-else>
-					<div class="col-span-full text-center py-12">
-						<div class="text-6xl mb-4">📦</div>
-						<h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
-							{{ $t('products.empty.title') }}
-						</h3>
-						<p class="text-gray-600 dark:text-gray-400">
-							{{ $t('products.empty.description') }}
-						</p>
-					</div>
-				</template>
+			<div v-else class="grid grid-cols-2 gap-4">
+				<div class="col-span-full text-center py-12">
+					<div class="text-6xl mb-4">📦</div>
+					<h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+						{{ $t('products.empty.title') }}
+					</h3>
+					<p class="text-gray-600 dark:text-gray-400">
+						{{ $t('products.empty.description') }}
+					</p>
+				</div>
 			</div>
 		</div>
 	</div>

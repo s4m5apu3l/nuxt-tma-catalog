@@ -22,21 +22,14 @@ const handleCancel = () => {
 </script>
 
 <template>
-	<div class="space-y-6">
-		<div class="flex items-center justify-between">
-			<div>
-				<h1 class="text-2xl font-bold text-gray-900 dark:text-white">
-					{{ t('admin.categories.add') }}
-				</h1>
-				<p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Create a new category for your products</p>
-			</div>
-			<UButton :to="'/admin/categories'" icon="i-heroicons-arrow-left" color="neutral" variant="ghost">
-				{{ t('common.back') }}
-			</UButton>
+	<div class="space-y-4">
+		<div class="flex items-center space-x-3">
+			<UButton icon="i-lucide-arrow-left" variant="ghost" size="sm" to="/admin/categories" />
+			<h1 class="text-xl font-bold text-foreground">
+				{{ t('admin.categories.add') }}
+			</h1>
 		</div>
 
-		<UCard>
-			<AdminCategoryForm :loading="loading" @submit="handleSubmit" @cancel="handleCancel" />
-		</UCard>
+		<CategoryForm :loading="loading" @submit="handleSubmit" @cancel="handleCancel" />
 	</div>
 </template>

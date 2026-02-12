@@ -32,17 +32,12 @@ onMounted(async () => {
 </script>
 
 <template>
-	<div class="space-y-6">
-		<div class="flex items-center justify-between">
-			<div>
-				<h1 class="text-2xl font-bold text-gray-900 dark:text-white">
-					{{ t('admin.categories.edit') }}
-				</h1>
-				<p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Edit category information</p>
-			</div>
-			<UButton :to="'/admin/categories'" icon="i-heroicons-arrow-left" color="neutral" variant="ghost">
-				{{ t('common.back') }}
-			</UButton>
+	<div class="space-y-4">
+		<div class="flex items-center space-x-3">
+			<UButton icon="i-lucide-arrow-left" variant="ghost" size="sm" to="/admin/categories" />
+			<h1 class="text-xl font-bold text-foreground">
+				{{ t('admin.categories.edit') }}
+			</h1>
 		</div>
 
 		<div v-if="loading" class="flex justify-center py-12">
@@ -51,15 +46,15 @@ onMounted(async () => {
 
 		<div v-else-if="!category" class="text-center py-12">
 			<UIcon name="i-heroicons-exclamation-triangle" class="mx-auto h-12 w-12 text-gray-400" />
-			<h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">Category not found</h3>
-			<p class="mt-1 text-sm text-gray-500">The category you're looking for doesn't exist or has been removed.</p>
-			<UButton :to="'/admin/categories'" class="mt-4">
+			<h3 class="mt-2 text-sm font-medium text-foreground">Category not found</h3>
+			<p class="mt-1 text-sm text-muted-foreground">
+				The category you're looking for doesn't exist or has been removed.
+			</p>
+			<UButton to="/admin/categories" class="mt-4">
 				{{ t('common.back') }}
 			</UButton>
 		</div>
 
-		<UCard v-else>
-			<AdminCategoryForm :category="category" :loading="loading" @submit="handleSubmit" @cancel="handleCancel" />
-		</UCard>
+		<CategoryForm v-else :category="category" :loading="loading" @submit="handleSubmit" @cancel="handleCancel" />
 	</div>
 </template>

@@ -49,6 +49,8 @@ export const useCategories = () => {
 		try {
 			const response = await databases.createDocument(databaseId, collectionId, ID.unique(), {
 				...data,
+				name: JSON.stringify(data.name),
+				description: JSON.stringify(data.description),
 				sortOrder: data.sortOrder ?? 0,
 				isActive: data.isActive ?? true
 			})
@@ -75,7 +77,11 @@ export const useCategories = () => {
 
 		try {
 			const { $id, ...updateData } = data
-			const response = await databases.updateDocument(databaseId, collectionId, $id, updateData)
+			const response = await databases.updateDocument(databaseId, collectionId, $id, {
+				...updateData,
+				name: JSON.stringify(updateData.name),
+				description: JSON.stringify(updateData.description)
+			})
 
 			const updatedCategory = parseCategory(response)
 			const index = categories.value.findIndex((cat) => cat.$id === $id)

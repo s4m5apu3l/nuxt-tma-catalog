@@ -39,7 +39,7 @@ const { locale } = useI18n()
 				</UButton>
 			</div>
 
-			<div class="flex gap-3 overflow-x-auto scrollbar-hide">
+			<div class="flex gap-3 overflow-x-auto p-1 scrollbar-hide">
 				<template v-if="categoriesLoading">
 					<div
 						v-for="item in 5"

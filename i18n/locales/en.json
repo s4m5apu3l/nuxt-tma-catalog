@@ -158,6 +158,7 @@
 			"title": "Product Management",
 			"add": "Add Product",
 			"edit": "Edit Product",
+			"create": "Create Product",
 			"delete": "Delete Product",
 			"title_field": "Product Title",
 			"description": "Description",
@@ -174,6 +175,8 @@
 			"dragDrop": "Drag and drop images here or click to select",
 			"maxSize": "Maximum file size: 5MB",
 			"allowedTypes": "Allowed types: JPG, PNG, WebP",
+			"editForm": "Edit product form",
+			"createForm": "Create product form",
 			"empty": {
 				"title": "No products",
 				"description": "Start by creating your first product."

@@ -1,0 +1,1 @@
+import{b0 as t,r as i,g as n,ax as o}from"./CGidw6B-.js";function s(r){const e=t({dir:i("ltr")});return n(()=>r?.value||e.dir?.value||"ltr")}function u(r,e="reka"){return`${e}-${o?.()}`}export{u as a,s as u};

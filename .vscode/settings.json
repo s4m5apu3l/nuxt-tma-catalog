@@ -1,13 +1,10 @@
 {
 	"files.associations": {
-	  "*.css": "tailwindcss"
+		"*.css": "tailwindcss"
 	},
 	"editor.quickSuggestions": {
-	  "strings": "on"
+		"strings": "on"
 	},
 	"tailwindCSS.classAttributes": ["class", "ui"],
-	"tailwindCSS.experimental.classRegex": [
-	  ["ui:\\s*{([^)]*)\\s*}", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
-	]
-  }
-  
+	"tailwindCSS.experimental.classRegex": [["ui:\\s*{([^)]*)\\s*}", "(?:'|\"|`)([^']*)(?:'|\"|`)"]]
+}

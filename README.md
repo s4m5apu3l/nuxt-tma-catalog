@@ -1,78 +1,125 @@
-# Motorki YKT
-Топовый проект от одноименного топового программиста из Якт 
-@бычыслава
+# TMA Catalog - Telegram Mini App
 
-аналог [паромы якутии](https://paromonline.sakha.gov.ru/map?onlyWorked=true&showVessels=true&showCameras=true&showPeirs=true)
+Modern rental catalog built as a Telegram Mini App with admin panel for managing products and categories.
 
+## Features
+
+- 📱 Telegram Mini App integration
+- 🎨 Modern UI with Nuxt UI v4
+- 🌍 Multi-language support (EN/RU)
+- 🖼️ Automatic image compression before upload
+- 💰 Multiple pricing options per product
+- 🔐 Admin panel with authentication
+- ⚡ Optimized API requests with caching
+- 📦 Product availability tracking
+
+## Tech Stack
+
+- **Framework**: Nuxt 4 (SPA mode)
+- **UI**: Nuxt UI v4 + Tailwind CSS
+- **Backend**: Appwrite (Database, Storage, Auth)
+- **Telegram**: vue-tg for WebApp API
+- **i18n**: Multi-language support
 
 ## Setup
-Make sure to install dependencies:
+
+Install dependencies:
 
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
+Configure environment variables (copy `.env.example` to `.env`):
 
-Start the development server on `http://localhost:3000`:
+```env
+NUXT_PUBLIC_APPWRITE_ENDPOINT=your_appwrite_endpoint
+NUXT_PUBLIC_APPWRITE_PROJECT_ID=your_project_id
+NUXT_PUBLIC_APPWRITE_BD_KEY=your_database_id
+NUXT_PUBLIC_APPWRITE_COLLECTION_CATEGORIES=categories_collection_id
+NUXT_PUBLIC_APPWRITE_COLLECTION_PRODUCTS=products_collection_id
+NUXT_PUBLIC_APPWRITE_BUCKET_ID=storage_bucket_id
+NUXT_PUBLIC_TELEGRAM_BOT_USERNAME=your_bot_username
+```
+
+## Development
+
+Start development server:
 
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
+
+Access at `http://localhost:3000`
 
 ## Production
 
-using in this project NUXT4 SPA mode
-it mean we need to generate static mode 
+Build for production (static site):
 
 ```bash
-# npm
 npm run generate
-
-# pnpm
-pnpm generate
-
-# yarn
-yarn generate
-
-# bun
-bun run generate
 ```
 
-Locally preview production build:
+Preview production build:
 
 ```bash
-# npm
 npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Deploy the `.output/public` directory to your hosting (GitHub Pages, Netlify, etc.)
+
+## Project Structure
+
+```
+app/
+├── components/       # Vue components
+│   ├── admin/       # Admin panel components
+│   ├── catalog/     # User-facing components
+│   └── common/      # Shared components
+├── composables/     # Vue composables
+├── pages/           # File-based routing
+├── types/           # TypeScript types
+└── utils/           # Utility functions
+
+i18n/locales/        # Translation files
+docs/                # Documentation
+```
+
+## Key Features
+
+### Image Compression
+Images are automatically compressed before upload:
+- Converts to WebP format
+- Max resolution: 1920x1920px
+- Quality: 85%
+- Saves 60-80% bandwidth
+
+### API Optimization
+- Global state caching (5 min)
+- Client-side filtering
+- Parallel data loading
+- Minimal API requests
+
+### Admin Panel
+- Category management
+- Product CRUD operations
+- Multiple pricing options
+- Image upload with compression
+- Availability tracking
+
+## Commands
+
+```bash
+npm run dev          # Start dev server
+npm run build        # Build for production
+npm run generate     # Generate static site
+npm run preview      # Preview production build
+npm run typecheck    # Run TypeScript checks
+npm run lint         # Run ESLint
+npm run lint:fix     # Fix linting issues
+npm run format       # Check formatting
+npm run format:fix   # Fix formatting
+```
+
+## License
+
+MIT

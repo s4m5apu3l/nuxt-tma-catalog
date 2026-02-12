@@ -1,22 +1,15 @@
 // @ts-check
-import withNuxt from './.nuxt/eslint.config.mjs';
+import withNuxt from './.nuxt/eslint.config.mjs'
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 
-export default withNuxt({
-	rules: {
-		'@typescript-eslint/no-explicit-any': 'off',
-		'vue/multi-word-component-names': 'off',
-		'@typescript-eslint/ban-ts-comment': 'off',
-		'vue/html-self-closing': [
-			'error',
-			{
-				html: {
-					void: 'always',
-					// normal: "never",
-					// component: "always",
-				},
-				// svg: "always",
-				// math: "always",
-			},
-		],
-	},
-});
+export default withNuxt([
+	eslintPluginPrettierRecommended,
+	{
+		rules: {
+			'prettier/prettier': ['error', { printWidth: 120 }],
+			// 'vue/max-len': ['error', { code: 120 }],
+			'vue/no-v-html': 'off',
+			'@typescript-eslint/no-explicit-any': 'off'
+		}
+	}
+])

@@ -1,0 +1,279 @@
+{
+	"welcome": "Welcome",
+	"categories": {
+		"title": "Categories",
+		"description": "Browse our product categories to find what you're looking for.",
+		"loading": "Loading categories...",
+		"productsCount": "{count} products",
+		"products": "products",
+		"empty": {
+			"title": "No categories available",
+			"description": "There are currently no categories to display. Please check back later."
+		}
+	},
+	"category": {
+		"viewProducts": "View products in this category",
+		"productsDescription": "Found {count} products in this category",
+		"loading": "Loading category...",
+		"notFound": {
+			"title": "Category not found",
+			"description": "The category you're looking for doesn't exist or has been removed."
+		},
+		"backToCategories": "Back to Categories"
+	},
+	"product": {
+		"noImage": "No image available",
+		"description": "Description",
+		"addedOn": "Added on",
+		"category": "Category",
+		"unavailable": "Unavailable",
+		"available": "Available",
+		"contacting": "Contacting...",
+		"features": "Features",
+		"price": "Price",
+		"loading": "Loading product...",
+		"shareOnTelegram": "Share on Telegram",
+		"sharing": "Sharing...",
+		"backToCategory": "Back to {category}",
+		"backToCategories": "Back to Categories",
+		"notFound": {
+			"title": "Product not found",
+			"description": "The product you're looking for doesn't exist or has been removed."
+		},
+		"not_found": {
+			"title": "Product not found",
+			"description": "The product you're looking for doesn't exist or has been removed."
+		},
+		"gallery": {
+			"previous": "Previous",
+			"next": "Next"
+		},
+		"contact": {
+			"button": "Contact",
+			"telegram_unavailable": "Telegram is not available",
+			"default_message": "Hi! I'm interested in {productName} for {price}. Could you provide more details?",
+			"link": "Product link"
+		}
+	},
+	"products": {
+		"allProducts": "All Products",
+		"items": "items",
+		"empty": {
+			"title": "No products available",
+			"description": "There are currently no products in this category."
+		},
+		"loadMore": "Load More Products"
+	},
+	"admin": {
+		"title": "Admin",
+		"dashboard": {
+			"title": "Dashboard",
+			"welcome": "Welcome, {name}!",
+			"categories": "Categories",
+			"products": "Products",
+			"active": "Active",
+			"inactive": "Inactive",
+			"quickActions": "Quick Actions",
+			"addCategory": "Add Category",
+			"addProduct": "Add Product",
+			"recentProducts": "Recent Products",
+			"noRecentProducts": "No recent products"
+		},
+		"nav": {
+			"dashboard": "Dashboard",
+			"categories": "Categories",
+			"products": "Products"
+		},
+		"layout": {
+			"adminPanel": "Admin Panel",
+			"logout": "Logout"
+		},
+		"login": {
+			"title": "Admin Login",
+			"subtitle": "Sign in to access the admin panel",
+			"email": "Email",
+			"password": "Password",
+			"emailPlaceholder": "Enter your email",
+			"passwordPlaceholder": "Enter your password",
+			"submit": "Sign In",
+			"errors": {
+				"emailRequired": "Email is required",
+				"emailInvalid": "Please enter a valid email",
+				"passwordRequired": "Password is required",
+				"passwordTooShort": "Password must be at least 6 characters"
+			}
+		},
+		"navigation": {
+			"dashboard": "Dashboard",
+			"categories": "Categories",
+			"products": "Products",
+			"logout": "Logout"
+		},
+		"categories": {
+			"title": "Category Management",
+			"add": "Add Category",
+			"edit": "Edit Category",
+			"delete": "Delete Category",
+			"name": "Category Name",
+			"slug": "Slug",
+			"actions": "Actions",
+			"confirmDelete": "Are you sure you want to delete this category?",
+			"deleteWarning": "This action cannot be undone.",
+			"created": "Category created successfully",
+			"updated": "Category updated successfully",
+			"deleted": "Category deleted successfully",
+			"empty": {
+				"title": "No categories",
+				"description": "Start by creating your first category."
+			},
+			"form": {
+				"nameEn": "Name (English)",
+				"nameRu": "Name (Russian)",
+				"nameEnPlaceholder": "Enter category name in English",
+				"nameRuPlaceholder": "Enter category name in Russian",
+				"descriptionEn": "Description (English)",
+				"descriptionRu": "Description (Russian)",
+				"descriptionEnPlaceholder": "Enter description in English",
+				"descriptionRuPlaceholder": "Enter description in Russian",
+				"icon": "Icon",
+				"iconPlaceholder": "🏠",
+				"iconHelp": "Enter an emoji or icon character",
+				"slug": "Slug",
+				"slugPlaceholder": "category-slug",
+				"slugHelp": "URL-friendly identifier (auto-generated from English name)",
+				"sortOrder": "Sort Order",
+				"sortOrderPlaceholder": "0",
+				"isActive": "Active",
+				"isActiveHelp": "Inactive categories won't be visible to users"
+			},
+			"errors": {
+				"nameEnRequired": "English name is required",
+				"nameRuRequired": "Russian name is required",
+				"iconRequired": "Icon is required",
+				"slugRequired": "Slug is required"
+			}
+		},
+		"products": {
+			"title": "Product Management",
+			"add": "Add Product",
+			"edit": "Edit Product",
+			"create": "Create Product",
+			"delete": "Delete Product",
+			"title_field": "Product Title",
+			"description": "Description",
+			"price": "Price",
+			"category": "Category",
+			"images": "Images",
+			"actions": "Actions",
+			"confirmDelete": "Are you sure you want to delete this product?",
+			"deleteWarning": "This action cannot be undone.",
+			"created": "Product created successfully",
+			"updated": "Product updated successfully",
+			"deleted": "Product deleted successfully",
+			"uploadImages": "Upload Images",
+			"dragDrop": "Drag and drop images here or click to select",
+			"maxSize": "Maximum file size: 5MB",
+			"allowedTypes": "Allowed types: JPG, PNG, WebP",
+			"editForm": "Edit product form",
+			"createForm": "Create product form",
+			"createSuccess": "Product created successfully",
+			"createError": "Failed to create product",
+			"updateSuccess": "Product updated successfully",
+			"updateError": "Failed to update product",
+			"loadError": "Failed to load product",
+			"empty": {
+				"title": "No products",
+				"description": "Start by creating your first product."
+			},
+			"form": {
+				"basicInfo": "Basic Information",
+				"nameEn": "Name (English)",
+				"nameRu": "Name (Russian)",
+				"nameEnPlaceholder": "Enter product name in English",
+				"nameRuPlaceholder": "Enter product name in Russian",
+				"descriptionEn": "Description (English)",
+				"descriptionRu": "Description (Russian)",
+				"descriptionEnPlaceholder": "Enter product description in English",
+				"descriptionRuPlaceholder": "Enter product description in Russian",
+				"categoryAndPrice": "Category & Pricing",
+				"category": "Category",
+				"categoryPlaceholder": "Select a category",
+				"price": "Price",
+				"currency": "Currency",
+				"priceUnit": "Price Unit",
+				"addPrice": "Add Price",
+				"settings": "Settings",
+				"slug": "Slug",
+				"slugPlaceholder": "product-slug",
+				"slugHelp": "URL-friendly identifier (auto-generated from English name)",
+				"sortOrder": "Sort Order",
+				"isActive": "Active",
+				"isAvailable": "Available for rent",
+				"isAvailableHelp": "Mark as unavailable if product is currently rented"
+			},
+			"priceUnits": {
+				"hour": "per hour",
+				"day": "per day",
+				"week": "per week",
+				"month": "per month"
+			},
+			"errors": {
+				"nameEnRequired": "English name is required",
+				"nameRuRequired": "Russian name is required",
+				"descriptionEnRequired": "English description is required",
+				"descriptionRuRequired": "Russian description is required",
+				"categoryRequired": "Category is required",
+				"priceMin": "Price must be greater than or equal to 0",
+				"slugRequired": "Slug is required"
+			}
+		},
+		"uploading": "Uploading...",
+		"clickToUpload": "Click to upload images",
+		"dragAndDrop": "or drag and drop files here",
+		"imageFormats": "JPG, PNG, WebP",
+		"maxSize": "Max size",
+		"compressing": "Compressing image...",
+		"compressionSaved": "Saved {percent}% ({size})"
+	},
+	"login": "Login",
+	"logout": "Logout",
+	"language": {
+		"switch": "Switch Language",
+		"english": "English",
+		"russian": "Русский"
+	},
+	"common": {
+		"loading": "Loading...",
+		"error": "Error",
+		"retry": "Retry",
+		"dismiss": "Dismiss",
+		"save": "Save",
+		"cancel": "Cancel",
+		"delete": "Delete",
+		"edit": "Edit",
+		"add": "Add",
+		"yes": "Yes",
+		"no": "No",
+		"back": "Back",
+		"next": "Next",
+		"previous": "Previous",
+		"close": "Close",
+		"home": "Home",
+		"catalog": "Catalog",
+		"catalog_description": "Browse our product catalog",
+		"back_to_home": "Back to Home",
+		"refresh": "Refresh",
+		"view_all": "View All",
+		"showAll": "Show All",
+		"search": "Search...",
+		"unknownError": "An unknown error occurred"
+	},
+	"error": {
+		"boundary": {
+			"title": "Something went wrong",
+			"description": "An unexpected error occurred. Please try refreshing the page or contact support if the problem persists.",
+			"report": "Report Error",
+			"showDetails": "Show Error Details"
+		}
+	}
+}

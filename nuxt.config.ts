@@ -1,61 +1,85 @@
-import Tailwind from '@tailwindcss/vite';
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-	compatibilityDate: '2025-05-15',
-	devtools: { enabled: true },
-
-	modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxt/scripts', '@nuxt/ui', '@vite-pwa/nuxt', '@nuxt/icon', '@nuxtjs/supabase'],
-
+	modules: ['@nuxt/eslint', '@nuxt/ui', '@nuxtjs/i18n'],
 	ssr: false,
-	hooks: {
-		'prerender:routes'({ routes }) {
-			routes.clear();
-		},
-	},
-	spaLoadingTemplate: 'spa-loading-template.html',
 
-	future: {
-		compatibilityVersion: 4,
-	},
+	components: [
+		{
+			path: '~/components',
+			pathPrefix: false
+		}
+	],
 
-	runtimeConfig: {
-		public: {
-			// keyMap: process.env.MAPGL,
-			tmaToken: process.env.TELEGRAM_BOT_TOKEN,
+	app: {
+		head: {
+			// title: 'TMA catalog',
+			charset: 'utf-8',
+			viewport: 'width=device-width, initial-scale=1',
+			script: [
+				{
+					src: 'https://telegram.org/js/telegram-web-app.js'
+				}
+			]
 		},
+		// for static deploy gh-pages need to baseURL: '/<repository-name>/'
+		baseURL: '/nuxt-tma-catalog/',
+		buildAssetsDir: 'assets'
 	},
 
 	css: ['~/assets/css/main.css'],
 
-	icon: {
-		mode: 'css',
-		cssLayer: 'base',
+	// spa loader
+	spaLoadingTemplate: 'spa-loader.html',
+
+	runtimeConfig: {
+		// Private keys (only available on server-side)
+		// appwriteApiKey: process.env.APPWRITE_API_KEY,
+		tmaToken: process.env.TELEGRAM_BOT_TOKEN,
+		appwriteBdKey: process.env.NUXT_APPWRITE_BD_KEY,
+
+		public: {
+			appwriteEndpoint: process.env.APPWRITE_PUBLIC_ENDPOINT,
+			appwriteProjectId: process.env.APPWRITE_PUBLIC_PROJECT_ID,
+			appwriteProjectName: process.env.APPWRITE_PUBLIC_PROJECT_NAME,
+
+			appwriteBdKey: process.env.APPWRITE_PUBLIC_BD_KEY,
+			appwriteCollectionCategories: process.env.APPWRITE_PUBLIC_COLLECTION_CATEGORIES_ID,
+			appwriteCollectionProducts: process.env.APPWRITE_PUBLIC_COLLECTION_PRODUCTS_ID,
+			appwriteBucketId: process.env.APPWRITE_PUBLIC_BUCKET_ID
+		}
 	},
 
-	vite: {
-		plugins: [Tailwind()],
+	compatibilityDate: '2026-01-19',
+	hooks: {
+		'prerender:routes'({ routes }) {
+			routes.clear()
+		}
 	},
 
-	ui: {
-		theme: {
-			colors: ['primary', 'secondary', 'tertiary', 'info', 'success', 'warning', 'error'],
-		},
+	eslint: {
+		config: {
+			stylistic: {
+				commaDangle: 'never',
+				braceStyle: '1tbs'
+			}
+		}
 	},
 
-	app: {
-		rootTag: 'main',
-		head: {
-			title: 'simple catalog tma bot',
-			script: [
-				{
-					src: 'https://telegram.org/js/telegram-web-app.js',
-					defer: true,
-				},
-			],
-		},
-	},
-
-	supabase: {
-		redirect: false,
-	},
-});
+	i18n: {
+		locales: [
+			{
+				code: 'en',
+				name: 'English',
+				file: 'en.json'
+			},
+			{
+				code: 'ru',
+				name: 'Русский',
+				file: 'ru.json'
+			}
+		],
+		defaultLocale: 'ru',
+		strategy: 'no_prefix',
+		detectBrowserLanguage: false
+	}
+})

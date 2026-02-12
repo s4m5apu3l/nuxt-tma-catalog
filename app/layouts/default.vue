@@ -1,27 +1,27 @@
-<script setup lang="ts"></script>
+<script setup>
+const { locale } = useI18n()
+
+useHead({
+	htmlAttrs: {
+		lang: locale
+	}
+})
+</script>
 
 <template>
-	<section class="layout">
-		<main-header />
+	<div class="min-h-screen bg-background">
+		<MainHeader />
 
-		<main class="content">
-			<slot />
-		</main>
+		<UMain>
+			<UContainer class="py-8">
+				<slot />
+			</UContainer>
+		</UMain>
 
-		<main-nav />
-	</section>
+		<USeparator />
+
+		<UFooter>
+			<p class="text-sm text-muted">Built with FrostByte • © {{ new Date().getFullYear() }}</p>
+		</UFooter>
+	</div>
 </template>
-
-<style scoped>
-.layout {
-	display: flex;
-	flex-direction: column;
-	min-height: 100vh;
-	margin-bottom: 64px;
-	overflow-x: clip;
-}
-
-.content {
-	flex: 1;
-}
-</style>

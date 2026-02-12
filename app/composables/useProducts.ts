@@ -12,11 +12,15 @@ const parseProduct = (doc: any): Product => {
 	} as Product
 }
 
+// Глобальное состояние для кеширования
+const globalProducts = ref<Product[]>([])
+const globalLoading = ref(false)
+const globalError = ref<string | null>(null)
+const lastFetchTime = ref<number>(0)
+const CACHE_DURATION = 5 * 60 * 1000 // 5 минут
+
 export const useProducts = () => {
-	const products = ref<Product[]>([])
 	const product = ref<Product | null>(null)
-	const isLoading = ref(false)
-	const error = ref<string | null>(null)
 
 	const { databases } = useAppwrite()
 	const { handleError, handleSuccess } = useErrorHandler()
@@ -25,64 +29,67 @@ export const useProducts = () => {
 	const databaseId: string = config.public.appwriteBdKey
 	const collectionId: string = config.public.appwriteCollectionProducts
 
-	const fetchProducts = async (categoryId?: string): Promise<Product[]> => {
-		isLoading.value = true
-		error.value = null
+	const isCacheValid = (): boolean => {
+		return Date.now() - lastFetchTime.value < CACHE_DURATION && globalProducts.value.length > 0
+	}
+
+	const fetchProducts = async (categoryId?: string, forceRefresh = false): Promise<Product[]> => {
+		// Используем кеш если он валиден и нет фильтра по категории
+		if (!forceRefresh && !categoryId && isCacheValid()) {
+			return globalProducts.value
+		}
+
+		globalLoading.value = true
+		globalError.value = null
 
 		try {
-			const queries = [Query.equal('isActive', true)]
+			const queries = [Query.equal('isActive', true), Query.orderDesc('$createdAt')]
 			if (categoryId) {
 				queries.push(Query.equal('categoryId', categoryId))
 			}
 
 			const response = await databases.listDocuments(databaseId, collectionId, queries)
 
-			products.value = response.documents.map(parseProduct)
-			return products.value
+			const fetchedProducts = response.documents.map(parseProduct)
+			
+			// Обновляем глобальный кеш только если загружаем все продукты
+			if (!categoryId) {
+				globalProducts.value = fetchedProducts
+				lastFetchTime.value = Date.now()
+			}
+			
+			return fetchedProducts
 		} catch (err) {
-			error.value = err instanceof Error ? err.message : 'Unknown error'
+			globalError.value = err instanceof Error ? err.message : 'Unknown error'
 			throw err
 		} finally {
-			isLoading.value = false
+			globalLoading.value = false
 		}
 	}
 
 	const fetchProduct = async (productId: string): Promise<Product> => {
-		isLoading.value = true
-		error.value = null
+		globalLoading.value = true
+		globalError.value = null
 
 		try {
 			const response = await databases.getDocument(databaseId, collectionId, productId)
 			product.value = parseProduct(response)
 			return product.value
 		} catch (err) {
-			error.value = err instanceof Error ? err.message : 'Unknown error'
+			globalError.value = err instanceof Error ? err.message : 'Unknown error'
 			throw err
 		} finally {
-			isLoading.value = false
+			globalLoading.value = false
 		}
 	}
 
 	const fetchAllProducts = async (): Promise<Product[]> => {
-		isLoading.value = true
-		error.value = null
-
-		try {
-			const response = await databases.listDocuments(databaseId, collectionId)
-
-			products.value = response.documents.map(parseProduct)
-			return products.value
-		} catch (err) {
-			error.value = err instanceof Error ? err.message : 'Unknown error'
-			throw err
-		} finally {
-			isLoading.value = false
-		}
+		return fetchProducts(undefined, true)
 	}
 
 	const createProduct = async (data: CreateProductData): Promise<Product | null> => {
-		isLoading.value = true
-		error.value = null
+		globalLoading.value = true
+		globalError.value = null
 
 		try {
 			const response = await databases.createDocument(databaseId, collectionId, ID.unique(), {
@@ -96,23 +103,23 @@ export const useProducts = () => {
 			})
 
 			const newProduct = parseProduct(response)
-			products.value.push(newProduct)
+			globalProducts.value.unshift(newProduct)
 
 			handleSuccess('Товар успешно создан')
 			return newProduct
 		} catch (err: any) {
 			console.error('Error creating product:', err)
-			error.value = 'Failed to create product'
+			globalError.value = 'Failed to create product'
 			handleError(err, 'Ошибка создания товара')
 			return null
 		} finally {
-			isLoading.value = false
+			globalLoading.value = false
 		}
 	}
 
 	const updateProduct = async (productId: string, data: UpdateProductData): Promise<Product | null> => {
-		isLoading.value = true
-		error.value = null
+		globalLoading.value = true
+		globalError.value = null
 
 		try {
 			const response = await databases.updateDocument(databaseId, collectionId, productId, {
@@ -125,57 +132,57 @@ export const useProducts = () => {
 			})
 
 			const updatedProduct = parseProduct(response)
-			const index = products.value.findIndex((prod) => prod.$id === productId)
+			const index = globalProducts.value.findIndex((prod) => prod.$id === productId)
 			if (index !== -1) {
-				products.value[index] = updatedProduct
+				globalProducts.value[index] = updatedProduct
 			}
 
 			handleSuccess('Товар успешно обновлен')
 			return updatedProduct
 		} catch (err: any) {
 			console.error('Error updating product:', err)
-			error.value = 'Failed to update product'
+			globalError.value = 'Failed to update product'
 			handleError(err, 'Ошибка обновления товара')
 			return null
 		} finally {
-			isLoading.value = false
+			globalLoading.value = false
 		}
 	}
 
 	const deleteProduct = async (productId: string): Promise<boolean> => {
-		isLoading.value = true
-		error.value = null
+		globalLoading.value = true
+		globalError.value = null
 
 		try {
 			await databases.deleteDocument(databaseId, collectionId, productId)
-			products.value = products.value.filter((prod) => prod.$id !== productId)
+			globalProducts.value = globalProducts.value.filter((prod) => prod.$id !== productId)
 
 			handleSuccess('Товар успешно удален')
 			return true
 		} catch (err: any) {
 			console.error('Error deleting product:', err)
-			error.value = 'Failed to delete product'
+			globalError.value = 'Failed to delete product'
 			handleError(err, 'Ошибка удаления товара')
 			return false
 		} finally {
-			isLoading.value = false
+			globalLoading.value = false
 		}
 	}
 
 	const getProductBySlug = (slug: string): Product | undefined => {
-		return products.value.find((product) => product.slug === slug)
+		return globalProducts.value.find((product) => product.slug === slug)
 	}
 
 	const getProductById = (id: string): Product | undefined => {
-		return products.value.find((prod) => prod.$id === id)
+		return globalProducts.value.find((prod) => prod.$id === id)
 	}
 
 	return {
-		products: readonly(products),
+		products: readonly(globalProducts),
 		product: readonly(product),
-		isLoading: readonly(isLoading),
-		loading: readonly(isLoading),
-		error: readonly(error),
+		isLoading: readonly(globalLoading),
+		loading: readonly(globalLoading),
+		error: readonly(globalError),
 		fetchProducts,
 		fetchProduct,
 		fetchAllProducts,

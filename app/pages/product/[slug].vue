@@ -11,12 +11,22 @@ const product = ref<Product | null>(null)
 const notFound = ref(false)
 
 const loadProduct = async () => {
+	// Сначала проверяем кеш
+	const cachedProduct = getProductBySlug(productSlug)
+	
+	if (cachedProduct) {
+		product.value = cachedProduct
+		return
+	}
+
+	// Если нет в кеше, загружаем все продукты один раз
 	if (!products.value || products.value.length === 0) {
 		await fetchProducts()
 	}
 
+	// Ищем продукт после загрузки
 	const foundProduct = getProductBySlug(productSlug)
-
+	
 	if (foundProduct) {
 		product.value = foundProduct
 	} else {

@@ -1,9 +1,12 @@
 import type { Category, CreateCategoryData, UpdateCategoryData } from '~/types'
 import { Query, ID } from 'appwrite'
 
-const categories = ref<Category[]>([])
-const loading = ref(false)
-const error = ref<string | null>(null)
+// Глобальное состояние для кеширования
+const globalCategories = ref<Category[]>([])
+const globalLoading = ref(false)
+const globalError = ref<string | null>(null)
+const lastFetchTime = ref<number>(0)
+const CACHE_DURATION = 5 * 60 * 1000 // 5 минут
 
 const parseCategory = (doc: any): Category => {
 	return {
@@ -21,9 +24,18 @@ export const useCategories = () => {
 	const databaseId: string = config.public.appwriteBdKey
 	const collectionId: string = config.public.appwriteCollectionCategories
 
-	const fetchCategories = async (): Promise<void> => {
-		loading.value = true
-		error.value = null
+	const isCacheValid = (): boolean => {
+		return Date.now() - lastFetchTime.value < CACHE_DURATION && globalCategories.value.length > 0
+	}
+
+	const fetchCategories = async (forceRefresh = false): Promise<void> => {
+		// Используем кеш если он валиден
+		if (!forceRefresh && isCacheValid()) {
+			return
+		}
+
+		globalLoading.value = true
+		globalError.value = null
 
 		try {
 			const response = await databases.listDocuments(databaseId, collectionId, [
@@ -32,19 +44,20 @@ export const useCategories = () => {
 				Query.orderDesc('$createdAt')
 			])
 
-			categories.value = response.documents.map(parseCategory)
+			globalCategories.value = response.documents.map(parseCategory)
+			lastFetchTime.value = Date.now()
 		} catch (err: any) {
 			console.error('Error fetching categories:', err)
-			error.value = 'Failed to fetch categories'
+			globalError.value = 'Failed to fetch categories'
 			handleError(err, 'Ошибка загрузки категорий')
 		} finally {
-			loading.value = false
+			globalLoading.value = false
 		}
 	}
 
 	const createCategory = async (data: CreateCategoryData): Promise<Category | null> => {
-		loading.value = true
-		error.value = null
+		globalLoading.value = true
+		globalError.value = null
 
 		try {
 			const response = await databases.createDocument(databaseId, collectionId, ID.unique(), {
@@ -56,24 +69,24 @@ export const useCategories = () => {
 			})
 
 			const newCategory = parseCategory(response)
-			categories.value.push(newCategory)
-			categories.value.sort((a, b) => a.sortOrder - b.sortOrder)
+			globalCategories.value.push(newCategory)
+			globalCategories.value.sort((a, b) => a.sortOrder - b.sortOrder)
 
 			handleSuccess('Категория успешно создана')
 			return newCategory
 		} catch (err: any) {
 			console.error('Error creating category:', err)
-			error.value = 'Failed to create category'
+			globalError.value = 'Failed to create category'
 			handleError(err, 'Ошибка создания категории')
 			return null
 		} finally {
-			loading.value = false
+			globalLoading.value = false
 		}
 	}
 
 	const updateCategory = async (data: UpdateCategoryData): Promise<Category | null> => {
-		loading.value = true
-		error.value = null
+		globalLoading.value = true
+		globalError.value = null
 
 		try {
 			const { $id, ...updateData } = data
@@ -84,54 +97,54 @@ export const useCategories = () => {
 			})
 
 			const updatedCategory = parseCategory(response)
-			const index = categories.value.findIndex((cat) => cat.$id === $id)
+			const index = globalCategories.value.findIndex((cat) => cat.$id === $id)
 			if (index !== -1) {
-				categories.value[index] = updatedCategory
+				globalCategories.value[index] = updatedCategory
 			}
 
 			handleSuccess('Категория успешно обновлена')
 			return updatedCategory
 		} catch (err: any) {
 			console.error('Error updating category:', err)
-			error.value = 'Failed to update category'
+			globalError.value = 'Failed to update category'
 			handleError(err, 'Ошибка обновления категории')
 			return null
 		} finally {
-			loading.value = false
+			globalLoading.value = false
 		}
 	}
 
 	const deleteCategory = async (categoryId: string): Promise<boolean> => {
-		loading.value = true
-		error.value = null
+		globalLoading.value = true
+		globalError.value = null
 
 		try {
 			await databases.deleteDocument(databaseId, collectionId, categoryId)
-			categories.value = categories.value.filter((cat) => cat.$id !== categoryId)
+			globalCategories.value = globalCategories.value.filter((cat) => cat.$id !== categoryId)
 
 			handleSuccess('Категория успешно удалена')
 			return true
 		} catch (err: any) {
 			console.error('Error deleting category:', err)
-			error.value = 'Failed to delete category'
+			globalError.value = 'Failed to delete category'
 			handleError(err, 'Ошибка удаления категории')
 			return false
 		} finally {
-			loading.value = false
+			globalLoading.value = false
 		}
 	}
 
 	const getCategoryBySlug = (slug: string): Category | undefined => {
-		return categories.value.find((cat) => cat.slug === slug)
+		return globalCategories.value.find((cat) => cat.slug === slug)
 	}
 
 	const getCategoryById = (id: string): Category | undefined => {
-		return categories.value.find((cat) => cat.$id === id)
+		return globalCategories.value.find((cat) => cat.$id === id)
 	}
 
 	const fetchAllCategories = async (): Promise<void> => {
-		loading.value = true
-		error.value = null
+		globalLoading.value = true
+		globalError.value = null
 
 		try {
 			const response = await databases.listDocuments(databaseId, collectionId, [
@@ -139,24 +152,25 @@ export const useCategories = () => {
 				Query.orderDesc('$createdAt')
 			])
 
-			categories.value = response.documents.map(parseCategory)
+			globalCategories.value = response.documents.map(parseCategory)
+			lastFetchTime.value = Date.now()
 		} catch (err: any) {
 			console.error('Error fetching all categories:', err)
-			error.value = 'Failed to fetch all categories'
+			globalError.value = 'Failed to fetch all categories'
 			handleError(err, 'Ошибка загрузки всех категорий')
 		} finally {
-			loading.value = false
+			globalLoading.value = false
 		}
 	}
 
 	const getActiveCategories = (): Category[] => {
-		return categories.value.filter((cat) => cat.isActive)
+		return globalCategories.value.filter((cat) => cat.isActive)
 	}
 
 	return {
-		categories: readonly(categories),
-		loading: readonly(loading),
-		error: readonly(error),
+		categories: readonly(globalCategories),
+		loading: readonly(globalLoading),
+		error: readonly(globalError),
 		fetchCategories,
 		fetchAllCategories,
 		createCategory,

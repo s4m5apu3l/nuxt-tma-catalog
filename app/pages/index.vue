@@ -6,20 +6,26 @@ const { categories, loading: categoriesLoading, fetchCategories } = useCategorie
 const { products, isLoading: productsLoading, fetchProducts } = useProducts()
 
 const selectedCategory = ref<Category | null>(null)
+const filteredProducts = computed(() => {
+	if (!selectedCategory.value) {
+		return products.value
+	}
+	return products.value.filter((p) => p.categoryId === selectedCategory.value?.$id)
+})
 
-const handleCategorySelect = async (category: Category) => {
+const handleCategorySelect = (category: Category) => {
 	selectedCategory.value = category
-	await fetchProducts(category.$id)
 }
 
-const showAllProducts = async () => {
+const showAllProducts = () => {
 	selectedCategory.value = null
-	await fetchProducts()
 }
 
 onMounted(async () => {
-	await fetchCategories()
-	await fetchProducts() // Загружаем все продукты по умолчанию
+	await Promise.all([
+		fetchCategories(),
+		fetchProducts()
+	])
 })
 
 const skeletonItems = Array.from({ length: 6 }, (_, i) => i)
@@ -99,12 +105,12 @@ const { locale } = useI18n()
 					</template>
 				</h2>
 				<span class="text-sm text-gray-500 dark:text-gray-400">
-					{{ products.length }} {{ $t('products.items') }}
+					{{ filteredProducts.length }} {{ $t('products.items') }}
 				</span>
 			</div>
 
 			<div v-if="products.length > 0" class="grid grid-cols-2 gap-4">
-				<ProductCard v-for="product in products" :key="product.$id" :product="product" />
+				<ProductCard v-for="product in filteredProducts" :key="product.$id" :product="product" />
 			</div>
 
 			<div v-else class="grid grid-cols-2 gap-4">

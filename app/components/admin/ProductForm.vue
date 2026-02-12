@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { z } from 'zod'
-import type { Product, CreateProductData, PricingOption, Currency } from '~/types'
+import type { Product, CreateProductData, PricingOption } from '~/types'
 
 interface Props {
 	product?: Product
@@ -164,13 +164,7 @@ const onSubmit = async () => {
 			<template #header>
 				<div class="flex items-center justify-between">
 					<h3 class="text-base font-semibold">{{ t('admin.products.form.categoryAndPrice') }}</h3>
-					<UButton
-						icon="i-lucide-plus"
-						size="xs"
-						color="primary"
-						variant="soft"
-						@click="addPricing"
-					>
+					<UButton icon="i-lucide-plus" size="xs" color="primary" variant="soft" @click="addPricing">
 						{{ t('admin.products.form.addPrice') }}
 					</UButton>
 				</div>
@@ -186,11 +180,7 @@ const onSubmit = async () => {
 				</UFormField>
 
 				<div class="space-y-3">
-					<div
-						v-for="(price, index) in pricing"
-						:key="index"
-						class="flex items-end gap-2"
-					>
+					<div v-for="(price, index) in pricing" :key="index" class="flex items-end gap-2">
 						<UFormField :label="index === 0 ? t('admin.products.form.price') : ''" class="flex-1">
 							<UInput v-model.number="price.price" type="number" min="0" step="0.01" />
 						</UFormField>
@@ -206,7 +196,7 @@ const onSubmit = async () => {
 						<UButton
 							v-if="pricing.length > 1"
 							icon="i-lucide-trash-2"
-							color="red"
+							color="error"
 							variant="soft"
 							size="sm"
 							@click="removePricing(index)"

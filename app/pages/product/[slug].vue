@@ -13,7 +13,7 @@ const notFound = ref(false)
 const loadProduct = async () => {
 	// Сначала проверяем кеш
 	const cachedProduct = getProductBySlug(productSlug)
-	
+
 	if (cachedProduct) {
 		product.value = cachedProduct
 		return
@@ -26,7 +26,7 @@ const loadProduct = async () => {
 
 	// Ищем продукт после загрузки
 	const foundProduct = getProductBySlug(productSlug)
-	
+
 	if (foundProduct) {
 		product.value = foundProduct
 	} else {

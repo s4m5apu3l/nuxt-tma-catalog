@@ -22,10 +22,7 @@ const showAllProducts = () => {
 }
 
 onMounted(async () => {
-	await Promise.all([
-		fetchCategories(),
-		fetchProducts()
-	])
+	await Promise.all([fetchCategories(), fetchProducts()])
 })
 
 const skeletonItems = Array.from({ length: 6 }, (_, i) => i)
@@ -46,7 +43,7 @@ const { locale } = useI18n()
 			</div>
 
 			<div class="relative">
-				<div class="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scroll-smooth categories-scroll">
+				<div class="flex gap-3 overflow-x-auto p-1 snap-x snap-mandatory scroll-smooth categories-scroll">
 					<template v-if="categoriesLoading">
 						<div
 							v-for="item in 5"

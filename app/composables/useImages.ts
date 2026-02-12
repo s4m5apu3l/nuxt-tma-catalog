@@ -37,8 +37,7 @@ export const useImages = () => {
 					mimeType: 'image/webp'
 				})
 
-				// Log compression stats in development
-				if (process.dev) {
+				if (import.meta.dev) {
 					const stats = getCompressionStats(file.size, fileToUpload.size)
 					console.log('Image compressed:', stats)
 				}

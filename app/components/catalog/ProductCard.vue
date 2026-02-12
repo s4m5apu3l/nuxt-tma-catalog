@@ -29,7 +29,7 @@ const priceLabel = computed(() => {
 </script>
 
 <template>
-	<UCard class="hover:shadow-lg transition-shadow duration-200 group">
+	<UCard :ui="{ body: 'p-2' }" class="hover:shadow-lg transition-shadow duration-200 group">
 		<NuxtLink :to="`/product/${product.slug}`" class="block">
 			<div class="aspect-square relative overflow-hidden rounded-t-lg bg-gray-100 dark:bg-gray-800">
 				<img
@@ -47,7 +47,7 @@ const priceLabel = computed(() => {
 			<div class="content py-2">
 				<div class="flex items-start justify-between gap-2 mb-1">
 					<h3
-						class="font-semibold text-lg text-gray-900 dark:text-gray-100 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors flex-1"
+						class="font-semibold text-gray-900 dark:text-gray-100 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors flex-1"
 					>
 						{{ productName }}
 					</h3>

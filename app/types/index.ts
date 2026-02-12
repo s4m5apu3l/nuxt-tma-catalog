@@ -1,6 +1,6 @@
 // Export all types from a central location
 export type { Category, CreateCategoryData, UpdateCategoryData } from './category'
-export type { Product, CreateProductData, UpdateProductData, PricingOption, PricePeriod } from './product'
+export type { Product, CreateProductData, UpdateProductData, PricingOption, PricePeriod, Currency } from './product'
 export type { AdminUser, LoginCredentials, AdminSession } from './admin'
 
 // Common types

@@ -1,3 +1,5 @@
+import type { PricingOption } from '~/types'
+
 interface DashboardStats {
 	totalCategories: number
 	totalProducts: number
@@ -10,8 +12,7 @@ interface DashboardStats {
 interface RecentProduct {
 	$id: string
 	name: Record<'en' | 'ru', string>
-	price: number
-	priceUnit: string
+	pricing: readonly PricingOption[]
 	categoryId: string
 	createdAt: string
 	isActive: boolean
@@ -54,7 +55,15 @@ export const useDashboard = () => {
 			.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 			.slice(0, 5)
 
-		recentProducts.value = sortedProducts as RecentProduct[]
+		recentProducts.value = sortedProducts.map((p) => ({
+			$id: p.$id,
+			name: p.name,
+			pricing: p.pricing,
+			categoryId: p.categoryId,
+			createdAt: p.createdAt,
+			isActive: p.isActive,
+			isAvailable: p.isAvailable
+		}))
 	}
 
 	const fetchDashboardData = async (): Promise<void> => {

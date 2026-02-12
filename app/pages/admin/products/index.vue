@@ -38,15 +38,12 @@ const statusOptions = [
 ]
 
 const handleDelete = async (product: Product) => {
-	const confirmed = confirm(`${t('admin.products.confirmDelete')}\n\n${product.name[locale] || product.name.en}`)
+	const localeValue = locale.value as 'en' | 'ru'
+	const confirmed = confirm(`${t('admin.products.confirmDelete')}\n\n${product.name[localeValue] || product.name.en}`)
 
 	if (confirmed) {
 		await deleteProduct(product.$id)
 	}
-}
-
-const formatPrice = (price: number, unit: string): string => {
-	return `${price} ${unit}`
 }
 
 onMounted(() => {
@@ -132,7 +129,7 @@ onMounted(() => {
 							</UBadge>
 						</div>
 						<p class="text-sm text-muted-foreground">
-							{{ formatPrice(product.price, product.priceUnit) }}
+							{{ formatPricing(product.pricing, locale) }}
 						</p>
 						<code class="text-xs text-muted-foreground">{{ product.slug }}</code>
 					</div>

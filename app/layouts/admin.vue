@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { locale, t } = useI18n()
-const { logout, user } = useAuth()
+const { logout } = useAuth()
 const route = useRoute()
 
 useHead({

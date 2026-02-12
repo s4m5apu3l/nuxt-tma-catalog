@@ -200,6 +200,7 @@
 				"category": "Category",
 				"categoryPlaceholder": "Select a category",
 				"price": "Price",
+				"currency": "Currency",
 				"priceUnit": "Price Unit",
 				"settings": "Settings",
 				"slug": "Slug",
@@ -230,7 +231,9 @@
 		"clickToUpload": "Click to upload images",
 		"dragAndDrop": "or drag and drop files here",
 		"imageFormats": "JPG, PNG, WebP",
-		"maxSize": "Max size"
+		"maxSize": "Max size",
+		"compressing": "Compressing image...",
+		"compressionSaved": "Saved {percent}% ({size})"
 	},
 	"login": "Login",
 	"logout": "Logout",

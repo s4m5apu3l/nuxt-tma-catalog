@@ -32,20 +32,14 @@ export const getLocalizedString = (
 /**
  * Получить название категории с учетом локализации
  */
-export const getCategoryName = (
-	category: { name: string | { en: string; ru: string } },
-	locale: string
-): string => {
+export const getCategoryName = (category: { name: string | { en: string; ru: string } }, locale: string): string => {
 	return getLocalizedString(category.name, locale, 'Unnamed Category')
 }
 
 /**
  * Получить название продукта с учетом локализации
  */
-export const getProductName = (
-	product: { name: string | { en: string; ru: string } },
-	locale: string
-): string => {
+export const getProductName = (product: { name: string | { en: string; ru: string } }, locale: string): string => {
 	return getLocalizedString(product.name, locale, 'Unnamed Product')
 }
 

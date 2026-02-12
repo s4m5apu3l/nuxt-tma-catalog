@@ -1,108 +1,128 @@
 import { ID } from 'appwrite'
 import { validateImageFile } from '~/utils/images'
+import { compressImage, getCompressionStats } from '~/utils/imageCompression'
 
 export const useImages = () => {
-  const { storage } = useAppwrite()
-  const config = useRuntimeConfig()
-  
-  const isUploading = ref(false)
-  const uploadProgress = ref(0)
-  const error = ref<string | null>(null)
+	const { storage } = useAppwrite()
+	const config = useRuntimeConfig()
 
-  /**
-   * Upload image to Appwrite storage
-   */
-  const uploadImage = async (file: File): Promise<string> => {
-    const validation = validateImageFile(file)
-    if (!validation.isValid) {
-      throw new Error(validation.error)
-    }
+	const isUploading = ref(false)
+	const uploadProgress = ref(0)
+	const error = ref<string | null>(null)
+	const compressionEnabled = ref(true)
 
-    isUploading.value = true
-    error.value = null
-    uploadProgress.value = 0
+	/**
+	 * Upload image to Appwrite storage with optional compression
+	 */
+	const uploadImage = async (file: File, compress = true): Promise<string> => {
+		const validation = validateImageFile(file)
+		if (!validation.isValid) {
+			throw new Error(validation.error)
+		}
 
-    try {
-      const fileId = ID.unique()
-      const bucketId = config.public.appwriteBucketId
+		isUploading.value = true
+		error.value = null
+		uploadProgress.value = 0
 
-      if (!bucketId) {
-        throw new Error('Storage bucket ID is not configured')
-      }
+		try {
+			let fileToUpload = file
 
-      const response = await storage.createFile(
-        bucketId,
-        fileId,
-        file
-      )
+			// Compress image if enabled
+			if (compress && compressionEnabled.value) {
+				uploadProgress.value = 10
+				fileToUpload = await compressImage(file, {
+					maxWidth: 1920,
+					maxHeight: 1920,
+					quality: 0.85,
+					mimeType: 'image/webp'
+				})
 
-      uploadProgress.value = 100
-      return response.$id
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to upload image'
-      error.value = errorMessage
-      throw new Error(errorMessage)
-    } finally {
-      isUploading.value = false
-    }
-  }
+				// Log compression stats in development
+				if (process.dev) {
+					const stats = getCompressionStats(file.size, fileToUpload.size)
+					console.log('Image compressed:', stats)
+				}
 
-  /**
-   * Upload multiple images
-   */
-  const uploadImages = async (files: File[]): Promise<string[]> => {
-    const uploadPromises = files.map(file => uploadImage(file))
-    return Promise.all(uploadPromises)
-  }
+				uploadProgress.value = 30
+			}
 
-  /**
-   * Delete image from storage
-   */
-  const deleteImage = async (fileId: string): Promise<void> => {
-    try {
-      const bucketId = config.public.appwriteBucketId
-      
-      if (!bucketId) {
-        throw new Error('Storage bucket ID is not configured')
-      }
+			const fileId = ID.unique()
+			const bucketId = config.public.appwriteBucketId
 
-      await storage.deleteFile(bucketId, fileId)
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to delete image'
-      error.value = errorMessage
-      throw new Error(errorMessage)
-    }
-  }
+			if (!bucketId) {
+				throw new Error('Storage bucket ID is not configured')
+			}
 
-  /**
-   * Get image file info
-   */
-  const getImageInfo = async (fileId: string) => {
-    try {
-      const bucketId = config.public.appwriteBucketId
-      
-      if (!bucketId) {
-        throw new Error('Storage bucket ID is not configured')
-      }
+			const response = await storage.createFile(bucketId, fileId, fileToUpload)
 
-      return await storage.getFile(bucketId, fileId)
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to get image info'
-      error.value = errorMessage
-      throw new Error(errorMessage)
-    }
-  }
+			uploadProgress.value = 100
+			return response.$id
+		} catch (err) {
+			const errorMessage = err instanceof Error ? err.message : 'Failed to upload image'
+			error.value = errorMessage
+			throw new Error(errorMessage)
+		} finally {
+			isUploading.value = false
+		}
+	}
 
-  return {
-    // State
-    isUploading: readonly(isUploading),
-    uploadProgress: readonly(uploadProgress),
-    error: readonly(error),
-    
-    // Methods
-    uploadImage,
-    uploadImages,
-    deleteImage,
-    getImageInfo
-  } as const
+	/**
+	 * Upload multiple images with compression
+	 */
+	const uploadImages = async (files: File[], compress = true): Promise<string[]> => {
+		const uploadPromises = files.map((file) => uploadImage(file, compress))
+		return Promise.all(uploadPromises)
+	}
+
+	/**
+	 * Delete image from storage
+	 */
+	const deleteImage = async (fileId: string): Promise<void> => {
+		try {
+			const bucketId = config.public.appwriteBucketId
+
+			if (!bucketId) {
+				throw new Error('Storage bucket ID is not configured')
+			}
+
+			await storage.deleteFile(bucketId, fileId)
+		} catch (err) {
+			const errorMessage = err instanceof Error ? err.message : 'Failed to delete image'
+			error.value = errorMessage
+			throw new Error(errorMessage)
+		}
+	}
+
+	/**
+	 * Get image file info
+	 */
+	const getImageInfo = async (fileId: string) => {
+		try {
+			const bucketId = config.public.appwriteBucketId
+
+			if (!bucketId) {
+				throw new Error('Storage bucket ID is not configured')
+			}
+
+			return await storage.getFile(bucketId, fileId)
+		} catch (err) {
+			const errorMessage = err instanceof Error ? err.message : 'Failed to get image info'
+			error.value = errorMessage
+			throw new Error(errorMessage)
+		}
+	}
+
+	return {
+		// State
+		isUploading: readonly(isUploading),
+		uploadProgress: readonly(uploadProgress),
+		error: readonly(error),
+		compressionEnabled,
+
+		// Methods
+		uploadImage,
+		uploadImages,
+		deleteImage,
+		getImageInfo
+	} as const
 }

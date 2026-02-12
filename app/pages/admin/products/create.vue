@@ -19,14 +19,14 @@ const handleSubmit = async (data: CreateProductData) => {
 		await createProduct(data)
 		toast.add({
 			title: t('admin.products.createSuccess'),
-			color: 'green'
+			color: 'success'
 		})
 		await router.push('/admin/products')
 	} catch (error) {
 		toast.add({
 			title: t('admin.products.createError'),
 			description: error instanceof Error ? error.message : t('common.unknownError'),
-			color: 'red'
+			color: 'error'
 		})
 	} finally {
 		isLoading.value = false

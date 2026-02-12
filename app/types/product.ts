@@ -1,8 +1,10 @@
 export type PricePeriod = 'hour' | 'day' | 'week' | 'month'
+export type Currency = '₽' | '$' | '€' | '฿' | '¥'
 
 export interface PricingOption {
 	period: PricePeriod
 	price: number
+	currency: Currency
 }
 
 export interface Product {

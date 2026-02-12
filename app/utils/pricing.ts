@@ -9,13 +9,15 @@ export const formatPricing = (pricing: readonly PricingOption[], locale: string)
 	})
 
 	const first = sorted[0]
-	return `${first.price} ₽/${getPeriodLabel(first.period, locale)}`
+	if (!first) return ''
+
+	return `${first.price} ${first.currency}/${getPeriodLabel(first.period, locale)}`
 }
 
 export const formatPricingFull = (pricing: readonly PricingOption[], locale: string): string[] => {
 	if (!pricing || pricing.length === 0) return []
 
-	return pricing.map((option) => `${option.price} ₽/${getPeriodLabel(option.period, locale)}`)
+	return pricing.map((option) => `${option.price} ${option.currency}/${getPeriodLabel(option.period, locale)}`)
 }
 
 export const getPeriodLabel = (period: PricePeriod, locale: string): string => {
@@ -26,7 +28,8 @@ export const getPeriodLabel = (period: PricePeriod, locale: string): string => {
 		month: { en: 'month', ru: 'месяц' }
 	}
 
-	return labels[period][locale] || labels[period].en
+	const periodLabels = labels[period]
+	return periodLabels?.[locale] || periodLabels?.en || period
 }
 
 export const getMinPrice = (pricing: readonly PricingOption[]): number => {

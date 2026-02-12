@@ -98,17 +98,19 @@ useSeoMeta({
 						:items="product.images.map((id) => getImageUrl(id))"
 						:ui="{
 							item: 'basis-full',
-							container: ''
+							container: 'aspect-square'
 						}"
 						arrows
 						indicators
 					>
-						<img :src="item" :alt="productName" class="w-full object-cover rounded-2xl" loading="lazy" />
+						<div class="w-full aspect-square bg-gray-100 dark:bg-gray-800 rounded-2xl overflow-hidden">
+							<img :src="item" :alt="productName" class="w-full h-full object-cover" loading="lazy" />
+						</div>
 					</UCarousel>
 
 					<div
 						v-else
-						class="w-full aspect-4/3 bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center justify-center"
+						class="w-full aspect-square bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center justify-center"
 					>
 						<UIcon name="i-lucide-image" class="w-16 h-16 text-gray-400" />
 					</div>

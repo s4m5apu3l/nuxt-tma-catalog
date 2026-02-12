@@ -20,10 +20,6 @@ const formatDate = (dateString: string): string => {
 	})
 }
 
-const formatPrice = (price: number, unit: string): string => {
-	return `${price} ${unit}`
-}
-
 const statsCards = computed(() => [
 	{
 		title: t('admin.dashboard.categories'),
@@ -185,7 +181,7 @@ const statsCards = computed(() => [
 								{{ product.name[locale] || product.name.en }}
 							</p>
 							<div class="flex items-center space-x-2 text-xs text-muted-foreground">
-								<span>{{ formatPrice(product.price, product.priceUnit) }}</span>
+								<span>{{ formatPricing(product.pricing, locale) }}</span>
 								<span>•</span>
 								<span>{{ formatDate(product.createdAt) }}</span>
 							</div>

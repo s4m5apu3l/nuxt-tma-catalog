@@ -20,17 +20,17 @@ const isSubmitting = ref(false)
 const handleSubmit = async (data: CreateProductData) => {
 	isSubmitting.value = true
 	try {
-		await updateProduct(productId, data)
+		await updateProduct(productId, { ...data, $id: productId })
 		toast.add({
 			title: t('admin.products.updateSuccess'),
-			color: 'green'
+			color: 'success'
 		})
 		await router.push('/admin/products')
 	} catch (error) {
 		toast.add({
 			title: t('admin.products.updateError'),
 			description: error instanceof Error ? error.message : t('common.unknownError'),
-			color: 'red'
+			color: 'error'
 		})
 	} finally {
 		isSubmitting.value = false
@@ -48,7 +48,7 @@ onMounted(async () => {
 		toast.add({
 			title: t('admin.products.loadError'),
 			description: error instanceof Error ? error.message : t('common.unknownError'),
-			color: 'red'
+			color: 'error'
 		})
 		await router.push('/admin/products')
 	}

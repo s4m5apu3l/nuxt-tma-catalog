@@ -22,7 +22,7 @@ const openTelegramChat = async () => {
 
 	try {
 		const productName = props.product.name[locale.value as 'en' | 'ru']
-		const price = formatPrice(props.product.price, props.product.priceUnit)
+		const price = formatPricing(props.product.pricing, locale.value)
 		const customMessage = props.product.contactMessage?.[locale.value as 'en' | 'ru']
 
 		const baseMessage =

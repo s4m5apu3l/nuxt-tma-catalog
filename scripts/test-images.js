@@ -38,7 +38,7 @@ async function testImageFunctionality() {
 			// Test 2: Generate image URLs
 			console.log('\n2. Testing image URL generation...')
 			const viewUrl = `${config.endpoint}/storage/buckets/${config.bucketId}/files/${firstFile.$id}/view?project=${config.projectId}`
-			
+
 			console.log('✅ View URL:', viewUrl)
 			console.log('ℹ️  Note: Preview URLs with transformations are not available on free plans')
 

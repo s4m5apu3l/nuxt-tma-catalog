@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { z } from 'zod'
-import type { Product, CreateProductData, PricingOption } from '~/types'
+import type { Product, CreateProductData, PricingOption, Currency } from '~/types'
 
 interface Props {
 	product?: Product
@@ -31,6 +31,7 @@ const schema = z.object({
 	categoryId: z.string().min(1, t('admin.products.errors.categoryRequired')),
 	price: z.number().min(0, t('admin.products.errors.priceMin')),
 	priceUnit: z.enum(['hour', 'day', 'week', 'month']),
+	currency: z.enum(['₽', '$', '€', '฿', '¥']),
 	slug: z.string().min(1, t('admin.products.errors.slugRequired')),
 	sortOrder: z.number().min(0),
 	isActive: z.boolean(),
@@ -39,15 +40,18 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>
 
-const getFirstPricing = (product?: Product): { price: number; priceUnit: 'hour' | 'day' | 'week' | 'month' } => {
+const getFirstPricing = (
+	product?: Product
+): { price: number; priceUnit: 'hour' | 'day' | 'week' | 'month'; currency: Currency } => {
 	if (product?.pricing && product.pricing.length > 0) {
 		const firstPrice = product.pricing[0]
 		return {
 			price: firstPrice?.price ?? 0,
-			priceUnit: firstPrice?.period ?? 'day'
+			priceUnit: firstPrice?.period ?? 'day',
+			currency: firstPrice?.currency ?? '₽'
 		}
 	}
-	return { price: 0, priceUnit: 'day' }
+	return { price: 0, priceUnit: 'day', currency: '₽' }
 }
 
 const firstPricing = getFirstPricing(props.product)
@@ -64,6 +68,7 @@ const form = reactive<Schema>({
 	categoryId: props.product?.categoryId || '',
 	price: firstPricing.price,
 	priceUnit: firstPricing.priceUnit,
+	currency: firstPricing.currency,
 	slug: props.product?.slug || '',
 	sortOrder: props.product?.sortOrder || 0,
 	isActive: props.product?.isActive ?? true,
@@ -77,6 +82,14 @@ const priceUnits = [
 	{ value: 'day', label: t('admin.products.priceUnits.day') },
 	{ value: 'week', label: t('admin.products.priceUnits.week') },
 	{ value: 'month', label: t('admin.products.priceUnits.month') }
+]
+
+const currencies = [
+	{ value: '₽', label: '₽ (RUB)' },
+	{ value: '$', label: '$ (USD)' },
+	{ value: '€', label: '€ (EUR)' },
+	{ value: '฿', label: '฿ (THB)' },
+	{ value: '¥', label: '¥ (CNY/JPY)' }
 ]
 
 const generateSlug = (text: string): string => {
@@ -107,7 +120,8 @@ const onSubmit = async () => {
 	const pricing: PricingOption[] = [
 		{
 			period: form.priceUnit,
-			price: form.price
+			price: form.price,
+			currency: form.currency
 		}
 	]
 
@@ -174,9 +188,13 @@ const onSubmit = async () => {
 					/>
 				</UFormField>
 
-				<div class="grid grid-cols-2 gap-4">
+				<div class="grid grid-cols-3 gap-4">
 					<UFormField :label="t('admin.products.form.price')" name="price" required>
 						<UInput v-model.number="form.price" type="number" min="0" step="0.01" />
+					</UFormField>
+
+					<UFormField :label="t('admin.products.form.currency')" name="currency" required>
+						<USelect v-model="form.currency" :items="currencies" value-key="value" />
 					</UFormField>
 
 					<UFormField :label="t('admin.products.form.priceUnit')" name="priceUnit" required>

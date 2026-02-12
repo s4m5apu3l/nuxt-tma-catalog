@@ -13,28 +13,15 @@ const config = {
 }
 
 // Initialize Appwrite
-const client = new Client()
-	.setEndpoint(config.endpoint)
-	.setProject(config.projectId)
+const client = new Client().setEndpoint(config.endpoint).setProject(config.projectId)
 
 const databases = new Databases(client)
 
 // Sample image IDs (you would replace these with actual uploaded image IDs)
 const sampleImages = {
-	electronics: [
-		'sample_iphone_1',
-		'sample_iphone_2',
-		'sample_macbook_1',
-		'sample_macbook_2'
-	],
-	sports: [
-		'sample_bike_1',
-		'sample_bike_2'
-	],
-	photography: [
-		'sample_camera_1',
-		'sample_camera_2'
-	]
+	electronics: ['sample_iphone_1', 'sample_iphone_2', 'sample_macbook_1', 'sample_macbook_2'],
+	sports: ['sample_bike_1', 'sample_bike_2'],
+	photography: ['sample_camera_1', 'sample_camera_2']
 }
 
 async function addImagesToProducts() {
@@ -42,10 +29,7 @@ async function addImagesToProducts() {
 
 	try {
 		// Get all products
-		const products = await databases.listDocuments(
-			config.databaseId,
-			config.productsCollection
-		)
+		const products = await databases.listDocuments(config.databaseId, config.productsCollection)
 
 		console.log(`Found ${products.documents.length} products`)
 
@@ -68,14 +52,9 @@ async function addImagesToProducts() {
 			if (imagesToAdd.length > 0) {
 				console.log(`Adding ${imagesToAdd.length} images to ${product.name}`)
 
-				await databases.updateDocument(
-					config.databaseId,
-					config.productsCollection,
-					product.$id,
-					{
-						images: imagesToAdd
-					}
-				)
+				await databases.updateDocument(config.databaseId, config.productsCollection, product.$id, {
+					images: imagesToAdd
+				})
 
 				console.log(`✅ Updated ${product.name}`)
 			}
@@ -87,7 +66,6 @@ async function addImagesToProducts() {
 		console.log('   1. Upload actual images to Appwrite Storage')
 		console.log('   2. Get the real file IDs from the upload response')
 		console.log('   3. Use those IDs instead of placeholder values')
-
 	} catch (error) {
 		console.error('\n❌ Error adding images to products:', error)
 	}

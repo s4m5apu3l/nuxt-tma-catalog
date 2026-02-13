@@ -1,8 +1,7 @@
-import { useMiniApp, useBackButton, useTheme, usePopup, useViewport } from 'vue-tg'
+import { useMiniApp, useTheme, usePopup, useViewport } from 'vue-tg'
 
 export const useTelegram = () => {
 	const miniApp = useMiniApp()
-	const backButton = useBackButton()
 	const theme = useTheme()
 	const popup = usePopup()
 	const viewport = useViewport()
@@ -14,20 +13,6 @@ export const useTelegram = () => {
 	const init = () => {
 		miniApp.ready()
 		viewport.expand()
-		// miniApp.ClosingConfirmation()
-	}
-
-	const showBackButton = (onClick: () => void) => {
-		if (backButton.show && backButton.onClick) {
-			backButton.show()
-			backButton.onClick(onClick)
-		}
-	}
-
-	const hideBackButton = () => {
-		if (backButton.hide) {
-			backButton.hide()
-		}
 	}
 
 	const openTelegramLink = (url: string) => {
@@ -86,8 +71,6 @@ export const useTelegram = () => {
 		showConfirm,
 		showPopup,
 		openChat,
-		close,
-		showBackButton,
-		hideBackButton
+		close
 	}
 }

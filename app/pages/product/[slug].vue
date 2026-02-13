@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { useBackButton } from 'vue-tg'
 import type { Product } from '~/types'
 
 const route = useRoute()
 const router = useRouter()
 const { t, locale } = useI18n()
 const { products, loading, fetchProducts, getProductBySlug } = useProducts()
-const { showBackButton, hideBackButton } = useTelegram()
+// const { showBackButton, hideBackButton } = useTelegram()
 
 const productSlug = route.params.slug as string
 const product = ref<Product | null>(null)
@@ -36,7 +37,7 @@ const loadProduct = async () => {
 }
 
 const goBack = () => {
-	hideBackButton()
+	useBackButton().hide?.()
 	router.back()
 }
 
@@ -58,11 +59,12 @@ const allPrices = computed(() => {
 
 onMounted(async () => {
 	await loadProduct()
-	showBackButton(goBack)
+	useBackButton().show?.()
+	useBackButton().onClick?.(() => router.back())
 })
 
 onBeforeUnmount(() => {
-	hideBackButton()
+	useBackButton().hide?.()
 })
 
 // SEO Meta

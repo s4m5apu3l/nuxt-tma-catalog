@@ -1,5 +1,5 @@
 <script setup lang="ts">
-useTelegram()
+// useTelegram()
 </script>
 
 <template>

@@ -1,4 +1,4 @@
-import { useMiniApp, useBackButton, useTheme, usePopup, useViewport } from 'vue-tg/latest'
+import { useMiniApp, useBackButton, useTheme, usePopup, useViewport } from 'vue-tg'
 
 export const useTelegram = () => {
 	const miniApp = useMiniApp()
@@ -14,16 +14,20 @@ export const useTelegram = () => {
 	const init = () => {
 		miniApp.ready()
 		viewport.expand()
-		miniApp.isClosingConfirmationEnabled.value = true
+		// miniApp.ClosingConfirmation()
 	}
 
 	const showBackButton = (onClick: () => void) => {
-		backButton.show()
-		backButton.onClick(onClick)
+		if (backButton.show && backButton.onClick) {
+			backButton.show()
+			backButton.onClick(onClick)
+		}
 	}
 
 	const hideBackButton = () => {
-		backButton.hide()
+		if (backButton.hide) {
+			backButton.hide()
+		}
 	}
 
 	const openTelegramLink = (url: string) => {
@@ -35,11 +39,16 @@ export const useTelegram = () => {
 	}
 
 	const showAlert = (message: string) => {
-		popup.showAlert(message)
+		if (popup.showAlert) {
+			popup.showAlert(message)
+		}
 	}
 
 	const showConfirm = (message: string): Promise<boolean> => {
-		return popup.showConfirm(message)
+		if (popup.showConfirm) {
+			return popup.showConfirm(message)
+		}
+		return Promise.resolve(false)
 	}
 
 	const showPopup = (params: {
@@ -47,7 +56,10 @@ export const useTelegram = () => {
 		message: string
 		buttons: Array<{ id?: string; type?: 'close' | 'default' | 'ok' | 'cancel' | 'destructive'; text: string }>
 	}): Promise<string | null> => {
-		return popup.showPopup(params)
+		if (popup.showPopup) {
+			return popup.showPopup(params as any)
+		}
+		return Promise.resolve(null)
 	}
 
 	const openChat = (username: string): void => {

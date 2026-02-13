@@ -87,19 +87,23 @@ docs/                # Documentation
 ## Key Features
 
 ### Image Compression
+
 Images are automatically compressed before upload:
+
 - Converts to WebP format
 - Max resolution: 1920x1920px
 - Quality: 85%
 - Saves 60-80% bandwidth
 
 ### API Optimization
+
 - Global state caching (5 min)
 - Client-side filtering
 - Parallel data loading
 - Minimal API requests
 
 ### Admin Panel
+
 - Category management
 - Product CRUD operations
 - Multiple pricing options

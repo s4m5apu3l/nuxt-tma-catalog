@@ -8,6 +8,7 @@ definePageMeta({
 
 const { t, locale } = useI18n()
 const { products, loading, error, fetchProducts, deleteProduct } = useProducts()
+const toast = useToast()
 
 const searchQuery = ref('')
 const statusFilter = ref<'all' | 'active' | 'inactive'>('all')
@@ -42,7 +43,13 @@ const handleDelete = async (product: Product) => {
 	const confirmed = confirm(`${t('admin.products.confirmDelete')}\n\n${product.name[localeValue] || product.name.en}`)
 
 	if (confirmed) {
-		await deleteProduct(product.$id)
+		const success = await deleteProduct(product.$id)
+		if (success) {
+			toast.add({
+				title: t('admin.products.deleted'),
+				color: 'success'
+			})
+		}
 	}
 }
 

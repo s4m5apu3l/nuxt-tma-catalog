@@ -9,6 +9,7 @@ definePageMeta({
 const route = useRoute()
 const { t } = useI18n()
 const { categories, loading, updateCategory, fetchAllCategories, getCategoryById } = useCategories()
+const toast = useToast()
 
 const categoryId = route.params.id as string
 const category = computed(() => getCategoryById(categoryId))
@@ -16,6 +17,10 @@ const category = computed(() => getCategoryById(categoryId))
 const handleSubmit = async (data: UpdateCategoryData | any) => {
 	const result = await updateCategory(data as UpdateCategoryData)
 	if (result) {
+		toast.add({
+			title: t('admin.categories.updated'),
+			color: 'success'
+		})
 		await navigateTo('/admin/categories')
 	}
 }

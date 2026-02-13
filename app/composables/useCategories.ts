@@ -72,7 +72,6 @@ export const useCategories = () => {
 			globalCategories.value.push(newCategory)
 			globalCategories.value.sort((a, b) => a.sortOrder - b.sortOrder)
 
-			handleSuccess('Категория успешно создана')
 			return newCategory
 		} catch (err: any) {
 			console.error('Error creating category:', err)
@@ -102,7 +101,6 @@ export const useCategories = () => {
 				globalCategories.value[index] = updatedCategory
 			}
 
-			handleSuccess('Категория успешно обновлена')
 			return updatedCategory
 		} catch (err: any) {
 			console.error('Error updating category:', err)
@@ -122,7 +120,6 @@ export const useCategories = () => {
 			await databases.deleteDocument(databaseId, collectionId, categoryId)
 			globalCategories.value = globalCategories.value.filter((cat) => cat.$id !== categoryId)
 
-			handleSuccess('Категория успешно удалена')
 			return true
 		} catch (err: any) {
 			console.error('Error deleting category:', err)

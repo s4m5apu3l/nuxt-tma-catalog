@@ -61,7 +61,7 @@ const priceLabel = computed(() => {
 				</p>
 
 				<div class="flex items-center justify-between pt-2">
-					<div class="text-lg font-bold text-primary-600 dark:text-primary-400">
+					<div class="text-lg font-bold text-primary-600 dark:text-primary-400 leading-5">
 						{{ priceLabel }}
 					</div>
 

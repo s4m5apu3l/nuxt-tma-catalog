@@ -8,6 +8,7 @@ definePageMeta({
 
 const { t } = useI18n()
 const { categories, loading, error, fetchAllCategories, deleteCategory } = useCategories()
+const toast = useToast()
 
 const searchQuery = ref('')
 const statusFilter = ref<'all' | 'active' | 'inactive'>('all')
@@ -41,7 +42,13 @@ const handleDelete = async (category: Category) => {
 	const confirmed = confirm(`${t('admin.categories.confirmDelete')}\n\n${t('admin.categories.deleteWarning')}`)
 
 	if (confirmed) {
-		await deleteCategory(category.$id)
+		const success = await deleteCategory(category.$id)
+		if (success) {
+			toast.add({
+				title: t('admin.categories.deleted'),
+				color: 'success'
+			})
+		}
 	}
 }
 

@@ -55,11 +55,28 @@ const form = reactive<Schema>({
 
 const pricing = ref<PricingOption[]>(
 	props.product?.pricing && props.product.pricing.length > 0
-		? props.product.pricing.map(p => ({ ...p }))
+		? props.product.pricing.map((p) => ({ ...p }))
 		: [{ period: 'day', price: 0, currency: '₽' }]
 )
 
 const images = ref<string[]>(props.product?.images ? [...props.product.images] : [])
+
+interface FeatureItem {
+	en: string
+	ru: string
+}
+
+const features = ref<FeatureItem[]>(
+	props.product?.features && (props.product.features.en.length > 0 || props.product.features.ru.length > 0)
+		? Array.from(
+				{ length: Math.max(props.product.features.en.length, props.product.features.ru.length) },
+				(_, i) => ({
+					en: props.product!.features.en[i] || '',
+					ru: props.product!.features.ru[i] || ''
+				})
+			)
+		: [{ en: '', ru: '' }]
+)
 
 const priceUnits = [
 	{ value: 'hour', label: t('admin.products.priceUnits.hour') },
@@ -83,6 +100,16 @@ const addPricing = () => {
 const removePricing = (index: number) => {
 	if (pricing.value.length > 1) {
 		pricing.value.splice(index, 1)
+	}
+}
+
+const addFeature = () => {
+	features.value.push({ en: '', ru: '' })
+}
+
+const removeFeature = (index: number) => {
+	if (features.value.length > 1) {
+		features.value.splice(index, 1)
 	}
 }
 
@@ -111,6 +138,8 @@ onMounted(async () => {
 })
 
 const onSubmit = async () => {
+	const filteredFeatures = features.value.filter((f) => f.en.trim() || f.ru.trim())
+
 	const data = {
 		name: form.name,
 		description: form.description,
@@ -118,6 +147,10 @@ const onSubmit = async () => {
 		pricing: pricing.value.filter((p) => p.price > 0),
 		images: images.value,
 		slug: form.slug,
+		features: {
+			en: filteredFeatures.map((f) => f.en.trim()).filter(Boolean),
+			ru: filteredFeatures.map((f) => f.ru.trim()).filter(Boolean)
+		},
 		sortOrder: form.sortOrder,
 		isActive: form.isActive,
 		isAvailable: form.isAvailable
@@ -179,38 +212,43 @@ const onSubmit = async () => {
 					/>
 				</UFormField>
 
-				<div class="space-y-3">
-					<div v-for="(priceItem, index) in pricing" :key="index" class="flex items-end gap-2">
-						<UFormField :label="index === 0 ? t('admin.products.form.price') : ''" class="flex-1">
-							<UInput v-model.number="priceItem.price" type="number" min="0" step="0.01" />
-						</UFormField>
+				<div class="space-y-2">
+					<p class="text-xs text-muted-foreground">
+						{{ t('admin.products.form.priceOptional') }}
+					</p>
+					<div class="space-y-3">
+						<div v-for="(priceItem, index) in pricing" :key="index" class="flex items-end gap-2">
+							<UFormField :label="index === 0 ? t('admin.products.form.price') : ''" class="flex-1">
+								<UInput v-model.number="priceItem.price" type="number" min="0" step="0.01" />
+							</UFormField>
 
-						<UFormField :label="index === 0 ? t('admin.products.form.currency') : ''" class="w-32">
-							<USelect
-								:model-value="priceItem.currency"
-								:items="currencies"
-								value-key="value"
-								@update:model-value="(val) => (priceItem.currency = val)"
+							<UFormField :label="index === 0 ? t('admin.products.form.currency') : ''" class="w-32">
+								<USelect
+									:model-value="priceItem.currency"
+									:items="currencies"
+									value-key="value"
+									@update:model-value="(val: any) => (priceItem.currency = val)"
+								/>
+							</UFormField>
+
+							<UFormField :label="index === 0 ? t('admin.products.form.priceUnit') : ''" class="w-32">
+								<USelect
+									:model-value="priceItem.period"
+									:items="priceUnits"
+									value-key="value"
+									@update:model-value="(val: any) => (priceItem.period = val)"
+								/>
+							</UFormField>
+
+							<UButton
+								v-if="pricing.length > 1"
+								icon="i-lucide-trash-2"
+								color="error"
+								variant="soft"
+								size="sm"
+								@click="removePricing(index)"
 							/>
-						</UFormField>
-
-						<UFormField :label="index === 0 ? t('admin.products.form.priceUnit') : ''" class="w-32">
-							<USelect
-								:model-value="priceItem.period"
-								:items="priceUnits"
-								value-key="value"
-								@update:model-value="(val) => (priceItem.period = val)"
-							/>
-						</UFormField>
-
-						<UButton
-							v-if="pricing.length > 1"
-							icon="i-lucide-trash-2"
-							color="red"
-							variant="soft"
-							size="sm"
-							@click="removePricing(index)"
-						/>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -221,6 +259,46 @@ const onSubmit = async () => {
 				<h3 class="text-base font-semibold">{{ t('admin.products.images') }}</h3>
 			</template>
 			<ImageUpload v-model="images" :max-images="5" />
+		</UCard>
+
+		<UCard>
+			<template #header>
+				<div class="flex items-center justify-between">
+					<h3 class="text-base font-semibold">{{ t('admin.products.form.features') }}</h3>
+					<UButton icon="i-lucide-plus" size="xs" color="primary" variant="soft" @click="addFeature">
+						{{ t('admin.products.form.addFeature') }}
+					</UButton>
+				</div>
+			</template>
+			<div class="space-y-4">
+				<div v-for="(feature, index) in features" :key="index" class="space-y-2">
+					<div class="flex items-start gap-2">
+						<div class="flex-1 space-y-2">
+							<UFormField :label="index === 0 ? t('admin.products.form.featuresEn') : ''">
+								<UInput
+									v-model="feature.en"
+									:placeholder="t('admin.products.form.featureEnPlaceholder')"
+								/>
+							</UFormField>
+							<UFormField :label="index === 0 ? t('admin.products.form.featuresRu') : ''">
+								<UInput
+									v-model="feature.ru"
+									:placeholder="t('admin.products.form.featureRuPlaceholder')"
+								/>
+							</UFormField>
+						</div>
+						<UButton
+							v-if="features.length > 1"
+							icon="i-lucide-trash-2"
+							color="error"
+							variant="soft"
+							size="sm"
+							:class="{ 'mt-6': index === 0 }"
+							@click="removeFeature(index)"
+						/>
+					</div>
+				</div>
+			</div>
 		</UCard>
 
 		<UCard>

@@ -95,18 +95,18 @@ import { compressImage } from '~/utils/imageCompression'
 
 // Custom compression for thumbnails
 const thumbnail = await compressImage(file, {
-  maxWidth: 400,
-  maxHeight: 400,
-  quality: 0.7,
-  mimeType: 'image/webp'
+	maxWidth: 400,
+	maxHeight: 400,
+	quality: 0.7,
+	mimeType: 'image/webp'
 })
 
 // High-quality compression
 const highQuality = await compressImage(file, {
-  maxWidth: 2560,
-  maxHeight: 2560,
-  quality: 0.95,
-  mimeType: 'image/webp'
+	maxWidth: 2560,
+	maxHeight: 2560,
+	quality: 0.95,
+	mimeType: 'image/webp'
 })
 ```
 

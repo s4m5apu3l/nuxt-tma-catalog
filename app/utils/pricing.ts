@@ -1,7 +1,9 @@
 import type { PricingOption, PricePeriod } from '~/types/product'
 
 export const formatPricing = (pricing: readonly PricingOption[], locale: string): string => {
-	if (!pricing || pricing.length === 0) return ''
+	if (!pricing || pricing.length === 0) {
+		return locale === 'ru' ? 'Цена по запросу' : 'Price on request'
+	}
 
 	const sorted = [...pricing].sort((a, b) => {
 		const order: Record<PricePeriod, number> = { hour: 1, day: 2, week: 3, month: 4 }
@@ -9,7 +11,9 @@ export const formatPricing = (pricing: readonly PricingOption[], locale: string)
 	})
 
 	const first = sorted[0]
-	if (!first) return ''
+	if (!first) {
+		return locale === 'ru' ? 'Цена по запросу' : 'Price on request'
+	}
 
 	return `${first.price} ${first.currency}/${getPeriodLabel(first.period, locale)}`
 }

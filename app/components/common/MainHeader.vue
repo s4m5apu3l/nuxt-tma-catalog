@@ -28,18 +28,12 @@ const navigationItems = computed<NavigationMenuItem[]>(() => [
 		to: '/',
 		icon: 'i-lucide-home',
 		active: route.path === '/'
-	},
-	{
-		label: t('nav.admin'),
-		to: '/admin',
-		icon: 'i-lucide-shield',
-		active: route.path.startsWith('/admin')
 	}
 ])
 </script>
 
 <template>
-	<UHeader>
+	<UHeader :toggle="false">
 		<template #title>
 			<h1 class="text-lg font-semibold">TMA Catalog</h1>
 		</template>

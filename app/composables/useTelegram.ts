@@ -10,12 +10,24 @@ export const useTelegram = () => {
 			user.value = webApp.value.initDataUnsafe?.user
 			themeParams.value = webApp.value.themeParams
 
-			// Configure WebApp
 			webApp.value.ready()
 			webApp.value.expand()
 			webApp.value.enableClosingConfirmation()
 
 			isReady.value = true
+		}
+	}
+
+	const showBackButton = (onClick: () => void) => {
+		if (webApp.value?.BackButton) {
+			webApp.value.BackButton.show()
+			webApp.value.BackButton.onClick(onClick)
+		}
+	}
+
+	const hideBackButton = () => {
+		if (webApp.value?.BackButton) {
+			webApp.value.BackButton.hide()
 		}
 	}
 
@@ -93,6 +105,8 @@ export const useTelegram = () => {
 		showConfirm,
 		showPopup,
 		openChat,
-		close
+		close,
+		showBackButton,
+		hideBackButton
 	}
 }

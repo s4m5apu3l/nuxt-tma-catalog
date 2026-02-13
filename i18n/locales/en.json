@@ -56,7 +56,7 @@
 			"link": "Product link",
 			"username_label": "Manager Telegram",
 			"username_placeholder": "username",
-			"username_help": "Telegram username for direct contact (optional)",
+			"username_help": "Telegram username for direct contact (required)",
 			"popup_title": "Contact Manager",
 			"popup_message": "Open chat with manager about \"{productName}\"?",
 			"open_chat": "Open Chat",
@@ -240,7 +240,8 @@
 				"descriptionRuRequired": "Russian description is required",
 				"categoryRequired": "Category is required",
 				"priceMin": "Price must be greater than or equal to 0",
-				"slugRequired": "Slug is required"
+				"slugRequired": "Slug is required",
+				"contactUsernameRequired": "Manager Telegram username is required"
 			}
 		},
 		"uploading": "Uploading...",

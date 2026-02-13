@@ -30,6 +30,7 @@ const schema = z.object({
 	}),
 	categoryId: z.string().min(1, t('admin.products.errors.categoryRequired')),
 	slug: z.string().min(1, t('admin.products.errors.slugRequired')),
+	contactUsername: z.string().min(1, t('admin.products.errors.contactUsernameRequired')),
 	sortOrder: z.number().min(0),
 	isActive: z.boolean(),
 	isAvailable: z.boolean()
@@ -48,12 +49,11 @@ const form = reactive<Schema>({
 	},
 	categoryId: props.product?.categoryId || '',
 	slug: props.product?.slug || '',
+	contactUsername: props.product?.contactUsername || '',
 	sortOrder: props.product?.sortOrder || 0,
 	isActive: props.product?.isActive ?? true,
 	isAvailable: props.product?.isAvailable ?? true
 })
-
-const contactUsername = ref(props.product?.contactUsername || '')
 
 const pricing = ref<PricingOption[]>(
 	props.product?.pricing && props.product.pricing.length > 0
@@ -156,7 +156,7 @@ const onSubmit = async () => {
 		sortOrder: form.sortOrder,
 		isActive: form.isActive,
 		isAvailable: form.isAvailable,
-		contactUsername: contactUsername.value.trim() || undefined
+		contactUsername: form.contactUsername.trim()
 	}
 
 	emit('submit', data)
@@ -318,9 +318,9 @@ const onSubmit = async () => {
 					</template>
 				</UFormField>
 
-				<UFormField :label="t('product.contact.username_label')">
+				<UFormField :label="t('product.contact.username_label')" name="contactUsername" required>
 					<UInput
-						v-model="contactUsername"
+						v-model="form.contactUsername"
 						:placeholder="t('product.contact.username_placeholder')"
 						icon="i-lucide-at-sign"
 					/>

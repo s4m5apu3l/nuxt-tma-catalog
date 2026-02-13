@@ -5,6 +5,7 @@ const route = useRoute()
 const router = useRouter()
 const { t, locale } = useI18n()
 const { products, loading, fetchProducts, getProductBySlug } = useProducts()
+const { showBackButton, hideBackButton } = useTelegram()
 
 const productSlug = route.params.slug as string
 const product = ref<Product | null>(null)
@@ -35,6 +36,7 @@ const loadProduct = async () => {
 }
 
 const goBack = () => {
+	hideBackButton()
 	router.back()
 }
 
@@ -56,6 +58,11 @@ const allPrices = computed(() => {
 
 onMounted(async () => {
 	await loadProduct()
+	showBackButton(goBack)
+})
+
+onBeforeUnmount(() => {
+	hideBackButton()
 })
 
 // SEO Meta

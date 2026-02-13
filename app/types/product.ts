@@ -32,7 +32,7 @@ export interface Product {
 		readonly en: string
 		readonly ru: string
 	}
-	readonly contactUsername?: string
+	readonly contactUsername: string
 	readonly createdAt: string
 	readonly updatedAt: string
 }
@@ -61,7 +61,7 @@ export interface CreateProductData {
 		en: string
 		ru: string
 	}
-	contactUsername?: string
+	contactUsername: string
 }
 
 export interface UpdateProductData extends Partial<CreateProductData> {

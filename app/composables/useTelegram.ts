@@ -47,6 +47,29 @@ export const useTelegram = () => {
 		})
 	}
 
+	const showPopup = (params: {
+		title?: string
+		message: string
+		buttons: Array<{ id?: string; type?: string; text: string }>
+	}): Promise<string | null> => {
+		return new Promise((resolve) => {
+			if (webApp.value) {
+				webApp.value.showPopup(params, (buttonId: string) => {
+					resolve(buttonId || null)
+				})
+			} else {
+				resolve(null)
+			}
+		})
+	}
+
+	const openChat = (username: string): void => {
+		if (webApp.value) {
+			const cleanUsername = username.replace('@', '')
+			webApp.value.openTelegramLink(`https://t.me/${cleanUsername}`)
+		}
+	}
+
 	const close = () => {
 		if (webApp.value) {
 			webApp.value.close()
@@ -68,6 +91,8 @@ export const useTelegram = () => {
 		openLink,
 		showAlert,
 		showConfirm,
+		showPopup,
+		openChat,
 		close
 	}
 }

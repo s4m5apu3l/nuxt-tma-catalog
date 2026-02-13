@@ -8,7 +8,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const { t, locale } = useI18n()
-const { openTelegramLink, showAlert, isReady } = useTelegram()
+const { openTelegramLink, showAlert, showPopup, openChat, isReady } = useTelegram()
 
 const loading = ref(false)
 
@@ -22,22 +22,38 @@ const openTelegramChat = async () => {
 
 	try {
 		const productName = props.product.name[locale.value as 'en' | 'ru']
-		const price = formatPricing(props.product.pricing, locale.value)
-		const customMessage = props.product.contactMessage?.[locale.value as 'en' | 'ru']
 
-		const baseMessage =
-			customMessage ||
-			t('product.contact.default_message', {
-				productName,
-				price
+		if (props.product.contactUsername) {
+			const buttonId = await showPopup({
+				title: t('product.contact.popup_title'),
+				message: t('product.contact.popup_message', { productName }),
+				buttons: [
+					{ id: 'open', type: 'default', text: t('product.contact.open_chat') },
+					{ id: 'cancel', type: 'cancel', text: t('product.contact.cancel') }
+				]
 			})
 
-		const productUrl = `${window.location.origin}/product/${props.product.slug}`
-		const fullMessage = `${baseMessage}\n\n${t('product.contact.link')}: ${productUrl}`
+			if (buttonId === 'open') {
+				openChat(props.product.contactUsername)
+			}
+		} else {
+			const price = formatPricing(props.product.pricing, locale.value)
+			const customMessage = props.product.contactMessage?.[locale.value as 'en' | 'ru']
 
-		const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(fullMessage)}`
+			const baseMessage =
+				customMessage ||
+				t('product.contact.default_message', {
+					productName,
+					price
+				})
 
-		openTelegramLink(telegramUrl)
+			const productUrl = `${window.location.origin}/product/${props.product.slug}`
+			const fullMessage = `${baseMessage}\n\n${t('product.contact.link')}: ${productUrl}`
+
+			const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(fullMessage)}`
+
+			openTelegramLink(telegramUrl)
+		}
 	} catch (error) {
 		console.error('Error opening Telegram chat:', error)
 		showAlert(t('common.error'))

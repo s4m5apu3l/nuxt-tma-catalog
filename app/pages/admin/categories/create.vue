@@ -8,10 +8,15 @@ definePageMeta({
 
 const { t } = useI18n()
 const { createCategory, loading } = useCategories()
+const toast = useToast()
 
 const handleSubmit = async (data: CreateCategoryData | any) => {
 	const result = await createCategory(data as CreateCategoryData)
 	if (result) {
+		toast.add({
+			title: t('admin.categories.created'),
+			color: 'success'
+		})
 		await navigateTo('/admin/categories')
 	}
 }

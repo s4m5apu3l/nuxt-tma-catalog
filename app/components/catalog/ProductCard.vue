@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Product } from '~/types'
-import { getProductName, getLocalizedDescription } from '~/utils/localization'
+import { getProductName } from '~/utils/localization'
+// getLocalizedDescription
 import { getImageUrl } from '~/utils/images'
 import { formatPricing } from '~/utils/pricing'
 
@@ -12,7 +13,7 @@ const props = defineProps<Props>()
 const { locale } = useI18n()
 
 const productName = computed(() => getProductName(props.product, locale.value))
-const productDescription = computed(() => getLocalizedDescription(props.product.description, locale.value))
+// const productDescription = computed(() => getLocalizedDescription(props.product.description, locale.value))
 
 const primaryImage = computed(() => {
 	return props.product.images && props.product.images.length > 0 ? props.product.images[0] : null
@@ -56,12 +57,12 @@ const priceLabel = computed(() => {
 					{{ $t('product.unavailable') }}
 				</UBadge>
 
-				<p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+				<!-- <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
 					{{ productDescription }}
-				</p>
+				</p> -->
 
 				<div class="flex items-center justify-between pt-2">
-					<div class="text-lg font-bold text-primary-600 dark:text-primary-400">
+					<div class="text-lg font-bold text-primary-600 dark:text-primary-400 leading-5">
 						{{ priceLabel }}
 					</div>
 

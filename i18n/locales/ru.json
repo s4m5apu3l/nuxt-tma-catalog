@@ -31,6 +31,7 @@
 		"contacting": "Связываемся...",
 		"features": "Характеристики",
 		"price": "Цена",
+		"priceOnRequest": "Цена по запросу",
 		"loading": "Загрузка товара...",
 		"shareOnTelegram": "Поделиться в Telegram",
 		"sharing": "Отправка...",
@@ -52,7 +53,14 @@
 			"button": "Связаться",
 			"telegram_unavailable": "Telegram недоступен",
 			"default_message": "Привет! Меня интересует {productName} за {price}. Можете предоставить больше деталей?",
-			"link": "Ссылка на товар"
+			"link": "Ссылка на товар",
+			"username_label": "Telegram менеджера",
+			"username_placeholder": "username",
+			"username_help": "Telegram username для прямого контакта (опционально)",
+			"popup_title": "Связаться с менеджером",
+			"popup_message": "Открыть чат с менеджером по товару \"{productName}\"?",
+			"open_chat": "Открыть чат",
+			"cancel": "Отмена"
 		}
 	},
 	"products": {
@@ -80,7 +88,7 @@
 			"noRecentProducts": "Нет последних товаров"
 		},
 		"nav": {
-			"dashboard": "Панель управления",
+			"dashboard": "Панель",
 			"categories": "Категории",
 			"products": "Товары"
 		},
@@ -199,9 +207,17 @@
 				"category": "Категория",
 				"categoryPlaceholder": "Выберите категорию",
 				"price": "Цена",
+				"priceOptional": "Опционально - оставьте пустым для отображения 'Цена по запросу'",
 				"currency": "Валюта",
 				"priceUnit": "Единица цены",
 				"addPrice": "Добавить цену",
+				"features": "Характеристики",
+				"featuresEn": "Характеристики (Английский)",
+				"featuresRu": "Характеристики (Русский)",
+				"featureEnPlaceholder": "Введите характеристику на английском",
+				"featureRuPlaceholder": "Введите характеристику на русском",
+				"addFeature": "Добавить характеристику",
+				"removeFeature": "Удалить характеристику",
 				"settings": "Настройки",
 				"slug": "Слаг",
 				"slugPlaceholder": "product-slug",

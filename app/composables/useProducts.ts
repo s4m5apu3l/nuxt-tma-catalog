@@ -51,13 +51,13 @@ export const useProducts = () => {
 			const response = await databases.listDocuments(databaseId, collectionId, queries)
 
 			const fetchedProducts = response.documents.map(parseProduct)
-			
+
 			// Обновляем глобальный кеш только если загружаем все продукты
 			if (!categoryId) {
 				globalProducts.value = fetchedProducts
 				lastFetchTime.value = Date.now()
 			}
-			
+
 			return fetchedProducts
 		} catch (err) {
 			globalError.value = err instanceof Error ? err.message : 'Unknown error'
@@ -105,7 +105,6 @@ export const useProducts = () => {
 			const newProduct = parseProduct(response)
 			globalProducts.value.unshift(newProduct)
 
-			handleSuccess('Товар успешно создан')
 			return newProduct
 		} catch (err: any) {
 			console.error('Error creating product:', err)
@@ -137,7 +136,6 @@ export const useProducts = () => {
 				globalProducts.value[index] = updatedProduct
 			}
 
-			handleSuccess('Товар успешно обновлен')
 			return updatedProduct
 		} catch (err: any) {
 			console.error('Error updating product:', err)
@@ -157,7 +155,6 @@ export const useProducts = () => {
 			await databases.deleteDocument(databaseId, collectionId, productId)
 			globalProducts.value = globalProducts.value.filter((prod) => prod.$id !== productId)
 
-			handleSuccess('Товар успешно удален')
 			return true
 		} catch (err: any) {
 			console.error('Error deleting product:', err)

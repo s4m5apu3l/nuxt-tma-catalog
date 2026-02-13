@@ -43,12 +43,14 @@ const productDescription = computed(() => product.value?.description[locale.valu
 const productFeatures = computed(() => product.value?.features[locale.value as 'en' | 'ru'] || [])
 
 const formattedPrice = computed(() => {
-	if (!product.value?.pricing || product.value.pricing.length === 0) return ''
+	if (!product.value?.pricing || product.value.pricing.length === 0) {
+		return t('product.priceOnRequest')
+	}
 	return formatPricing(product.value.pricing, locale.value)
 })
 
 const allPrices = computed(() => {
-	if (!product.value?.pricing) return []
+	if (!product.value?.pricing || product.value.pricing.length === 0) return []
 	return formatPricingFull(product.value.pricing, locale.value)
 })
 

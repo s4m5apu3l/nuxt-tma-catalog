@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useBackButton } from 'vue-tg'
+import { useBackButton, BackButton } from 'vue-tg'
 import type { Product } from '~/types'
 
 const route = useRoute()
@@ -60,10 +60,6 @@ const allPrices = computed(() => {
 onMounted(async () => {
 	await loadProduct()
 	useBackButton().show?.()
-	useBackButton().onClick?.(() => {
-		// router.back()
-		window.history.back()
-	})
 })
 
 onBeforeUnmount(() => {
@@ -83,6 +79,7 @@ useSeoMeta({
 
 <template>
 	<div class="container">
+		<BackButton @click="goBack" />
 		<div v-if="loading || (!product && !notFound)" class="space-y-6">
 			<USkeleton class="h-80 w-full" />
 			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">

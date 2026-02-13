@@ -1,129 +1,240 @@
 # TMA Catalog - Telegram Mini App
 
-Modern rental catalog built as a Telegram Mini App with admin panel for managing products and categories.
+Современный каталог товаров/услуг для аренды, созданный как Telegram Mini App с административной панелью.
 
-## Features
+## 🚀 Возможности
 
-- 📱 Telegram Mini App integration
-- 🎨 Modern UI with Nuxt UI v4
-- 🌍 Multi-language support (EN/RU)
-- 🖼️ Automatic image compression before upload
-- 💰 Multiple pricing options per product
-- 🔐 Admin panel with authentication
-- ⚡ Optimized API requests with caching
-- 📦 Product availability tracking
+- 📱 Интеграция с Telegram Mini App
+- 🎨 Современный UI на Nuxt UI v4
+- 🌍 Мультиязычность (EN/RU)
+- 🖼️ Автоматическое сжатие изображений (WebP, 60-80% экономии)
+- 💰 Множественные варианты цен для каждого товара
+- 🔐 Админ-панель с аутентификацией
+- ⚡ Оптимизированные API запросы с кешированием
+- 📦 Отслеживание доступности товаров
+- ✨ Характеристики товаров (features)
+- 💬 Прямая связь с админом через Telegram
 
-## Tech Stack
+## 🛠 Технологии
 
 - **Framework**: Nuxt 4 (SPA mode)
 - **UI**: Nuxt UI v4 + Tailwind CSS
 - **Backend**: Appwrite (Database, Storage, Auth)
-- **Telegram**: vue-tg for WebApp API
-- **i18n**: Multi-language support
+- **Telegram**: vue-tg для WebApp API
+- **i18n**: Мультиязычная поддержка
+- **TypeScript**: Полная типизация
 
-## Setup
+## 📦 Установка
 
-Install dependencies:
+### 1. Клонируйте репозиторий
+
+```bash
+git clone <your-repo-url>
+cd tma-catalog
+```
+
+### 2. Установите зависимости
 
 ```bash
 npm install
 ```
 
-Configure environment variables (copy `.env.example` to `.env`):
+### 3. Настройте Appwrite
+
+#### Создайте проект в Appwrite
+
+1. Зайдите в [Appwrite Console](https://cloud.appwrite.io/)
+2. Создайте новый проект
+3. Создайте базу данных
+
+#### Создайте коллекции
+
+**Categories Collection:**
+- `name` (JSON) - названия на разных языках
+- `description` (JSON) - описания на разных языках
+- `icon` (String, 255) - эмодзи иконка
+- `slug` (String, 255) - URL-friendly идентификатор
+- `sortOrder` (Integer) - порядок сортировки
+- `isActive` (Boolean) - активна ли категория
+
+**Products Collection:**
+- `categoryId` (String, 255) - ID категории
+- `name` (JSON) - названия на разных языках
+- `description` (JSON) - описания на разных языках
+- `pricing` (JSON) - массив цен с валютами и периодами
+- `images` (String Array) - массив ID изображений
+- `slug` (String, 255) - URL-friendly идентификатор
+- `features` (JSON) - характеристики на разных языках
+- `isAvailable` (Boolean) - доступен ли товар
+- `isActive` (Boolean) - активен ли товар
+- `sortOrder` (Integer) - порядок сортировки
+- `contactMessage` (JSON) - сообщение для связи
+
+#### Создайте Storage Bucket
+
+- Bucket ID: `images`
+- Max file size: 5MB
+- Allowed extensions: jpg, jpeg, png, webp
+- Permissions: Read - any, Create/Update/Delete - users
+
+### 4. Настройте переменные окружения
+
+Скопируйте `.env.example` в `.env` и заполните:
 
 ```env
-NUXT_PUBLIC_APPWRITE_ENDPOINT=your_appwrite_endpoint
+NUXT_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
 NUXT_PUBLIC_APPWRITE_PROJECT_ID=your_project_id
 NUXT_PUBLIC_APPWRITE_BD_KEY=your_database_id
 NUXT_PUBLIC_APPWRITE_COLLECTION_CATEGORIES=categories_collection_id
 NUXT_PUBLIC_APPWRITE_COLLECTION_PRODUCTS=products_collection_id
-NUXT_PUBLIC_APPWRITE_BUCKET_ID=storage_bucket_id
+NUXT_PUBLIC_APPWRITE_BUCKET_ID=images
 NUXT_PUBLIC_TELEGRAM_BOT_USERNAME=your_bot_username
 ```
 
-## Development
+### 5. Создайте админ пользователя
 
-Start development server:
+В Appwrite Console → Auth → Users → Create User
+
+## 🚀 Запуск
+
+### Разработка
 
 ```bash
 npm run dev
 ```
 
-Access at `http://localhost:3000`
+Откройте `http://localhost:3000`
 
-## Production
-
-Build for production (static site):
+### Продакшн
 
 ```bash
+# Сборка статического сайта
 npm run generate
-```
 
-Preview production build:
-
-```bash
+# Предпросмотр
 npm run preview
 ```
 
-Deploy the `.output/public` directory to your hosting (GitHub Pages, Netlify, etc.)
+Деплойте папку `.output/public` на ваш хостинг (GitHub Pages, Netlify, Vercel и т.д.)
 
-## Project Structure
+## 📁 Структура проекта
 
 ```
 app/
-├── components/       # Vue components
-│   ├── admin/       # Admin panel components
-│   ├── catalog/     # User-facing components
-│   └── common/      # Shared components
-├── composables/     # Vue composables
-├── pages/           # File-based routing
-├── types/           # TypeScript types
-└── utils/           # Utility functions
+├── components/
+│   ├── admin/          # Компоненты админ-панели
+│   │   ├── CategoryForm.vue
+│   │   ├── ProductForm.vue
+│   │   └── ImageUpload.vue
+│   ├── catalog/        # Компоненты каталога
+│   │   ├── CategoryCard.vue
+│   │   ├── ProductCard.vue
+│   │   └── ContactButton.vue
+│   └── common/         # Общие компоненты
+│       └── MainHeader.vue
+├── composables/        # Vue composables
+│   ├── useAuth.ts
+│   ├── useCategories.ts
+│   ├── useProducts.ts
+│   ├── useImages.ts
+│   └── useTelegram.ts
+├── pages/              # Страницы (file-based routing)
+│   ├── admin/          # Админ-панель
+│   ├── product/        # Страницы товаров
+│   └── index.vue       # Главная
+├── types/              # TypeScript типы
+├── utils/              # Утилиты
+└── middleware/         # Middleware
 
-i18n/locales/        # Translation files
-docs/                # Documentation
+i18n/locales/           # Переводы (EN/RU)
 ```
 
-## Key Features
+## 🎯 Основные функции
 
-### Image Compression
+### Для пользователей
 
-Images are automatically compressed before upload:
+- Просмотр категорий и товаров
+- Мультиязычный интерфейс (EN/RU)
+- Галерея изображений
+- Множественные варианты цен
+- Характеристики товаров
+- Прямая связь с админом через Telegram
+- Адаптивный дизайн для мобильных
 
-- Converts to WebP format
-- Max resolution: 1920x1920px
-- Quality: 85%
-- Saves 60-80% bandwidth
+### Для администраторов
 
-### API Optimization
+- CRUD операции для категорий
+- CRUD операции для товаров
+- Загрузка изображений с автосжатием
+- Управление ценами (несколько вариантов)
+- Управление характеристиками товаров
+- Отслеживание доступности
+- Сортировка товаров и категорий
 
-- Global state caching (5 min)
-- Client-side filtering
-- Parallel data loading
-- Minimal API requests
+### Технические особенности
 
-### Admin Panel
+**Сжатие изображений:**
+- Автоматическая конвертация в WebP
+- Максимальное разрешение: 1920x1920px
+- Качество: 85%
+- Экономия 60-80% трафика
 
-- Category management
-- Product CRUD operations
-- Multiple pricing options
-- Image upload with compression
-- Availability tracking
+**Оптимизация API:**
+- Глобальное кеширование (5 мин)
+- Фильтрация на клиенте
+- Параллельная загрузка данных
+- Минимум запросов к API
 
-## Commands
+**Цены:**
+- Множественные варианты (час/день/неделя/месяц)
+- Разные валюты (₽, $, €, ฿, ¥)
+- Опциональная цена ("Цена по запросу")
+
+## 📝 Команды
 
 ```bash
-npm run dev          # Start dev server
-npm run build        # Build for production
-npm run generate     # Generate static site
-npm run preview      # Preview production build
-npm run typecheck    # Run TypeScript checks
-npm run lint         # Run ESLint
-npm run lint:fix     # Fix linting issues
-npm run format       # Check formatting
-npm run format:fix   # Fix formatting
+npm run dev          # Запуск dev сервера
+npm run build        # Сборка для продакшн
+npm run generate     # Генерация статического сайта
+npm run preview      # Предпросмотр продакшн сборки
+npm run typecheck    # Проверка TypeScript
+npm run lint         # Запуск ESLint
+npm run lint:fix     # Исправление ошибок ESLint
+npm run format       # Проверка форматирования
+npm run format:fix   # Исправление форматирования
 ```
 
-## License
+## 🔧 Настройка Telegram Bot
+
+1. Создайте бота через [@BotFather](https://t.me/BotFather)
+2. Получите токен бота
+3. Настройте Mini App в настройках бота
+4. Укажите URL вашего приложения
+5. Добавьте username бота в `.env`
+
+## 🌐 Деплой
+
+### GitHub Pages
+
+```bash
+npm run generate
+# Деплойте содержимое .output/public
+```
+
+### Netlify / Vercel
+
+Подключите репозиторий и настройте:
+- Build command: `npm run generate`
+- Publish directory: `.output/public`
+
+## 📄 Лицензия
 
 MIT
+
+## 🤝 Поддержка
+
+Если возникли вопросы:
+1. Проверьте логи в консоли браузера (F12)
+2. Убедитесь что все переменные окружения заполнены
+3. Проверьте permissions в Appwrite Console
+4. Убедитесь что Appwrite endpoint доступен

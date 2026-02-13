@@ -8,7 +8,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const { t, locale } = useI18n()
-const { openTelegramLink, showAlert, showPopup, openChat, isReady } = useTelegram()
+const { showAlert, showPopup, openChat, isReady } = useTelegram()
 
 const loading = ref(false)
 
@@ -27,8 +27,8 @@ const openTelegramChat = async () => {
 			title: t('product.contact.popup_title'),
 			message: t('product.contact.popup_message', { productName }),
 			buttons: [
-				{ id: 'open', type: 'default', text: t('product.contact.open_chat') },
-				{ id: 'cancel', type: 'cancel', text: t('product.contact.cancel') }
+				{ id: 'open', type: 'default' as const, text: t('product.contact.open_chat') },
+				{ id: 'cancel', type: 'cancel' as const, text: t('product.contact.cancel') }
 			]
 		})
 

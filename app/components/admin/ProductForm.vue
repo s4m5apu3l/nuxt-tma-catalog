@@ -53,6 +53,8 @@ const form = reactive<Schema>({
 	isAvailable: props.product?.isAvailable ?? true
 })
 
+const contactUsername = ref(props.product?.contactUsername || '')
+
 const pricing = ref<PricingOption[]>(
 	props.product?.pricing && props.product.pricing.length > 0
 		? props.product.pricing.map((p) => ({ ...p }))
@@ -153,7 +155,8 @@ const onSubmit = async () => {
 		},
 		sortOrder: form.sortOrder,
 		isActive: form.isActive,
-		isAvailable: form.isAvailable
+		isAvailable: form.isAvailable,
+		contactUsername: contactUsername.value.trim() || undefined
 	}
 
 	emit('submit', data)
@@ -311,6 +314,19 @@ const onSubmit = async () => {
 					<template #help>
 						<span class="text-xs text-muted-foreground">
 							{{ t('admin.products.form.slugHelp') }}
+						</span>
+					</template>
+				</UFormField>
+
+				<UFormField :label="t('product.contact.username_label')">
+					<UInput
+						v-model="contactUsername"
+						:placeholder="t('product.contact.username_placeholder')"
+						icon="i-lucide-at-sign"
+					/>
+					<template #help>
+						<span class="text-xs text-muted-foreground">
+							{{ t('product.contact.username_help') }}
 						</span>
 					</template>
 				</UFormField>

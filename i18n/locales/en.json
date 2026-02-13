@@ -53,7 +53,14 @@
 			"button": "Contact",
 			"telegram_unavailable": "Telegram is not available",
 			"default_message": "Hi! I'm interested in {productName} for {price}. Could you provide more details?",
-			"link": "Product link"
+			"link": "Product link",
+			"username_label": "Manager Telegram",
+			"username_placeholder": "username",
+			"username_help": "Telegram username for direct contact (optional)",
+			"popup_title": "Contact Manager",
+			"popup_message": "Open chat with manager about \"{productName}\"?",
+			"open_chat": "Open Chat",
+			"cancel": "Cancel"
 		}
 	},
 	"products": {

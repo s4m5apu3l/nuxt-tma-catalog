@@ -53,7 +53,14 @@
 			"button": "Связаться",
 			"telegram_unavailable": "Telegram недоступен",
 			"default_message": "Привет! Меня интересует {productName} за {price}. Можете предоставить больше деталей?",
-			"link": "Ссылка на товар"
+			"link": "Ссылка на товар",
+			"username_label": "Telegram менеджера",
+			"username_placeholder": "username",
+			"username_help": "Telegram username для прямого контакта (опционально)",
+			"popup_title": "Связаться с менеджером",
+			"popup_message": "Открыть чат с менеджером по товару \"{productName}\"?",
+			"open_chat": "Открыть чат",
+			"cancel": "Отмена"
 		}
 	},
 	"products": {

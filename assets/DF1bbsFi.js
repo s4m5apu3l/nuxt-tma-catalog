@@ -1,0 +1,1 @@
+import{aK as n,aL as o,B as r}from"./iOMO9ifF.js";import{u}from"./DRgCHs6l.js";import"./D8xujKC5.js";const h=n(async t=>{let e,a;const{isAuthenticated:s,checkSession:i}=u();if(t.path!=="/admin"&&!s.value&&!([e,a]=o(()=>i()),e=await e,a(),e))return r("/admin")});export{h as default};

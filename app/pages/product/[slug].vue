@@ -60,7 +60,10 @@ const allPrices = computed(() => {
 onMounted(async () => {
 	await loadProduct()
 	useBackButton().show?.()
-	useBackButton().onClick?.(() => router.back())
+	useBackButton().onClick?.(() => {
+		// router.back()
+		window.history.back()
+	})
 })
 
 onBeforeUnmount(() => {

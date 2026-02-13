@@ -1,0 +1,1 @@
+import{b8 as t,r as n,g as o,aw as u}from"./BSQqfKz2.js";function s(r){const e=t({dir:n("ltr")});return o(()=>r?.value||e.dir?.value||"ltr")}function i(r,e="reka"){return r||`${e}-${u?.()}`}export{i as a,s as u};

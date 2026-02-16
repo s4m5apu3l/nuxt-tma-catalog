@@ -4,6 +4,7 @@ const user = ref<AdminUser | null>(null)
 const session = ref<AdminSession | null>(null)
 const loading = ref(false)
 const error = ref<string | null>(null)
+const sessionChecked = ref(false)
 
 export const useAuth = () => {
 	const { account } = useAppwrite()
@@ -22,6 +23,8 @@ export const useAuth = () => {
 			// Get user details
 			const userResponse = await account.get()
 			user.value = userResponse as unknown as AdminUser
+
+			sessionChecked.value = true
 
 			return true
 		} catch (err: any) {
@@ -45,6 +48,7 @@ export const useAuth = () => {
 			user.value = null
 			session.value = null
 			loading.value = false
+			sessionChecked.value = true
 
 			// Redirect to admin login
 			await navigateTo('/admin')
@@ -62,11 +66,13 @@ export const useAuth = () => {
 			const sessionResponse = await account.getSession('current')
 			session.value = sessionResponse as unknown as AdminSession
 
+			sessionChecked.value = true
 			return true
 		} catch (err) {
 			console.error('Session check error:', err)
 			user.value = null
 			session.value = null
+			sessionChecked.value = true
 			return false
 		} finally {
 			loading.value = false
@@ -112,6 +118,7 @@ export const useAuth = () => {
 		session: readonly(session),
 		loading: readonly(loading),
 		error: readonly(error),
+		sessionChecked: readonly(sessionChecked),
 		isAuthenticated,
 		login,
 		logout,

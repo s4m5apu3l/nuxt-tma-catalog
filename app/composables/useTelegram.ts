@@ -10,6 +10,18 @@ export const useTelegram = () => {
 	const isReady = computed(() => miniApp.isReady)
 	const themeParams = computed(() => theme.themeParams)
 
+	// Check if running inside Telegram WebApp
+	const isTelegramWebApp = computed(() => {
+		if (!import.meta.client) return false
+
+		// Check if Telegram WebApp object exists and has initData
+		const tg = (window as any).Telegram?.WebApp
+		if (!tg) return false
+
+		// Check for valid initData or platform
+		return !!(tg.initData || tg.platform !== 'unknown')
+	})
+
 	const init = () => {
 		miniApp.ready()
 		viewport.expand()
@@ -64,6 +76,7 @@ export const useTelegram = () => {
 		user: readonly(user),
 		themeParams: readonly(themeParams),
 		isReady: readonly(isReady),
+		isTelegramWebApp: readonly(isTelegramWebApp),
 		init,
 		openTelegramLink,
 		openLink,

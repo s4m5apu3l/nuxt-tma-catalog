@@ -296,6 +296,11 @@
 			"description": "An unexpected error occurred. Please try refreshing the page or contact support if the problem persists.",
 			"report": "Report Error",
 			"showDetails": "Show Error Details"
+		},
+		"telegramOnly": {
+			"title": "Telegram Only",
+			"description": "This catalog is available only through Telegram. Please open the bot and launch the Mini App from there.",
+			"openBot": "Open Telegram Bot"
 		}
 	}
 }

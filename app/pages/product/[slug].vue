@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { useBackButton, BackButton } from 'vue-tg'
 import type { Product } from '~/types'
 
 const route = useRoute()
 const router = useRouter()
 const { t, locale } = useI18n()
 const { products, loading, fetchProducts, getProductBySlug } = useProducts()
+// const { showBackButton, hideBackButton } = useTelegram()
 
 const productSlug = route.params.slug as string
 const product = ref<Product | null>(null)
@@ -35,6 +37,7 @@ const loadProduct = async () => {
 }
 
 const goBack = () => {
+	useBackButton().hide?.()
 	router.back()
 }
 
@@ -56,6 +59,11 @@ const allPrices = computed(() => {
 
 onMounted(async () => {
 	await loadProduct()
+	useBackButton().show?.()
+})
+
+onBeforeUnmount(() => {
+	useBackButton().hide?.()
 })
 
 // SEO Meta
@@ -71,6 +79,7 @@ useSeoMeta({
 
 <template>
 	<div class="container">
+		<BackButton @click="goBack" />
 		<div v-if="loading || (!product && !notFound)" class="space-y-6">
 			<USkeleton class="h-80 w-full" />
 			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">

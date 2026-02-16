@@ -23,7 +23,7 @@ export const useProducts = () => {
 	const product = ref<Product | null>(null)
 
 	const { databases } = useAppwrite()
-	const { handleError, handleSuccess } = useErrorHandler()
+	const { handleError } = useErrorHandler()
 	const config = useRuntimeConfig()
 
 	const databaseId: string = config.public.appwriteBdKey

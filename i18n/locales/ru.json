@@ -56,7 +56,7 @@
 			"link": "Ссылка на товар",
 			"username_label": "Telegram менеджера",
 			"username_placeholder": "username",
-			"username_help": "Telegram username для прямого контакта (опционально)",
+			"username_help": "Telegram username для прямого контакта (обязательно)",
 			"popup_title": "Связаться с менеджером",
 			"popup_message": "Открыть чат с менеджером по товару \"{productName}\"?",
 			"open_chat": "Открыть чат",
@@ -240,7 +240,8 @@
 				"descriptionRuRequired": "Описание на русском обязательно",
 				"categoryRequired": "Категория обязательна",
 				"priceMin": "Цена должна быть больше или равна 0",
-				"slugRequired": "Слаг обязателен"
+				"slugRequired": "Слаг обязателен",
+				"contactUsernameRequired": "Telegram username менеджера обязателен"
 			}
 		},
 		"uploading": "Загрузка...",
@@ -295,6 +296,11 @@
 			"description": "Произошла неожиданная ошибка. Пожалуйста, попробуйте обновить страницу или обратитесь в службу поддержки, если проблема не исчезнет.",
 			"report": "Сообщить об ошибке",
 			"showDetails": "Показать детали ошибки"
+		},
+		"telegramOnly": {
+			"title": "Только через Telegram",
+			"description": "Этот каталог доступен только через Telegram. Откройте бота и запустите Mini App оттуда.",
+			"openBot": "Открыть Telegram бота"
 		}
 	}
 }

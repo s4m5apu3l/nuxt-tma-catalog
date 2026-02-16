@@ -1,11 +1,21 @@
 <script setup lang="ts">
 const { locale, t } = useI18n()
-const { logout } = useAuth()
+const { logout, checkSession, sessionChecked } = useAuth()
 const route = useRoute()
 
 useHead({
 	htmlAttrs: {
 		lang: locale
+	}
+})
+
+// Check session once on layout mount
+onMounted(async () => {
+	if (!sessionChecked.value) {
+		const hasSession = await checkSession()
+		if (!hasSession) {
+			await navigateTo('/admin')
+		}
 	}
 })
 

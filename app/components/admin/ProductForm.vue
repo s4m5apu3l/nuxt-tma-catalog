@@ -273,33 +273,29 @@ const onSubmit = async () => {
 					</UButton>
 				</div>
 			</template>
-			<div class="space-y-4">
-				<div v-for="(feature, index) in features" :key="index" class="space-y-2">
-					<div class="flex items-start gap-2">
-						<div class="flex-1 space-y-2">
-							<UFormField :label="index === 0 ? t('admin.products.form.featuresEn') : ''">
-								<UInput
-									v-model="feature.en"
-									:placeholder="t('admin.products.form.featureEnPlaceholder')"
-								/>
-							</UFormField>
-							<UFormField :label="index === 0 ? t('admin.products.form.featuresRu') : ''">
-								<UInput
-									v-model="feature.ru"
-									:placeholder="t('admin.products.form.featureRuPlaceholder')"
-								/>
-							</UFormField>
-						</div>
-						<UButton
-							v-if="features.length > 1"
-							icon="i-lucide-trash-2"
-							color="error"
-							variant="soft"
-							size="sm"
-							:class="{ 'mt-6': index === 0 }"
-							@click="removeFeature(index)"
-						/>
-					</div>
+			<div class="space-y-3">
+				<!-- Header row with labels -->
+				<div class="grid grid-cols-[1fr_1fr_40px] gap-2">
+					<span class="text-sm font-medium">{{ t('admin.products.form.featuresEn') }}</span>
+					<span class="text-sm font-medium">{{ t('admin.products.form.featuresRu') }}</span>
+					<span></span>
+				</div>
+				<!-- Feature rows -->
+				<div
+					v-for="(feature, index) in features"
+					:key="index"
+					class="grid grid-cols-[1fr_1fr_40px] gap-2 items-center"
+				>
+					<UInput v-model="feature.en" :placeholder="t('admin.products.form.featureEnPlaceholder')" />
+					<UInput v-model="feature.ru" :placeholder="t('admin.products.form.featureRuPlaceholder')" />
+					<UButton
+						v-if="features.length > 1"
+						icon="i-lucide-trash-2"
+						color="error"
+						variant="ghost"
+						size="sm"
+						@click="removeFeature(index)"
+					/>
 				</div>
 			</div>
 		</UCard>

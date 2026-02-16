@@ -1,0 +1,1 @@
+import{aM as i,B as u}from"./BiqB7QDV.js";import{u as n}from"./C5N055pn.js";import"./D4Jw1BTU.js";const d=i(e=>{if(e.path==="/admin")return;const{isAuthenticated:t,sessionChecked:a}=n();if(a.value&&!t.value)return u("/admin")});export{d as default};

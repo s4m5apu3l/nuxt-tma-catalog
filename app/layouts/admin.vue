@@ -58,7 +58,15 @@ const isActiveRoute = (path: string): boolean => {
 					<span class="font-semibold">{{ t('admin.layout.adminPanel') }}</span>
 				</div>
 
-				<div class="flex items-center space-x-2">
+				<div class="flex items-center space-x-1">
+					<UButton
+						to="/"
+						icon="i-lucide-external-link"
+						color="neutral"
+						variant="ghost"
+						size="sm"
+						:title="t('admin.layout.openCatalog')"
+					/>
 					<UColorModeButton />
 					<UButton
 						icon="i-lucide-log-out"

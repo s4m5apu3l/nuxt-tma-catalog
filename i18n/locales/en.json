@@ -94,7 +94,8 @@
 		},
 		"layout": {
 			"adminPanel": "Admin Panel",
-			"logout": "Logout"
+			"logout": "Logout",
+			"openCatalog": "Open Catalog"
 		},
 		"login": {
 			"title": "Admin Login",
@@ -104,6 +105,7 @@
 			"emailPlaceholder": "Enter your email",
 			"passwordPlaceholder": "Enter your password",
 			"submit": "Sign In",
+			"backToCatalog": "Back to Catalog",
 			"errors": {
 				"emailRequired": "Email is required",
 				"emailInvalid": "Please enter a valid email",

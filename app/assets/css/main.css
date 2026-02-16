@@ -5,3 +5,12 @@
 	--font-sans: 'Comfortaa', system-ui, sans-serif;
 	--font-mono: 'JetBrains Mono', monospace;
 }
+
+/* Prevent zoom on input focus for iOS Safari */
+@supports (-webkit-touch-callout: none) {
+	input,
+	textarea,
+	select {
+		font-size: 16px !important;
+	}
+}

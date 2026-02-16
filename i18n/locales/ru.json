@@ -94,7 +94,8 @@
 		},
 		"layout": {
 			"adminPanel": "Панель администратора",
-			"logout": "Выйти"
+			"logout": "Выйти",
+			"openCatalog": "Открыть каталог"
 		},
 		"login": {
 			"title": "Вход администратора",
@@ -104,6 +105,7 @@
 			"emailPlaceholder": "Введите ваш email",
 			"passwordPlaceholder": "Введите ваш пароль",
 			"submit": "Войти",
+			"backToCatalog": "Вернуться в каталог",
 			"errors": {
 				"emailRequired": "Email обязателен",
 				"emailInvalid": "Пожалуйста, введите корректный email",

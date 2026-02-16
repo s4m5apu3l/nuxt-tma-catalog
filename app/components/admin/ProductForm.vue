@@ -171,11 +171,19 @@ const onSubmit = async () => {
 			</template>
 			<div class="space-y-4">
 				<UFormField :label="t('admin.products.form.nameEn')" name="name.en" required>
-					<UInput v-model="form.name.en" :placeholder="t('admin.products.form.nameEnPlaceholder')" />
+					<UInput
+						v-model="form.name.en"
+						:placeholder="t('admin.products.form.nameEnPlaceholder')"
+						class="w-full"
+					/>
 				</UFormField>
 
 				<UFormField :label="t('admin.products.form.nameRu')" name="name.ru" required>
-					<UInput v-model="form.name.ru" :placeholder="t('admin.products.form.nameRuPlaceholder')" />
+					<UInput
+						v-model="form.name.ru"
+						:placeholder="t('admin.products.form.nameRuPlaceholder')"
+						class="w-full"
+					/>
 				</UFormField>
 
 				<UFormField :label="t('admin.products.form.descriptionEn')" name="description.en" required>
@@ -183,6 +191,7 @@ const onSubmit = async () => {
 						v-model="form.description.en"
 						:placeholder="t('admin.products.form.descriptionEnPlaceholder')"
 						:rows="4"
+						class="w-full"
 					/>
 				</UFormField>
 
@@ -191,6 +200,7 @@ const onSubmit = async () => {
 						v-model="form.description.ru"
 						:placeholder="t('admin.products.form.descriptionRuPlaceholder')"
 						:rows="4"
+						class="w-full"
 					/>
 				</UFormField>
 			</div>
@@ -212,6 +222,7 @@ const onSubmit = async () => {
 						:items="categories.map((c) => ({ value: c.$id, label: c.name[$i18n.locale] }))"
 						value-key="value"
 						:placeholder="t('admin.products.form.categoryPlaceholder')"
+						class="w-full"
 					/>
 				</UFormField>
 
@@ -286,8 +297,16 @@ const onSubmit = async () => {
 					:key="index"
 					class="grid grid-cols-[1fr_1fr_40px] gap-2 items-center"
 				>
-					<UInput v-model="feature.en" :placeholder="t('admin.products.form.featureEnPlaceholder')" />
-					<UInput v-model="feature.ru" :placeholder="t('admin.products.form.featureRuPlaceholder')" />
+					<UInput
+						v-model="feature.en"
+						:placeholder="t('admin.products.form.featureEnPlaceholder')"
+						class="w-full"
+					/>
+					<UInput
+						v-model="feature.ru"
+						:placeholder="t('admin.products.form.featureRuPlaceholder')"
+						class="w-full"
+					/>
 					<UButton
 						v-if="features.length > 1"
 						icon="i-lucide-trash-2"
@@ -306,7 +325,11 @@ const onSubmit = async () => {
 			</template>
 			<div class="space-y-4">
 				<UFormField :label="t('admin.products.form.slug')" name="slug" required>
-					<UInput v-model="form.slug" :placeholder="t('admin.products.form.slugPlaceholder')" />
+					<UInput
+						v-model="form.slug"
+						:placeholder="t('admin.products.form.slugPlaceholder')"
+						class="w-full"
+					/>
 					<template #help>
 						<span class="text-xs text-muted-foreground">
 							{{ t('admin.products.form.slugHelp') }}
@@ -319,6 +342,7 @@ const onSubmit = async () => {
 						v-model="form.contactUsername"
 						:placeholder="t('product.contact.username_placeholder')"
 						icon="i-lucide-at-sign"
+						class="w-full"
 					/>
 					<template #help>
 						<span class="text-xs text-muted-foreground">
@@ -328,7 +352,7 @@ const onSubmit = async () => {
 				</UFormField>
 
 				<UFormField :label="t('admin.products.form.sortOrder')" name="sortOrder">
-					<UInput v-model.number="form.sortOrder" type="number" min="0" />
+					<UInput v-model.number="form.sortOrder" type="number" min="0" class="w-full" />
 				</UFormField>
 
 				<div class="space-y-3">
